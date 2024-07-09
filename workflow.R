@@ -44,14 +44,6 @@ mcube <- cube %>% left_join(mtable[,c("speciesKey", "ott_id")],
 ## Output metrics are stored as a cube ##############
 #####################################################
 
-# devtools::install_github("shawnlaffan/BiodiverseR") & library(BiodiverseR)
-# doesn't work bc of temporary directory, so we cloned the repo from github
-# using Git Bash
-# setwd ("C:/Users/lissa/Documents/lissa/B3/WP5/T5-2_PhylogenicDiversity/BiodiverseR")
-# devtools::load_all()
-# ls("package:BiodiverseR")
-# Sys.setenv("Biodiverse_basepath" = getwd())
-
 # Output PD metrics are appended to the cube as new attribute 'PD'
 PDcube <- mcube %>% select(year, eeaCellCode) %>% distinct(year, eeaCellCode,
   .keep_all = TRUE) %>% mutate(PD = (rnorm(388, mean=5, sd=1.5)))
@@ -60,7 +52,6 @@ PDcube <- mcube %>% select(year, eeaCellCode) %>% distinct(year, eeaCellCode,
 ## Visualize PD on a map & calculate indicator##
 ################################################
 # To do: build grid without loading external .shp file
-
 # Merge grid cell geometry to cube
 
 EEA_filepath <- "./shpfiles/EEA-reference-GRID-2013.gpkg"
