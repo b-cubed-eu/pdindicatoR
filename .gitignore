@@ -1,6 +1,6 @@
  # Mac OS
  .DS_Store
-data/
+*.zip
 shpfiles/
 .Rproj.user
 *.RData
