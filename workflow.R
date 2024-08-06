@@ -38,11 +38,16 @@ mcube <- append_ott_id(tree, cube_clean)
 
 # Aggregate over grid cell to create new dataframe with species list per grid
 # cell id
-head(mcube)
-simpl_cube <- mcube[,c("eeaCellCode","speciesKey","ott_id", "unique_name")]
-simpl_cube$eeaCellCode <- factor(simpl_cube$eeaCellCode)
-aggr_cube <- simpl_cube %>% group_by(eeaCellCode) %>%
-  summarize(speciesKeys = list(speciesKey), ott_ids = list(ott_id), names = list(unique_name)) %>%
+head(mcube) # need to have all small letters
+
+#Hack to get the NAs out
+mcube_clean = mcube %>% filter(!is.na(ott_id))
+mcube <- mcube_clean
+
+simpl_cube <- mcube[,c("eeacellcode","specieskey","ott_id", "unique_name")]
+simpl_cube$eeacellcode <- factor(simpl_cube$eeacellcode)
+aggr_cube <- simpl_cube %>% group_by(eeacellcode) %>%
+  summarize(speciesKeys = list(specieskey), ott_ids = list(ott_id), names = list(unique_name)) %>%
   mutate(unique_spkeys = lapply(speciesKeys, unique)) %>%
   mutate(unique_ott_ids = lapply(ott_ids, unique)) %>%
   mutate(unique_names = lapply(names, unique))

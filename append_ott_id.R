@@ -20,7 +20,7 @@ append_ott_id <- function(tree, cube){
   matched <- taxonmatch(tree)
 
   # Append OTT id's to occurrence cube
-  speciesKeys <- cube["speciesKey"] %>% distinct()
+  speciesKeys <- cube["specieskey"] %>% distinct() #error in the name of the variable
 
   mtable <- speciesKeys %>% left_join(matched[,c("ott_id","gbif_id", "unique_name")],
                                       by = join_by(speciesKey == gbif_id))
