@@ -1,6 +1,6 @@
-wd_path <- "~/lissa/B3/WP5/T5-2_PhylogenicDiversity/pdindicatoR/"
-tree_path <- "./data/Musteloidea_tree.tre"
-cube_path <- "./data/cube_musteloidea_BE_databricks.csv"
+wd_path <- "~/Documents/GIT/pdindicatoR/data"
+tree_path <- "./test2.tree"
+cube_path <- "./data/0045941-240626123714530.csv"
 cutoff <- 6
 taxon <- "Musteloidea"
 xmin = 3885477

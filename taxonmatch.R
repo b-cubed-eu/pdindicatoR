@@ -13,10 +13,15 @@
 taxonmatch <- function(tree) {
 tree_labels <- tree$tip.label
 
-if (any(stringr::str_detect(tree_labels,'ott\\d+')) == FALSE){
-  taxa <- rotl::tnrs_match_names(tree_labels)
+# Hack to work with ToF
+labels_split <- str_split(tree_labels, " ")
+sci_names <- sapply(labels_split, function(x) paste(tail(x, 2), collapse = " "))
+
+if (any(stringr::str_detect(sci_names,'ott\\d+')) == FALSE){
+  
+  taxa <- rotl::tnrs_match_names(sci_names)
 } else {
-  taxa <- data.frame(tree_labels)
+  taxa <- data.frame(sci_names)
   colnames(taxa)[1] <- "ott_id"
 }
 
@@ -24,12 +29,17 @@ if (any(stringr::str_detect(tree_labels,'ott\\d+')) == FALSE){
 taxa[,"gbif_id"] <- NA
 i=1
 for(id in taxa$ott_id){
-  tax_info <- rotl::taxonomy_taxon_info(id)
-  for(source in tax_info[[1]]$tax_sources){
-    if (grepl('gbif', source, fixed=TRUE)){
-      gbif <- stringr::str_split(source,":")[[1]][2]
-      taxa[i,]$gbif_id <- gbif
-    }}
+  if (!is.na(id)) {
+    tax_info <- rotl::taxonomy_taxon_info(id)
+    for(source in tax_info[[1]]$tax_sources){
+      if (grepl('gbif', source, fixed=TRUE)){
+        gbif <- stringr::str_split(source,":")[[1]][2]
+        taxa[i,]$gbif_id <- gbif
+      }} 
+  }
+  else {
+    taxa[i,]$gbif_id <- NA
+  }
   i = i + 1}
 taxa$gbif_id <- as.integer(taxa$gbif_id)
 return(taxa)

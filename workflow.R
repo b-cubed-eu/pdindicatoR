@@ -19,11 +19,13 @@ plot(tree, cex=0.45)
 
 # Load datacube
 # To do: generate matching datacube for user-uploaded tree through GBIF SQL API
-cube <- read.csv(cube_path, stringsAsFactors = FALSE)
+cube <- read.csv(cube_path, stringsAsFactors = FALSE, sep="\t")
 head(cube)
 
+cube_clean <- cube %>% filter(!is.na(specieskey))
+
 # Match leaf labels of tree with GBIF id's and append OTT_id's to cube
-mcube <- append_ott_id(tree, cube)
+mcube <- append_ott_id(tree, cube_clean)
 
 # or user-input for highest taxon and generation/lookup for tree and cube
 # eg tree_induced <- rotl::tol_induced_subtree(ott_id(taxa), label="name")
