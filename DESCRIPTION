@@ -3,7 +3,7 @@ Title: pdindicatoR: Calculate and Visualize a Phylogenetic Diversity Indicator
     based on species occurence data cubes
 Version: 0.0.0.9000
 Authors@R: c(
-    person("Lissa", "Breugelmans", , "lissa.breugelmans@plantentuinmeise.be", role = c("aut", "cre"),
+    person("Lissa", "Breugelmans", "lissa.breugelmans@plantentuinmeise.be", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID")),
     person("Maarten", "Trekels", , "maarten.trekels@plantentuinmeise.be", role = c("aut"),
            comment = c(ORCID = "YOUR-ORCID-ID")),
@@ -15,8 +15,17 @@ Description: A package to calculate and produce a map of phylogenetic diversity
     You provide a phylogenetic tree, the datacube for the corresponding species 
     is downloaded from GBIF (or user-uploaded), and the package does the rest.
 Imports:
-    
-Suggests:
+    tidyverse,
+    rotl,
+    sf,
+    gdalUtilities,
+    ape,
+    rnaturalearth,
+    purrr,
+    dplyr,
+    ape,
+    phytools,
+    phangorn
 License: use_mit_license()
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

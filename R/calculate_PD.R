@@ -2,7 +2,7 @@
 # install.packages("phytools")    # for advanced phylogenetic analysis and plotting
 # install.packages("phangorn")    # for handling phylogenetic data and diverse analysis
 
-library(ape)
+# library(ape)
 # library(phytools)
 # library(phangorn)
 

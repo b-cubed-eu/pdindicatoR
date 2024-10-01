@@ -9,7 +9,13 @@
 #' head(matched)
 #'
 #'
-
+# TO DO:
+# - After name matching, some quality measurements should be outputted eg.
+# number of matches with a score under a certain threshold, number of species
+# with >1 match (what does this mean in practice?), number of NA's for
+# gbif id match
+#
+#
 taxonmatch <- function(tree) {
 tree_labels <- tree$tip.label
 

@@ -1,27 +1,42 @@
 
 # Required packages: tidyverse, rotl, sf, gdalUtilities, ape, rnaturalearth, purrr
-library(tidyverse)
 
 
 # Load config file
-source("config.R")
+source("./R/config.R")
+
+# following lines can probably be removed once the package is fully documented
+# because functions are exported
 
 # Load functions
-source("./taxonmatch.R")
-source("./append_ott_id.R")
-source("./pdmap.R")
-source("./pdindicator.R")
-source("./convert_multipolygons.R")
-source("./calculate_PD.R")
+source("./R/taxonmatch.R")
+source("./R/append_ott_id.R")
+source("./R/pdmap.R")
+source("./R/pdindicator.R")
+source("./R/convert_multipolygons.R")
+source("./R/calculate_PD.R")
+
+# add dplyr functions to namespace
+#' @import dplyr
+library(dplyr)
 
 # Load tree
 tree <- ape::read.tree(tree_path)
-plot(tree, cex=0.45)
+tree2 <- ape::read.tree(tree_path2)
+plot(tree2, cex=0.45)
 
 # Load datacube
 # To do: generate matching datacube for user-uploaded tree through GBIF SQL API
-cube <- read.csv(cube_path, stringsAsFactors = FALSE)
-head(cube)
+
+cube1 <- read.csv(cube_path, stringsAsFactors = FALSE)
+cube2 <- read.csv(cube_path2, stringsAsFactors = FALSE, sep="\t")
+# GBIF SQL api currently returns tab-delimited files with lowercase field names
+
+head(cube1)
+head(cube2)
+
+cube <- cube1
+tree <- tree1
 
 # Match leaf labels of tree with GBIF id's and append OTT_id's to cube
 mcube <- append_ott_id(tree, cube)
@@ -47,7 +62,7 @@ aggr_cube <- simpl_cube %>% group_by(eeaCellCode) %>%
   mutate(unique_names = lapply(names, unique))
 head(aggr_cube)
 
-PD_cube <- aggr_cube %>% mutate(PD = map(unique_names, calculate_pd, tree=tree))
+PD_cube <- aggr_cube %>% mutate(PD = purrr::map(unique_names, calculate_pd, tree=tree))
 
 
 ################################################
