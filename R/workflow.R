@@ -22,21 +22,14 @@ library(dplyr)
 
 # Load tree
 tree <- ape::read.tree(tree_path)
-tree2 <- ape::read.tree(tree_path2)
-plot(tree2, cex=0.45)
+plot(tree, cex=0.45)
 
 # Load datacube
 # To do: generate matching datacube for user-uploaded tree through GBIF SQL API
 
-cube1 <- read.csv(cube_path, stringsAsFactors = FALSE)
-cube2 <- read.csv(cube_path2, stringsAsFactors = FALSE, sep="\t")
-# GBIF SQL api currently returns tab-delimited files with lowercase field names
-
-head(cube1)
-head(cube2)
-
-cube <- cube1
-tree <- tree1
+cube <- read.csv(cube_path2, stringsAsFactors = FALSE, sep="\t") # GBIF SQL api currently returns tab-delimited files with lowercase field names
+# cube <- read.csv(cube_path, stringsAsFactors = FALSE) # Use in case cube has comma-seperated format
+head(cube)
 
 # Match leaf labels of tree with GBIF id's and append OTT_id's to cube
 mcube <- append_ott_id(tree, cube)
