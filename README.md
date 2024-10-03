@@ -80,7 +80,15 @@ head(mcube)
 
 We first have to aggregate the occurrence cube in order to get a list of observed species for each grid cell. 
 
+```{r}
+aggr_cube <- aggregate_cube(mcube)
+```
 
+We can then calculate the PD value for all grid cells by using the purrr:map function to apply the function calculate_PD() for each grid cell.
+
+```{r}
+PD_cube <- aggr_cube %>% mutate(PD = purrr::map(unique_names, calculate_pd, tree=tree))
+```
 
 ### Visualize PD on a map & calculate the indicator 
 
