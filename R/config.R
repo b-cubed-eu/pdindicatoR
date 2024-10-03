@@ -1,4 +1,4 @@
-wd_path <- "~/lissa/B3/WP5/T5-2_PhylogenicDiversity/pdindicatoR/"
+
 tree_path <- "./data/Musteloidea_tree.tre"
 tree_path2 <- "./data/maarten/test.tree"
 cube_path <- "./data/cube_musteloidea_BE_databricks.csv"

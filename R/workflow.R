@@ -1,15 +1,18 @@
 
 # Required packages: tidyverse, rotl, sf, gdalUtilities, ape, rnaturalearth, purrr
 
-
 # Load config file
 source("./R/config.R")
+
+# Set working directory
+setwd(wd_path)
 
 # following lines can probably be removed once the package is fully documented
 # because functions are exported
 
 # Load functions
 source("./R/taxonmatch.R")
+source("./R/aggregate_cube.R")
 source("./R/append_ott_id.R")
 source("./R/pdmap.R")
 source("./R/pdindicator.R")
@@ -25,18 +28,15 @@ tree <- ape::read.tree(tree_path)
 plot(tree, cex=0.45)
 
 # Load datacube
-# To do: generate matching datacube for user-uploaded tree through GBIF SQL API
 
 cube <- read.csv(cube_path2, stringsAsFactors = FALSE, sep="\t") # GBIF SQL api currently returns tab-delimited files with lowercase field names
-# cube <- read.csv(cube_path, stringsAsFactors = FALSE) # Use in case cube has comma-seperated format
+cube <- read.csv(cube_path, stringsAsFactors = FALSE) # Use in case cube has comma-seperated format
 head(cube)
 
 # Match leaf labels of tree with GBIF id's and append OTT_id's to cube
 mcube <- append_ott_id(tree, cube)
-
-# or user-input for highest taxon and generation/lookup for tree and cube
-# eg tree_induced <- rotl::tol_induced_subtree(ott_id(taxa), label="name")
-
+# TO DO: generate info/warning message with how many specieskeys could not be match with a tree leaf label (count(ott_id is NA)
+# Give option to continue and remove non-matched species from occurence cube OR upload a new tree
 
 #####################################################
 ## Calculate PD per grid cell and append to cube ####
@@ -54,6 +54,7 @@ aggr_cube <- simpl_cube %>% group_by(eeaCellCode) %>%
   mutate(unique_ott_ids = lapply(ott_ids, unique)) %>%
   mutate(unique_names = lapply(names, unique))
 head(aggr_cube)
+aggr_cube[1,2][1]
 
 PD_cube <- aggr_cube %>% mutate(PD = purrr::map(unique_names, calculate_pd, tree=tree))
 
