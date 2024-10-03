@@ -12,8 +12,6 @@
 #' @example
 #' @export
 
-PD_cube <- aggr_cube %>% mutate(PD = purrr::map(unique_names, calculate_pd, tree=tree))
-
 aggregate_cube <- function(mcube){
   simpl_cube <- mcube[,c("eeaCellCode","speciesKey","ott_id", "unique_name")] 
   simpl_cube$eeaCellCode <- factor(simpl_cube$eeaCellCode)
