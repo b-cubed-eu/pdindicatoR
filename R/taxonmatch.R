@@ -5,9 +5,9 @@
 #' @param tree An object of class 'phylo', iow a phylogenetic tree in Newick
 #' format that was parsed by ape::read_tree()
 #' @result A dataframe with columns ott_id and gbif_id
-#' @example matched <- taxonmatch(tree_musceloidea)
-#' head(matched)
-#'
+#' @example mtable <- taxonmatch(tree_musceloidea)
+#' head(mtable)
+#' @export
 #'
 # TO DO:
 # - After name matching, some quality measurements should be outputted eg.

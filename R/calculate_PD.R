@@ -53,13 +53,13 @@ calculate_pd <- function(tree, species){
 # seems to do the same thing but should be tested for different (rooted and
 # unrooted) trees to make sure methodology is sound
 
-calculate_pd_easy <- function(tree, species){
-  y<-which.edge(rtree, trio)
-  edge_lengths <- tree$edge.length[y]
-  pd <- sum(edge_lengths)
-  return(pd)
-  print(paste("Phylogenetic diversity:", pd))
-}
+# calculate_pd_easy <- function(tree, species){
+#  y<-which.edge(rtree, trio)
+#  edge_lengths <- tree$edge.length[y]
+#  pd <- sum(edge_lengths)
+#  return(pd)
+#  print(paste("Phylogenetic diversity:", pd))
+# }
 
 
 # -----example---------

@@ -33,8 +33,11 @@ cube <- read.csv(cube_path2, stringsAsFactors = FALSE, sep="\t") # GBIF SQL api 
 cube <- read.csv(cube_path, stringsAsFactors = FALSE) # Use in case cube has comma-seperated format
 head(cube)
 
-# Match leaf labels of tree with GBIF id's and append OTT_id's to cube
-mcube <- append_ott_id(tree, cube)
+# Match leaf labels of tree with GBIF id's
+matched <- taxonmatch(tree)
+
+# Append OTT_id's to cube
+mcube <- append_ott_id(tree, cube, matched)
 # TO DO: generate info/warning message with how many specieskeys could not be match with a tree leaf label (count(ott_id is NA)
 # Give option to continue and remove non-matched species from occurence cube OR upload a new tree
 
