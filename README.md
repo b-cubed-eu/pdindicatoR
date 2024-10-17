@@ -37,49 +37,10 @@ overlap with protected areas.
 ``` r
 # Load packages
 library(tidyverse)
-```
-
-    ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-    ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
-    ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
-    ## ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
-    ## ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
-    ## ✔ purrr     1.0.2     
-    ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-    ## ✖ dplyr::filter() masks stats::filter()
-    ## ✖ dplyr::lag()    masks stats::lag()
-    ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
-
-``` r
 library(rotl)
 library(sf)
-```
-
-    ## Linking to GEOS 3.11.2, GDAL 3.8.2, PROJ 9.3.1; sf_use_s2() is TRUE
-
-``` r
 library(gdalUtilities)
-```
-
-    ## 
-    ## Attaching package: 'gdalUtilities'
-    ## 
-    ## The following object is masked from 'package:sf':
-    ## 
-    ##     gdal_rasterize
-
-``` r
 library(ape)
-```
-
-    ## 
-    ## Attaching package: 'ape'
-    ## 
-    ## The following object is masked from 'package:dplyr':
-    ## 
-    ##     where
-
-``` r
 library(rnaturalearth)
 library(purrr)
 ```
@@ -123,7 +84,7 @@ tree <- ape::read.tree(tree_path)
 plot(tree, cex=0.45)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
 ``` r
 cube <- read.csv(cube_path, stringsAsFactors = FALSE, sep=",") # specify the correct seperator depending on the format of the datacube - occurence datacubes downloaded through the GBIF SQL API  are currently tab seperated (sep="\t")
