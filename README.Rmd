@@ -25,7 +25,7 @@ pdindicatoR package can be loaded using devtools() from the Github repository.
 
 This example shows a basic workflow for using the functions in the pdindicatoR package to calculate PD from a phylogenetic tree and an occurence cube with occurences for a certain higher taxon, produce a gridded map of PD scores with colour gradient scale, and show the overlap with protected areas. 
 
-```{r echo=T, results='hide'}
+```{r loadlib, echo=T, results='hide', message=F, warning=F}
 # Load packages
 library(tidyverse)
 library(rotl)
