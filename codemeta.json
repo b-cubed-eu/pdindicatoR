@@ -1,0 +1,216 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+  "@type": "SoftwareSourceCode",
+  "identifier": "pdindicatoR",
+  "description": "A package to calculate and produce a map of phylogenetic diversity scores for each grid cell in the input species occurences data cube, and calculate the percentage of high PD cells within currently protected areas. You provide a phylogenetic tree, the datacube for the corresponding species is downloaded from GBIF (or user-uploaded), and the package does the rest.",
+  "name": "pdindicatoR: Calculate and visualize a phylogenetic diversity indicators based on species occurence data cubes",
+  "license": "https://spdx.org/licenses/MIT",
+  "version": "0.0.1",
+  "programmingLanguage": {
+    "@type": "ComputerLanguage",
+    "name": "R",
+    "url": "https://r-project.org"
+  },
+  "runtimePlatform": "R version 4.4.1 (2024-06-14 ucrt)",
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "Lissa",
+      "familyName": "Breugelmans",
+      "email": "lissa.breugelmans@plantentuinmeise.be",
+      "@id": "https://orcid.org/YOUR-ORCID-ID"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Maarten",
+      "familyName": "Trekels",
+      "email": "maarten.trekels@plantentuinmeise.be",
+      "@id": "https://orcid.org/YOUR-ORCID-ID"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Louise",
+      "familyName": "Hendrickx",
+      "email": "louise.hendrickx@plantentuinmeise.be",
+      "@id": "https://orcid.org/YOUR-ORCID-ID"
+    }
+  ],
+  "maintainer": [
+    {
+      "@type": "Person",
+      "givenName": "Lissa",
+      "familyName": "Breugelmans",
+      "email": "lissa.breugelmans@plantentuinmeise.be",
+      "@id": "https://orcid.org/YOUR-ORCID-ID"
+    }
+  ],
+  "softwareSuggestions": [
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "testthat",
+      "name": "testthat",
+      "version": ">= 3.0.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=testthat"
+    }
+  ],
+  "softwareRequirements": {
+    "1": {
+      "@type": "SoftwareApplication",
+      "identifier": "tidyverse",
+      "name": "tidyverse",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=tidyverse"
+    },
+    "2": {
+      "@type": "SoftwareApplication",
+      "identifier": "rotl",
+      "name": "rotl",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rotl"
+    },
+    "3": {
+      "@type": "SoftwareApplication",
+      "identifier": "sf",
+      "name": "sf",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=sf"
+    },
+    "4": {
+      "@type": "SoftwareApplication",
+      "identifier": "gdalUtilities",
+      "name": "gdalUtilities",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=gdalUtilities"
+    },
+    "5": {
+      "@type": "SoftwareApplication",
+      "identifier": "ape",
+      "name": "ape",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=ape"
+    },
+    "6": {
+      "@type": "SoftwareApplication",
+      "identifier": "rnaturalearth",
+      "name": "rnaturalearth",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rnaturalearth"
+    },
+    "7": {
+      "@type": "SoftwareApplication",
+      "identifier": "purrr",
+      "name": "purrr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=purrr"
+    },
+    "8": {
+      "@type": "SoftwareApplication",
+      "identifier": "dplyr",
+      "name": "dplyr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=dplyr"
+    },
+    "9": {
+      "@type": "SoftwareApplication",
+      "identifier": "phytools",
+      "name": "phytools",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=phytools"
+    },
+    "10": {
+      "@type": "SoftwareApplication",
+      "identifier": "phangorn",
+      "name": "phangorn",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=phangorn"
+    },
+    "SystemRequirements": null
+  },
+  "fileSize": "59.672KB",
+  "citation": [
+    {
+      "@type": "SoftwareSourceCode",
+      "datePublished": "2024",
+      "author": [
+        {
+          "@type": "Person",
+          "givenName": "Lissa",
+          "familyName": "Breugelmans"
+        },
+        {
+          "@type": "Person",
+          "givenName": "Maarten",
+          "familyName": "Trekels"
+        },
+        {
+          "@type": "Person",
+          "givenName": "Louise",
+          "familyName": "Hendrickx"
+        }
+      ],
+      "name": "pdindicatoR: Calculate and visualize a phylogenetic diversity indicators based on species occurence data cubes. Version 0.0.1",
+      "url": "https://github.com/b-cubed-eu/pdindicatoR"
+    }
+  ],
+  "codeRepository": "https://github.com/b-cubed-eu/pdindicatoR",
+  "readme": "https://github.com/b-cubed-eu/pdindicatoR/blob/main/README.md",
+  "contIntegration": ["https://github.com/b-cubed-eu/pdindicatoR/actions/workflows/R-CMD-check.yaml", "https://app.codecov.io/gh/b-cubed-eu/pdindicatoR"],
+  "developmentStatus": "https://www.repostatus.org/#wip",
+  "keywords": ["biodiversity", "r"]
+}
