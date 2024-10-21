@@ -3,11 +3,11 @@ Title: pdindicatoR: Calculate and Visualize a Phylogenetic Diversity Indicator
     based on species occurence data cubes
 Version: 0.0.0.9000
 Authors@R: c(
-    person("Lissa", "Breugelmans", "lissa.breugelmans@plantentuinmeise.be", role = c("aut", "cre"),
+    person("Lissa", "Breugelmans", email = "lissa.breugelmans@plantentuinmeise.be", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID")),
-    person("Maarten", "Trekels", , "maarten.trekels@plantentuinmeise.be", role = c("aut"),
+    person("Maarten", "Trekels", email = "maarten.trekels@plantentuinmeise.be", role = c("aut"),
            comment = c(ORCID = "YOUR-ORCID-ID")),
-    person("Louise", "Hendrickx", , "louise.hendrickx@plantentuinmeise.be", role = c("aut"),
+    person("Louise", "Hendrickx", email = "louise.hendrickx@plantentuinmeise.be", role = c("aut"),
            comment = c(ORCID = "YOUR-ORCID-ID")))
 Description: A package to calculate and produce a map of phylogenetic diversity 
     scores for each grid cell in the input species occurences data cube, and 
@@ -23,10 +23,9 @@ Imports:
     rnaturalearth,
     purrr,
     dplyr,
-    ape,
     phytools,
     phangorn
-License: use_mit_license()
+License: MIT
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2

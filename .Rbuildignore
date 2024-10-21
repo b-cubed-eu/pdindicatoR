@@ -1,2 +1,9 @@
 ^pdindicatoR\.Rproj$
 ^\.Rproj\.user$
+^data$
+^demo$
+^output$
+^shpfiles$
+^reports$
+^tests$
+
