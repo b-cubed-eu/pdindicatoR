@@ -5,3 +5,9 @@ output/*
 demo/*
 reports/*
 *.RData
+
+.DS_Store
+.Renviron
+.Rhistory
+.Ruserdata
+.httr-oauth
