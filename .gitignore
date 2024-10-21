@@ -2,4 +2,6 @@
 shpfiles/*
 data/*
 output/*
+demo/*
+reports/*
 *.RData
