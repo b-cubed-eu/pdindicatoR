@@ -11,3 +11,4 @@ reports/*
 .Rhistory
 .Ruserdata
 .httr-oauth
+docs
