@@ -130,10 +130,11 @@ head(mcube)
 ```
 In order to more easily calculate PD, we will also convert the tip labels into their corresponding ott id's.
 
-```{r}upd_tree <- tree
-upd_tree$tip.label <- matched$ott_id 
+```{r}
+upd_tree <- tree
+upd_tree$tip.label <- paste(matched$ott_id)
 # check if there is a better way to make an exact match (search_strings are not exact...)
-head(upd_tree)
+plot(upd_tree)
 ```
 
 
@@ -163,7 +164,7 @@ PD_cube <- aggr_cube %>% mutate(PD = purrr::map(unique_names, calculate_pd, tree
 
 ### Visualize PD on a map & calculate indicator
 
-Finally we read in the EEA Grid shapefiles and merge them to occurrence cube by joining on the eeaCellCode field.
+Finally we read in the EEA Grid shapefiles and merge them to the occurrence cube by joining on the eeaCellCode field.
 The PD cube can then be plotted and overlayn with shapefile of WDPA protected areas shapefile.
 )
 
