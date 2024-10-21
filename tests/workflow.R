@@ -28,6 +28,7 @@ library(dplyr)
 # Load tree
 tree <- ape::read.tree(tree_path)
 plot(tree, cex=0.45)
+ggtree(tree) + geom_tiplab(size = 2) + ylim(0, 150)
 
 # Load datacube
 
