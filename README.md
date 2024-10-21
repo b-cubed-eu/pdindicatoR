@@ -87,7 +87,7 @@ tree <- ape::read.tree(tree_path)
 plot(tree, cex=0.45)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+![](man/figures/unnamed-chunk-2-1.png)<!-- -->
 
 ``` r
 cube <- read.csv(cube_path, stringsAsFactors = FALSE, sep=",")
