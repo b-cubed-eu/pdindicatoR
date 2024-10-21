@@ -1,0 +1,294 @@
+# --------------------------------------------
+# CITATION file created with {cffr} R package
+# See also: https://docs.ropensci.org/cffr/
+# --------------------------------------------
+
+cff-version: 1.2.0
+message: 'To cite package "pdindicatoR" in publications use:'
+type: software
+license: MIT
+title: 'pdindicatoR: pdindicatoR: Calculate and Visualize a Phylogenetic Diversity
+  Indicator based on species occurence data cubes'
+version: 0.0.1
+abstract: A package to calculate and produce a map of phylogenetic diversity scores
+  for each grid cell in the input species occurences data cube, and calculate the
+  percentage of high PD cells within currently protected areas. You provide a phylogenetic
+  tree, the datacube for the corresponding species is downloaded from GBIF (or user-uploaded),
+  and the package does the rest.
+authors:
+- family-names: Breugelmans
+  given-names: Lissa
+  email: lissa.breugelmans@plantentuinmeise.be
+  orcid: https://orcid.org/YOUR-ORCID-ID
+- family-names: Trekels
+  given-names: Maarten
+  email: maarten.trekels@plantentuinmeise.be
+  orcid: https://orcid.org/YOUR-ORCID-ID
+- family-names: Hendrickx
+  given-names: Louise
+  email: louise.hendrickx@plantentuinmeise.be
+  orcid: https://orcid.org/YOUR-ORCID-ID
+contact:
+- family-names: Breugelmans
+  given-names: Lissa
+  email: lissa.breugelmans@plantentuinmeise.be
+  orcid: https://orcid.org/YOUR-ORCID-ID
+references:
+- type: software
+  title: tidyverse
+  abstract: 'tidyverse: Easily Install and Load the ''Tidyverse'''
+  notes: Imports
+  url: https://tidyverse.tidyverse.org
+  repository: https://CRAN.R-project.org/package=tidyverse
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@rstudio.com
+  year: '2024'
+  doi: 10.32614/CRAN.package.tidyverse
+- type: software
+  title: rotl
+  abstract: 'rotl: Interface to the ''Open Tree of Life'' API'
+  notes: Imports
+  url: https://docs.ropensci.org/rotl/
+  repository: https://CRAN.R-project.org/package=rotl
+  authors:
+  - family-names: Michonneau
+    given-names: Francois
+    email: francois.michonneau@gmail.com
+    orcid: https://orcid.org/0000-0002-9092-966X
+  - family-names: Brown
+    given-names: Joseph
+    orcid: https://orcid.org/0000-0002-3835-8062
+  - family-names: Winter
+    given-names: David
+    orcid: https://orcid.org/0000-0002-6165-0029
+  year: '2024'
+  doi: 10.32614/CRAN.package.rotl
+- type: software
+  title: sf
+  abstract: 'sf: Simple Features for R'
+  notes: Imports
+  url: https://r-spatial.github.io/sf/
+  repository: https://CRAN.R-project.org/package=sf
+  authors:
+  - family-names: Pebesma
+    given-names: Edzer
+    email: edzer.pebesma@uni-muenster.de
+    orcid: https://orcid.org/0000-0001-8049-7069
+  year: '2024'
+  doi: 10.32614/CRAN.package.sf
+- type: software
+  title: gdalUtilities
+  abstract: 'gdalUtilities: Wrappers for ''GDAL'' Utilities Executables'
+  notes: Imports
+  url: https://github.com/JoshOBrien/gdalUtilities/
+  repository: https://CRAN.R-project.org/package=gdalUtilities
+  authors:
+  - family-names: O'Brien
+    given-names: Joshua
+  year: '2024'
+  doi: 10.32614/CRAN.package.gdalUtilities
+- type: software
+  title: ape
+  abstract: 'ape: Analyses of Phylogenetics and Evolution'
+  notes: Imports
+  url: https://github.com/emmanuelparadis/ape
+  repository: https://CRAN.R-project.org/package=ape
+  authors:
+  - family-names: Paradis
+    given-names: Emmanuel
+    email: Emmanuel.Paradis@ird.fr
+    orcid: https://orcid.org/0000-0003-3092-2199
+  - family-names: Blomberg
+    given-names: Simon
+    orcid: https://orcid.org/0000-0003-1062-0839
+  - family-names: Bolker
+    given-names: Ben
+    orcid: https://orcid.org/0000-0002-2127-0443
+  - family-names: Brown
+    given-names: Joseph
+    orcid: https://orcid.org/0000-0002-3835-8062
+  - family-names: Claramunt
+    given-names: Santiago
+    orcid: https://orcid.org/0000-0002-8926-5974
+  - family-names: Claude
+    given-names: Julien
+    orcid: https://orcid.org/0000-0002-9267-1228
+  - family-names: Cuong
+    given-names: Hoa Sien
+  - family-names: Desper
+    given-names: Richard
+  - family-names: Didier
+    given-names: Gilles
+    orcid: https://orcid.org/0000-0003-0596-9112
+  - family-names: Durand
+    given-names: Benoit
+  - family-names: Dutheil
+    given-names: Julien
+    orcid: https://orcid.org/0000-0001-7753-4121
+  - family-names: Ewing
+    given-names: RJ
+  - family-names: Gascuel
+    given-names: Olivier
+  - family-names: Guillerme
+    given-names: Thomas
+    orcid: https://orcid.org/0000-0003-4325-1275
+  - family-names: Heibl
+    given-names: Christoph
+    orcid: https://orcid.org/0000-0002-7655-3299
+  - family-names: Ives
+    given-names: Anthony
+    orcid: https://orcid.org/0000-0001-9375-9523
+  - family-names: Jones
+    given-names: Bradley
+    orcid: https://orcid.org/0000-0003-4498-1069
+  - family-names: Krah
+    given-names: Franz
+    orcid: https://orcid.org/0000-0001-7866-7508
+  - family-names: Lawson
+    given-names: Daniel
+    orcid: https://orcid.org/0000-0002-5311-6213
+  - family-names: Lefort
+    given-names: Vincent
+  - family-names: Legendre
+    given-names: Pierre
+    orcid: https://orcid.org/0000-0002-3838-3305
+  - family-names: Lemon
+    given-names: Jim
+  - family-names: Louvel
+    given-names: Guillaume
+    orcid: https://orcid.org/0000-0002-7745-0785
+  - family-names: Marcon
+    given-names: Eric
+    orcid: https://orcid.org/0000-0002-5249-321X
+  - family-names: McCloskey
+    given-names: Rosemary
+    orcid: https://orcid.org/0000-0002-9772-8553
+  - family-names: Nylander
+    given-names: Johan
+  - family-names: Opgen-Rhein
+    given-names: Rainer
+  - family-names: Popescu
+    given-names: Andrei-Alin
+  - family-names: Royer-Carenzi
+    given-names: Manuela
+  - family-names: Schliep
+    given-names: Klaus
+    orcid: https://orcid.org/0000-0003-2941-0161
+  - family-names: Strimmer
+    given-names: Korbinian
+    orcid: https://orcid.org/0000-0001-7917-2056
+  - family-names: Vienne
+    given-names: Damien
+    name-particle: de
+    orcid: https://orcid.org/0000-0001-9532-5251
+  year: '2024'
+  doi: 10.32614/CRAN.package.ape
+- type: software
+  title: rnaturalearth
+  abstract: 'rnaturalearth: World Map Data from Natural Earth'
+  notes: Imports
+  url: https://docs.ropensci.org/rnaturalearth/
+  repository: https://CRAN.R-project.org/package=rnaturalearth
+  authors:
+  - family-names: Massicotte
+    given-names: Philippe
+    email: pmassicotte@hotmail.com
+    orcid: https://orcid.org/0000-0002-5919-4116
+  - family-names: South
+    given-names: Andy
+    email: southandy@gmail.com
+  year: '2024'
+  doi: 10.32614/CRAN.package.rnaturalearth
+- type: software
+  title: purrr
+  abstract: 'purrr: Functional Programming Tools'
+  notes: Imports
+  url: https://purrr.tidyverse.org/
+  repository: https://CRAN.R-project.org/package=purrr
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@rstudio.com
+    orcid: https://orcid.org/0000-0003-4757-117X
+  - family-names: Henry
+    given-names: Lionel
+    email: lionel@rstudio.com
+  year: '2024'
+  doi: 10.32614/CRAN.package.purrr
+- type: software
+  title: dplyr
+  abstract: 'dplyr: A Grammar of Data Manipulation'
+  notes: Imports
+  url: https://dplyr.tidyverse.org
+  repository: https://CRAN.R-project.org/package=dplyr
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@posit.co
+    orcid: https://orcid.org/0000-0003-4757-117X
+  - family-names: François
+    given-names: Romain
+    orcid: https://orcid.org/0000-0002-2444-4226
+  - family-names: Henry
+    given-names: Lionel
+  - family-names: Müller
+    given-names: Kirill
+    orcid: https://orcid.org/0000-0002-1416-3412
+  - family-names: Vaughan
+    given-names: Davis
+    email: davis@posit.co
+    orcid: https://orcid.org/0000-0003-4777-038X
+  year: '2024'
+  doi: 10.32614/CRAN.package.dplyr
+- type: software
+  title: phytools
+  abstract: 'phytools: Phylogenetic Tools for Comparative Biology (and Other Things)'
+  notes: Imports
+  url: https://github.com/liamrevell/phytools
+  repository: https://CRAN.R-project.org/package=phytools
+  authors:
+  - family-names: Revell
+    given-names: Liam J.
+  year: '2024'
+  doi: 10.32614/CRAN.package.phytools
+- type: software
+  title: phangorn
+  abstract: 'phangorn: Phylogenetic Reconstruction and Analysis'
+  notes: Imports
+  url: https://klausvigo.github.io/phangorn/
+  repository: https://bioconductor.org/
+  authors:
+  - family-names: Schliep
+    given-names: Klaus
+    email: klaus.schliep@gmail.com
+    orcid: https://orcid.org/0000-0003-2941-0161
+  - family-names: Paradis
+    given-names: Emmanuel
+    orcid: https://orcid.org/0000-0003-3092-2199
+  - family-names: Oliveira Martins
+    given-names: Leonardo
+    name-particle: de
+    orcid: https://orcid.org/0000-0001-5247-1320
+  - family-names: Potts
+    given-names: Alastair
+  - family-names: Bardel-Kahr
+    given-names: Iris
+    orcid: https://orcid.org/0000-0002-8950-834X
+  year: '2024'
+  doi: 10.32614/CRAN.package.phangorn
+- type: software
+  title: testthat
+  abstract: 'testthat: Unit Testing for R'
+  notes: Suggests
+  url: https://testthat.r-lib.org
+  repository: https://CRAN.R-project.org/package=testthat
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@posit.co
+  year: '2024'
+  doi: 10.32614/CRAN.package.testthat
+  version: '>= 3.0.0'
+
