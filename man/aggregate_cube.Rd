@@ -8,9 +8,6 @@ aggregate_cube(mcube)
 }
 \arguments{
 \item{mcube}{An occurence datacube with appended ott_id's, as produced by the append_ott_id function}
-
-\item{cube}{A dataframe with for selected taxa, the number of occurrences per
-taxa and per grid cell}
 }
 \value{
 A dataframe with for each grid cell

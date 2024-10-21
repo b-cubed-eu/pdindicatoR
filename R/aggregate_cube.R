@@ -6,8 +6,6 @@
 #' each grid cell (as speciesKeys, ott_id's and names).
 #'
 #' @param mcube An occurence datacube with appended ott_id's, as produced by the append_ott_id function
-#' @param cube A dataframe with for selected taxa, the number of occurrences per
-#' taxa and per grid cell
 #' @return A dataframe with for each grid cell
 #' @example
 #' @export
