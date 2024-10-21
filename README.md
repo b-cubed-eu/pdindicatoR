@@ -21,6 +21,9 @@ currently safeguarded by protected areas and a spatial visualisation
 which can be used to identify potential directions for future expansion
 of protected areas.
 
+![This is a phylogenetic tree.](output/tree_Musceloidea.png) ![This is a
+map of PD for Belgium.](output/map_BE.pdf)
+
 ## Installation
 
 pdindicatoR package can be loaded using devtools() from the Github
@@ -87,7 +90,8 @@ plot(tree, cex=0.45)
 ![](README_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
 ``` r
-cube <- read.csv(cube_path, stringsAsFactors = FALSE, sep=",") # specify the correct seperator depending on the format of the datacube - occurence datacubes downloaded through the GBIF SQL API  are currently tab seperated (sep="\t")
+cube <- read.csv(cube_path, stringsAsFactors = FALSE, sep=",")
+# specify the correct seperator depending on the format of the datacube - occurence datacubes downloaded through the GBIF SQL API  are currently tab seperated (sep="\t")
 head(cube)
 ```
 
@@ -228,7 +232,7 @@ check_completeness(mcube)
     ## [1] "The following species are not part of the provided\n  phylogenetic tree: c(5218823, 5218899)"
 
 Please note that occurence records for species that are not part of the
-provided phylogenetic tree will need to be removed - in case this number
+provided phylogenetic tree will need to be removed. In case this number
 is large, please consider searching for a more complete phylogenetic
 tree that covers all your species!
 

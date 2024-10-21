@@ -2,7 +2,7 @@
 # Required packages: tidyverse, rotl, sf, gdalUtilities, ape, rnaturalearth, purrr
 
 # Load config file
-source("./R/config.R")
+source("./config.R")
 
 # Set working directory
 setwd(wd_path)
@@ -18,6 +18,8 @@ source("./R/pdmap.R")
 source("./R/pdindicator.R")
 source("./R/convert_multipolygons.R")
 source("./R/calculate_PD.R")
+source("./R/check_completeness.R")
+source("./R/aggregate_cube.R")
 
 # add dplyr functions to namespace
 #' @import dplyr
