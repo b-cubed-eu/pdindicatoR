@@ -6,4 +6,4 @@
 ^shpfiles$
 ^reports$
 ^tests$
-
+^\.github$
