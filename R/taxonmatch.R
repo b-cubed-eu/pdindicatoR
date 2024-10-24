@@ -30,12 +30,13 @@ if (any(stringr::str_detect(tree_labels,'ott\\d+')) == FALSE){
 taxa[,"gbif_id"] <- NA
 i=1
 for(id in taxa$ott_id){
+  if (is.na(id) == FALSE){
   tax_info <- rotl::taxonomy_taxon_info(id)
   for(source in tax_info[[1]]$tax_sources){
     if (grepl('gbif', source, fixed=TRUE)){
       gbif <- stringr::str_split(source,":")[[1]][2]
       taxa[i,]$gbif_id <- gbif
-    }}
+    }}}
   i = i + 1}
 taxa$gbif_id <- as.integer(taxa$gbif_id)
 return(taxa)
