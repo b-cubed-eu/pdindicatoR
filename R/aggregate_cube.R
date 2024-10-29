@@ -12,26 +12,18 @@
 #' @example
 #' @export
 
-# aggregate_cube <- function(mcube){
-#   simpl_cube <- mcube[,c("year", "eeaCellCode","speciesKey","ott_id", "unique_name")]
-#   simpl_cube$eeaCellCode <- factor(simpl_cube$eeaCellCode)
-#   simpl_cube$year <- factor(simpl_cube$year)
-#   aggr_cube <- simpl_cube %>% group_by(eeaCellCode, year) %>%
-#   summarize(speciesKeys = list(speciesKey), ott_ids = list(ott_id), names = list(unique_name)) %>%
-#   mutate(unique_spkeys = lapply(speciesKeys, unique)) %>%
-#   mutate(unique_ott_ids = lapply(ott_ids, unique)) %>%
-#   mutate(unique_names = lapply(names, unique))
-#   return(aggr_cube)
-# }
-
-aggregate_cube <- function(mcube){
-  simpl_cube <- mcube[,c("year", "eeaCellCode","speciesKey","ott_id", "unique_name")]
+aggregate_cube <- function(mcube) {
+  simpl_cube <- mcube[, c("year", "eeaCellCode", "speciesKey", "ott_id", "unique_name")]
   simpl_cube$eeaCellCode <- factor(simpl_cube$eeaCellCode)
   simpl_cube$year <- factor(simpl_cube$year)
-  aggr_cube <- simpl_cube %>% group_by(eeaCellCode, year) %>%
-    summarize(speciesKeys = list(speciesKey), ott_ids = list(ott_id), names = list(unique_name)) %>%
-    mutate(unique_spkeys = lapply(speciesKeys, unique)) %>%
-    mutate(unique_ott_ids = lapply(ott_ids, unique)) %>%
-    mutate(unique_names = lapply(names, unique))
+
+  aggr_cube <- simpl_cube %>%
+    group_by(eeaCellCode, year) %>%
+    reframe(
+      speciesKeys = list(unique(speciesKey)),
+      ott_ids = list(unique(ott_id)),
+      unique_names = list(unique(unique_name))
+    )
+
   return(aggr_cube)
 }

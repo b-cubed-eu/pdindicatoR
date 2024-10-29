@@ -31,6 +31,8 @@
 
 calculate_pd <- function(tree, species){
 
+
+
   # get tip id's from tip labels
 
    tip_ids <- vector(mode="integer", length=length(species))
