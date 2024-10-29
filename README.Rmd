@@ -98,7 +98,6 @@ source("./R/convert_multipolygons.R")
 source("./R/calculate_PD.R")
 source("./R/check_completeness.R")
 source("./R/aggregate_cube.R")
-source("./R/find_tip_id.R")
 ```
 
 ### Matching species in phylogenetic tree and datacube
@@ -135,14 +134,6 @@ Please note that occurrence records for species that are not part of the provide
 mcube <- mcube %>% dplyr::filter(!is.na(ott_id))
 head(mcube)
 ```
-In order to more easily calculate PD, we will also convert the tip labels into their corresponding ott id's.
-
-```{r}
-upd_tree <- tree
-upd_tree$tip.label <- paste(matched$ott_id)
-# check if there is a better way to make an exact match (search_strings are not exact...)
-plot(upd_tree)
-```
 
 
 ### Calculate Phylogenetic Diversity for each grid cell
@@ -153,12 +144,6 @@ We first have to aggregate the occurrence cube in order to get a list of observe
 aggr_cube <- aggregate_cube(mcube)
 head(aggr_cube)
 print(aggr_cube[[294,4]])
-```
-
-We then retrieve the tip id's corresponding to the species by using the function find_tip_ids()
-
-```{r}
-aggr_cube_tip_ids <- aggr_cube %>% mutate(tip_ids = purrr::map(unique_names, find_tip_ids, tree=tree))
 ```
 
 
