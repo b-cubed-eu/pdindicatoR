@@ -1,51 +1,73 @@
-# install.packages("ape")         # for phylogenetic tree calculation and manipulation
-# install.packages("phytools")    # for advanced phylogenetic analysis and plotting
-# install.packages("phangorn")    # for handling phylogenetic data and diverse analysis
-
-# library(ape)
-# library(phytools)
-# library(phangorn)
+#' Calculation of PD metric
+#'
+#' This function calculates Faith's PD, based on a provided list of species
+#' and a phylogenetic tree.
+#'
+#' @param tree An object of class 'phylo', iow a phylogenetic tree in Newick
+#' format that was parsed by ape::read_tree()
+#' @param species A character vector where each element is a species, and more
+#' specifically, matches a tip label of the phylogenetic tree exactly
+#' @return A string that combines "Phylogenetic diversity:" and the calculated
+#' value
+#' @example
+#' # Create random tree
+#' rtree <- rtree(10, rooted=TRUE)
+#' str(rtree)
+#' rtree$tip.label
+#' tree$node.label
+#' tree$edge
+#'
+#' plot(rtree)
+#' nodelabels()
+#' edgelabels()
+#' tiplabels()
+#'
+#' # Create vector with selected leaves/species for which to calculate the PD
+#' trio <- c("t3", "t10", "t1")
+#'
+#' # Calculate PD for trio of observed species
+#' calculate_pd(rtree, trio)
+#' @export
 
 calculate_pd <- function(tree, species){
-  # get node id for leaf labels
-  # x <- vector("list", length(species))
-  # j = 1
-  # for (i in species){
-  # x[[j]]-> which(tree$tip.label == i)
-  # j = j+1
-  # }
+
+  # get tip id's from tip labels
+
+   tip_ids <- vector(mode="integer", length=length(species))
+   for (i in seq_along(species)) {
+       x <- which(tree$tip.label == species[i])
+       tip_ids[i] <- x
+   }
 
   # get MRCA for observed species
 
-  MRCA <- getMRCA (tree, species)
+  MRCA <- getMRCA(tree, tip_ids)
 
   # determine spanning paths (nodes) from species to MRCA
 
-  nodepath <- vector("list", length(species))
-  j=1
-  for (i in species){
-    x <- ape::nodepath(tree, MRCA, i)
-    nodepath[[j]] <- x
-    j = j+1
+  nodepath <- vector(mode="list", length(tip_ids))
+  for (i in seq_along(tip_ids)){
+    x <- ape::nodepath(tree, MRCA, tip_ids[i])
+    nodepath[[i]] <- x
   }
 
   # get the branches/edges along the spanning paths
 
-  edge_indices <- vector("list", length(species))
-  k=1
-  for (i in seq_along(species)){
+  edge_ids <- vector(mode="list", length(tip_ids))
+  for (i in seq_along(tip_ids)){
     edges <- which(tree$edge[, 1] %in% nodepath[[i]][-length(nodepath[[i]])] &
                      tree$edge[, 2] %in% nodepath[[i]][-1])
-    edge_indices[[i]] <- edges
+    edge_ids[[i]] <- edges
   }
 
-  edge_indices_vector <- unique(unlist(edge_indices))
+  # Count shared branches only once
 
-  # sum the length of the branches
+  edge_ids_unique <- unique(unlist(edge_ids))
 
-  edge_lengths <- tree$edge.length[edge_indices_vector]
+  # Sum the length of the branches
+
+  edge_lengths <- tree$edge.length[edge_ids_unique]
   pd <- sum(edge_lengths)
-  return(pd)
   print(paste("Phylogenetic diversity:", pd))
 }
 
@@ -62,24 +84,4 @@ calculate_pd <- function(tree, species){
 # }
 
 
-# -----example---------
-
-# # Create random tree
-#
-# # rtree <- rtree(10, rooted=TRUE)
-# # str(rtree) # a tree is a list with elements edge, tip.label, Nnode and edge.length
-# rtree$tip.label
-# tree$node.label
-# tree$edge
-#
-# plot(rtree)
-# nodelabels()
-# edgelabels()
-# tiplabels()
-#
-# # Create vector with selected leaves/species for which to calculate the PD
-# trio <- c(9, 7, 3)
-#
-# # Calculate PD for trio of observed species
-# calculate_pd(rtree, trio)
 
