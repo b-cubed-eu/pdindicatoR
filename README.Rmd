@@ -95,7 +95,8 @@ source("./R/append_ott_id.R")
 source("./R/pdmap.R")
 source("./R/pdindicator.R")
 source("./R/convert_multipolygons.R")
-source("./R/calculate_PD.R")
+source("./R/get_PD.R")
+source("./R/calculate_faithpd.R")
 source("./R/check_completeness.R")
 source("./R/aggregate_cube.R")
 ```
@@ -112,14 +113,14 @@ head(matched)
 Carefully evaluate the table with matches to ensure that matching scores are acceptable and that most species have a corresponding gbif_id. Species that cannot be reliable matched or that don't have an associated gbif_id, can not contribute to the PD calculation and should be removed.
 
 ```{r}
-matched <- matched %>% dplyr::filter(!is.na(gbif_id))
-head(matched)
+matched_nona <- matched %>% dplyr::filter(!is.na(gbif_id))
+head(matched_nona)
 ```
 
 Then, we can use the function append_ott_id() to append the ott_id's as a new variable to the provided datacube, by joining on gbif_id.
 
 ```{r}
-mcube <- append_ott_id(tree, cube, matched)
+mcube <- append_ott_id(tree, cube, matched_nona)
 head(mcube)
 ```
 
@@ -143,16 +144,19 @@ We first have to aggregate the occurrence cube in order to get a list of observe
 ```{r}
 aggr_cube <- aggregate_cube(mcube)
 head(aggr_cube)
-print(aggr_cube[[294,4]])
+# print(aggr_cube[[294,4]])
 ```
-
 
 We can then calculate the PD value for all grid cells by using the purrr:map function to apply the function calculate_PD() for each grid cell.
 
 # 
 ```{r}
-PD_cube <- aggr_cube %>% mutate(PD = purrr::map(unique_names, calculate_pd, tree=tree))
+PD_cube <- aggr_cube %>% mutate(PD = purrr::map(orig_tiplabels, get_pd, tree=tree))
 ```
+```{r}
+PD_cube <- aggr_cube %>% mutate(PD = purrr::map(orig_tiplabels, ~ getPD(tree, unlist(.x))))
+```
+
 
 ### Visualize PD on a map & calculate indicator
 

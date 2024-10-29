@@ -29,11 +29,7 @@
 #' calculate_pd(rtree, trio)
 #' @export
 
-calculate_pd <- function(tree, species){
-
-  # get MRCA for observed species
-
-  MRCA <- getMRCA(tree, tip_ids)
+calculate_faithpd <- function(tree, species){
 
   # get tip id's from tip labels
 

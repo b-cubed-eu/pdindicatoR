@@ -13,7 +13,7 @@
 #' @export
 
 aggregate_cube <- function(mcube) {
-  simpl_cube <- mcube[, c("year", "eeaCellCode", "speciesKey", "ott_id", "unique_name")]
+  simpl_cube <- mcube[, c("year", "eeaCellCode", "speciesKey", "ott_id", "unique_name", "orig_tiplabel")]
   simpl_cube$eeaCellCode <- factor(simpl_cube$eeaCellCode)
   simpl_cube$year <- factor(simpl_cube$year)
 
@@ -22,7 +22,8 @@ aggregate_cube <- function(mcube) {
     reframe(
       speciesKeys = list(unique(speciesKey)),
       ott_ids = list(unique(ott_id)),
-      unique_names = list(unique(unique_name))
+      unique_names = list(unique(unique_name)),
+      orig_tiplabels = list(unique(orig_tiplabel))
     )
 
   return(aggr_cube)

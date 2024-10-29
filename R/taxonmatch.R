@@ -39,6 +39,8 @@ for(id in taxa$ott_id){
     }}}
   i = i + 1}
 taxa$gbif_id <- as.integer(taxa$gbif_id)
+
+taxa["orig_tiplabel"] <- tree$tip.label
 return(taxa)
 }
 
