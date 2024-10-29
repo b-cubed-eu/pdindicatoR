@@ -1,4 +1,4 @@
-#' Calculation of PD metric
+#' Calculation of Faith's PD
 #'
 #' This function calculates Faith's PD, based on a provided list of species
 #' and a phylogenetic tree.
@@ -31,7 +31,9 @@
 
 calculate_pd <- function(tree, species){
 
+  # get MRCA for observed species
 
+  MRCA <- getMRCA(tree, tip_ids)
 
   # get tip id's from tip labels
 
@@ -41,9 +43,7 @@ calculate_pd <- function(tree, species){
        tip_ids[i] <- x
    }
 
-  # get MRCA for observed species
 
-  MRCA <- getMRCA(tree, tip_ids)
 
   # determine spanning paths (nodes) from species to MRCA
 
