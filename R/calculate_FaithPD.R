@@ -39,8 +39,6 @@ calculate_faithpd <- function(tree, species){
        tip_ids[i] <- x
    }
 
-
-
   # determine spanning paths (nodes) from species to MRCA
 
   nodepath <- vector(mode="list", length(tip_ids))
@@ -66,7 +64,7 @@ calculate_faithpd <- function(tree, species){
 
   edge_lengths <- tree$edge.length[edge_ids_unique]
   pd <- sum(edge_lengths)
-  print(paste("Phylogenetic diversity:", pd))
+  #print(paste("Phylogenetic diversity:", pd))
 }
 
 # This is an alternative method using the existing ape::which.edge function,
