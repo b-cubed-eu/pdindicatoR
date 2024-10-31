@@ -29,7 +29,7 @@
 #' calculate_pd(rtree, trio)
 #' @export
 
-calculate_faithpd <- function(tree, species){
+calculate_faithpd <- function(tree, species, MRCA){
 
   # get tip id's from tip labels
 
