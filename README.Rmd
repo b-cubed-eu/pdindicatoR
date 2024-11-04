@@ -86,8 +86,7 @@ The pdindicatoR functions can be loaded using *source()*.
 # Load functions
 source("./R/taxonmatch.R")
 source("./R/append_ott_id.R")
-source("./R/map_pd.R")
-source("./R/pdindicator.R")
+source("./R/generate_map_and_indicator.R")
 source("./R/convert_multipolygons.R")
 source("./R/get_pd.R")
 source("./R/calculate_faithpd.R")
@@ -154,34 +153,48 @@ Finally we read in the EEA Grid shapefiles and merge them to the occurrence cube
 
 #### Reading in the grid shapefile
 
+The function `sf::st_layers(grid_filepath)` can be used to get an overview of the 
+layers in a gpkg file. The correct layer can then be read in with `sf::st_read`.
+
 ```{r}
 grid_filepath <- "./shpfiles/EEA-reference-GRID-2013.gpkg"
-# Use sf::st_layers(grid_filepath) to get an overview of the layers in the gpkg
 grid <- sf::st_read(grid_filepath, layer = "be_1km_polygon")
-# Use sf::st_crs(grid) to view the grid's CRS
 ```
 
 #### Reading in the protected areas shapefile 
+
+Make sure the CRS of this layer corresponds to the CRS of the used grid by using `sf::st_crs(pa)`.
 
 ```{r}
 pa_filepath <- "./shpfiles/20240528_protected_areas_BE.gpkg"
 sf::st_layers(pa_filepath) # get an overview of the layers in the gpkg
 pa <- sf::st_read(pa_filepath, layer = "NaturaSite_polygon")
-# Make sure the CRS of this layer corresponds to the CRS of the used grid
-# by using sf::st_crs(pa)
 ```
 
 #### Plot PD map
 
-The function map_pd() can be used to generate a map visualizing phylogenetic 
-diversity for the geographic area that is used to generate the occurrence cube.
-If more detailed maps are desired, the optional argument *bbox_custom* can be
-used to delineate the bounding box. Coordinates for the desired geographic area 
+The function generate_map_and_indicator() can be used to generate a map 
+visualizing phylogenetic diversity covering the geographic area that is used to
+generate the occurrence cube.If more detailed maps are desired, the optional 
+argument *bbox_custom* can be used to delineate the bounding box. Coordinates 
+for the desired geographic area 
 can be determined using https://epsg.io/ and selecting the CRS of the used grid.
+If the optional parameter *cutoff* is specified, than this value is used to 
+classify cells as *high PD* cells if their PD exceeds this threshold value. An 
+indicator value is then calculated as the percentage of high PD cell 
+centerpoints that fall within the boundaries of protected areas. The result is
+stored as a list, with the map in the first element and the indicator value as 
+the second element. 
 
 ```{r}
-PDmap <- map_pd(PD_cube, grid, "Musteloidea")
+PDindicator <- generate_map_and_indicator(PD_cube, grid, "Musteloidea", cutoff=15)
 # Optionally specify a custom bounding box: bbox_custom <- c(xmin,xmax,ymin,ymax)
 # PDmap <- map_pd(PD_cube, grid, "Musteloidea", bbox_custom)
 ```
+
+
+
+
+
+
 
