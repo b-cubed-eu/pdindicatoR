@@ -18,8 +18,8 @@
 #' @return
 #' @example map_PD <- PD_map(PD_cube, grid, "Musceloidea", 3885477, 3929441,
 #' 3103857, 3126672)
-#' print(map_PD)
-#' ggsave("PDmap.png", map_PD)
+#' print(map_PD[[1]])
+#'
 #'
 #' Use https://epsg.io/ to determine coordinates
 #' coordinates Belgium: xmin = 3760000, xmax= 4090000, ymin = 2910000,
@@ -35,7 +35,7 @@
 #' nature areas.
 #'
 
-map_pd <- function(PD_cube, grid, taxon = NULL, bbox_custom = NULL, cutoff = NULL) {
+generate_map_and_indicator <- function(PD_cube, grid, taxon = NULL, bbox_custom = NULL, cutoff = NULL) {
 
   # Merge grid with cube
 
