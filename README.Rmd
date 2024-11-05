@@ -199,6 +199,16 @@ PDindicator <- generate_map_and_indicator(PD_cube, grid, "Musteloidea", cutoff=1
 plots <- PDindicator[[1]]
 indicators <- PDindicator[[2]]
 ```
+```{r}
+for (i in plots){
+  plot(i)}
+```
+
+```{r}
+for (i in seq_along(indicators)){
+  print(paste(indicators[i],"% of high PD cells are contained within protected areas in the period", names(indicators)[i]))
+}
+```
 
 We can inspect and compare the phylogenetic diversity maps for each time period by using *make_shiny_maps()*.
 

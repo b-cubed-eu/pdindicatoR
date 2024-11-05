@@ -395,6 +395,25 @@ plots <- PDindicator[[1]]
 indicators <- PDindicator[[2]]
 ```
 
+``` r
+for (i in plots){
+  plot(i)}
+```
+
+![](README_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-17-2.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-17-3.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-17-4.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-17-5.png)<!-- -->
+
+``` r
+for (i in seq_along(indicators)){
+  print(paste(indicators[i],"% of high PD cells are contained within protected areas in the period", names(indicators)[i]))
+}
+```
+
+    ## [1] "8.04597701149425 % of high PD cells are contained within protected areas in the period 2021-2025"
+    ## [1] "23.4567901234568 % of high PD cells are contained within protected areas in the period 2016-2020"
+    ## [1] "17.1428571428571 % of high PD cells are contained within protected areas in the period 2011-2015"
+    ## [1] "0 % of high PD cells are contained within protected areas in the period 2006-2010"
+    ## [1] "25 % of high PD cells are contained within protected areas in the period 2001-2005"
+
 We can inspect and compare the phylogenetic diversity maps for each time
 period by using *make_shiny_maps()*.
 
@@ -402,4 +421,4 @@ period by using *make_shiny_maps()*.
 make_shiny_maps(plots)
 ```
 
-# Insert screenshot of shiny_maps
+(Insert screenshot of shiny_maps or weblink)
