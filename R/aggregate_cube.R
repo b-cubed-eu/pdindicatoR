@@ -31,7 +31,7 @@ aggregate_cube <- function(mcube, timegroup=NULL) {
 
   # When timegroup ==1
   } else if(timegroup==1){
-      aggr_cube <- simpl_cube %>%
+      aggr_cube <- simpl_cube %>% arrange(year) %>%
       group_by(eeaCellCode, year) %>%
       reframe(
         speciesKeys = list(unique(speciesKey)),
@@ -43,7 +43,7 @@ aggregate_cube <- function(mcube, timegroup=NULL) {
   } else {
 
   # Calculate the 5-year period for each row
-   aggr_cube <- simpl_cube %>%
+   aggr_cube <- simpl_cube %>% arrange(year) %>%
     mutate(period = min_year + 5 * ((year - min_year) %/% 5)) %>%
      mutate(period = paste(period, period + 4, sep = "-")) %>%
     group_by(period, eeaCellCode) %>%
