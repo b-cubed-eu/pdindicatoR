@@ -17,7 +17,7 @@ get_pd <- function(tree, species){
 all_matched_sp<-unique(mcube[["orig_tiplabel"]])
 
 # find most recent common ancestor
-MRCA <- getMRCA(tree, all_matched_sp)
+MRCA <- ape::getMRCA(tree, all_matched_sp)
 
 # calculate PD metric
 calculate_faithpd(tree, species, MRCA)
