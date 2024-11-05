@@ -45,6 +45,11 @@ library(gdalUtilities)
 library(ape)
 library(rnaturalearth)
 library(purrr)
+library(dplyr)
+library(phytools)
+library(phangorn)
+library(patchwork)
+library(shiny)
 ```
 
 ### Editing the config file
@@ -112,7 +117,8 @@ head(cube)
     ## 6 2023 1kmE3862N3116    5218887 1                               30
 
 Please note that when using datacubes from another source, the column
-names are renamed to match the GBIF terms (see example datacube above).
+names are to be renamed to match the GBIF terms (see example datacube
+above).
 
 ### Load functions – Can be removed once package is installable –
 
@@ -122,13 +128,13 @@ The pdindicatoR functions can be loaded using *source()*.
 # Load functions
 source("./R/taxonmatch.R")
 source("./R/append_ott_id.R")
-source("./R/map_pd.R")
-source("./R/pdindicator.R")
-source("./R/convert_multipolygons.R")
-source("./R/get_pd.R")
-source("./R/calculate_faithpd.R")
 source("./R/check_completeness.R")
 source("./R/aggregate_cube.R")
+source("./R/get_pd.R")
+source("./R/calculate_faithpd.R")
+source("./R/generate_map_and_indicator.R")
+source("./R/convert_multipolygons.R")
+source("./R/make_shiny_maps.R")
 ```
 
 ### Matching species in phylogenetic tree and datacube
@@ -212,26 +218,79 @@ mcube <- mcube %>% dplyr::filter(!is.na(ott_id))
 ### Calculate Phylogenetic Diversity for each grid cell
 
 We first have to aggregate the occurrence cube in order to get a list of
-observed species for each grid cell.
+observed species for each grid cell. The optional argument *timegroup*
+can be used to indicate a time interval for which the PD metrics should
+be calculated, eg. `timegroup=5` calculates PD for all occurrences
+observed within a timespan of 5 years and produces a seperate map and
+indicator for each period. If no timegroup argument is specified, all
+occurrences in the dataset will be aggregated over time.
 
 ``` r
-aggr_cube <- aggregate_cube(mcube)
-head(aggr_cube)
+aggr_cube <- aggregate_cube(mcube, timegroup=5)
+print(aggr_cube, n=50)
 ```
 
-    ## # A tibble: 6 × 6
-    ##   eeaCellCode   year  speciesKeys ott_ids   unique_names orig_tiplabels
-    ##   <fct>         <fct> <list>      <list>    <list>       <list>        
-    ## 1 1kmE3820N3106 2022  <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
-    ## 2 1kmE3820N3106 2023  <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
-    ## 3 1kmE3832N3131 2019  <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
-    ## 4 1kmE3835N3126 2012  <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
-    ## 5 1kmE3837N3114 2022  <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
-    ## 6 1kmE3837N3154 2022  <int [1]>   <int [1]> <chr [1]>    <chr [1]>
+    ## # A tibble: 305 × 6
+    ##    period    eeaCellCode   speciesKeys ott_ids   unique_names orig_tiplabels
+    ##    <chr>     <chr>         <list>      <list>    <list>       <list>        
+    ##  1 2001-2005 1kmE3847N3105 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ##  2 2001-2005 1kmE3848N3105 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ##  3 2001-2005 1kmE4044N3010 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ##  4 2001-2005 1kmE4045N3010 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ##  5 2006-2010 1kmE3847N3104 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ##  6 2006-2010 1kmE3848N3097 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ##  7 2006-2010 1kmE3887N3141 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ##  8 2006-2010 1kmE3897N3106 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ##  9 2006-2010 1kmE3901N3096 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 10 2006-2010 1kmE3920N3129 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 11 2006-2010 1kmE3930N3118 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 12 2006-2010 1kmE3931N3119 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 13 2006-2010 1kmE3940N3134 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 14 2006-2010 1kmE3948N3143 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 15 2006-2010 1kmE3961N3126 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 16 2011-2015 1kmE3835N3126 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 17 2011-2015 1kmE3868N3141 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 18 2011-2015 1kmE3873N3091 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 19 2011-2015 1kmE3876N3129 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 20 2011-2015 1kmE3878N3121 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 21 2011-2015 1kmE3884N3116 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 22 2011-2015 1kmE3893N3081 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 23 2011-2015 1kmE3902N3126 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 24 2011-2015 1kmE3905N3101 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 25 2011-2015 1kmE3919N3123 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 26 2011-2015 1kmE3920N3151 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 27 2011-2015 1kmE3923N3141 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 28 2011-2015 1kmE3925N3059 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 29 2011-2015 1kmE3926N3135 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 30 2011-2015 1kmE3930N3153 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 31 2011-2015 1kmE3931N3096 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 32 2011-2015 1kmE3932N3114 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 33 2011-2015 1kmE3933N3117 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 34 2011-2015 1kmE3935N3150 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 35 2011-2015 1kmE3938N3045 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 36 2011-2015 1kmE3939N3121 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 37 2011-2015 1kmE3943N3075 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 38 2011-2015 1kmE3956N3048 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 39 2011-2015 1kmE3961N3131 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 40 2011-2015 1kmE3968N3084 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 41 2011-2015 1kmE3968N3104 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 42 2011-2015 1kmE3969N3084 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 43 2011-2015 1kmE3974N3148 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 44 2011-2015 1kmE3976N3012 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 45 2011-2015 1kmE3989N3102 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 46 2011-2015 1kmE3992N3110 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 47 2011-2015 1kmE3994N3106 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 48 2011-2015 1kmE3999N3110 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 49 2011-2015 1kmE4001N3057 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## 50 2011-2015 1kmE4020N2946 <int [1]>   <int [1]> <chr [1]>    <chr [1]>     
+    ## # ℹ 255 more rows
 
 ``` r
-#print(aggr_cube[[294,4]])
+print(aggr_cube[[73,4]])
 ```
+
+    ## [[1]]
+    ## [1] 923126 354525
 
 We can then calculate the PD value for all grid cells by using the
 purrr:map function to apply the function get_PD() for each grid cell.
@@ -243,14 +302,14 @@ head(PD_cube)
 ```
 
     ## # A tibble: 6 × 7
-    ##   eeaCellCode   year  speciesKeys ott_ids   unique_names orig_tiplabels    PD
-    ##   <fct>         <fct> <list>      <list>    <list>       <list>         <dbl>
-    ## 1 1kmE3820N3106 2022  <int [1]>   <int [1]> <chr [1]>    <chr [1]>       14.8
-    ## 2 1kmE3820N3106 2023  <int [1]>   <int [1]> <chr [1]>    <chr [1]>       14.8
-    ## 3 1kmE3832N3131 2019  <int [1]>   <int [1]> <chr [1]>    <chr [1]>       14.8
-    ## 4 1kmE3835N3126 2012  <int [1]>   <int [1]> <chr [1]>    <chr [1]>       14.8
-    ## 5 1kmE3837N3114 2022  <int [1]>   <int [1]> <chr [1]>    <chr [1]>       14.8
-    ## 6 1kmE3837N3154 2022  <int [1]>   <int [1]> <chr [1]>    <chr [1]>       14.8
+    ##   period    eeaCellCode   speciesKeys ott_ids unique_names orig_tiplabels    PD
+    ##   <chr>     <chr>         <list>      <list>  <list>       <list>         <dbl>
+    ## 1 2001-2005 1kmE3847N3105 <int [1]>   <int>   <chr [1]>    <chr [1]>       14.8
+    ## 2 2001-2005 1kmE3848N3105 <int [1]>   <int>   <chr [1]>    <chr [1]>       14.8
+    ## 3 2001-2005 1kmE4044N3010 <int [1]>   <int>   <chr [1]>    <chr [1]>       14.8
+    ## 4 2001-2005 1kmE4045N3010 <int [1]>   <int>   <chr [1]>    <chr [1]>       14.8
+    ## 5 2006-2010 1kmE3847N3104 <int [1]>   <int>   <chr [1]>    <chr [1]>       14.8
+    ## 6 2006-2010 1kmE3848N3097 <int [1]>   <int>   <chr [1]>    <chr [1]>       14.8
 
 ### Visualize PD on a map & calculate indicator
 
@@ -261,9 +320,12 @@ boundaries of WDPA protected areas.
 
 #### Reading in the grid shapefile
 
+The function `sf::st_layers(grid_filepath)` can be used to get an
+overview of the layers in a gpkg file. The correct layer can then be
+read in with `sf::st_read`.
+
 ``` r
 grid_filepath <- "./shpfiles/EEA-reference-GRID-2013.gpkg"
-# Use sf::st_layers(grid_filepath) to get an overview of the layers in the gpkg
 grid <- sf::st_read(grid_filepath, layer = "be_1km_polygon")
 ```
 
@@ -276,11 +338,10 @@ grid <- sf::st_read(grid_filepath, layer = "be_1km_polygon")
     ## Bounding box:  xmin: 3768000 ymin: 2926000 xmax: 4080000 ymax: 3237000
     ## Projected CRS: ETRS89-extended / LAEA Europe
 
-``` r
-# Use sf::st_crs(grid) to view the grid's CRS
-```
-
 #### Reading in the protected areas shapefile
+
+Make sure the CRS of this layer corresponds to the CRS of the used grid
+by using `sf::st_crs(pa)`.
 
 ``` r
 pa_filepath <- "./shpfiles/20240528_protected_areas_BE.gpkg"
@@ -311,27 +372,34 @@ pa <- sf::st_read(pa_filepath, layer = "NaturaSite_polygon")
     ## Bounding box:  xmin: 3786368 ymin: 2941836 xmax: 4065179 ymax: 3184432
     ## Projected CRS: ETRS89-extended / LAEA Europe
 
-``` r
-# Make sure the CRS of this layer corresponds to the CRS of the used grid
-# by using sf::st_crs(pa)
-```
-
 #### Plot PD map
 
-The function map_pd() can be used to generate a map visualizing
-phylogenetic diversity for the geographic area that is used to generate
-the occurrence cube. If more detailed maps are desired, the optional
-argument *bbox_custom* can be used to delineate the bounding box.
-Coordinates for the desired geographic area can be determined using
-<https://epsg.io/> and selecting the CRS of the used grid.
+The function generate_map_and_indicator() can be used to generate a map
+visualizing phylogenetic diversity covering the geographic area that is
+used to generate the occurrence cube.If more detailed maps are desired,
+the optional argument *bbox_custom* can be used to delineate the
+bounding box. Coordinates for the desired geographic area can be
+determined using <https://epsg.io/> and selecting the CRS of the used
+grid. If the optional parameter *cutoff* is specified, than this value
+is used to classify cells as *high PD* cells if their PD exceeds this
+threshold value. An indicator value is then calculated as the percentage
+of high PD cell centerpoints that fall within the boundaries of
+protected areas. The result is stored as a list, with the map in the
+first element and the indicator value as the second element.
 
 ``` r
-PDmap <- map_pd(PD_cube, grid, "Musteloidea")
-```
-
-![](README_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
-
-``` r
+PDindicator <- generate_map_and_indicator(PD_cube, grid, "Musteloidea", cutoff=12)
 # Optionally specify a custom bounding box: bbox_custom <- c(xmin,xmax,ymin,ymax)
 # PDmap <- map_pd(PD_cube, grid, "Musteloidea", bbox_custom)
+plots <- PDindicator[[1]]
+indicators <- PDindicator[[2]]
 ```
+
+We can inspect and compare the phylogenetic diversity maps for each time
+period by using *make_shiny_maps()*.
+
+``` r
+make_shiny_maps(plots)
+```
+
+# Insert screenshot of shiny_maps

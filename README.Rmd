@@ -200,13 +200,12 @@ plots <- PDindicator[[1]]
 indicators <- PDindicator[[2]]
 ```
 
-We can inspect and compare the phylogenetic diversity maps for each time period
-by using *make_shiny_maps()*.
+We can inspect and compare the phylogenetic diversity maps for each time period by using *make_shiny_maps()*.
 
-```{r}
+```{r echo=T, results='hide', message=F, warning=F}
 make_shiny_maps(plots)
 ```
-
+(Insert screenshot of shiny_maps or weblink)
 
 
 
