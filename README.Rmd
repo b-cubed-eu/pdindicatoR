@@ -35,6 +35,11 @@ library(gdalUtilities)
 library(ape)
 library(rnaturalearth)
 library(purrr)
+library(dplyr)
+library(phytools)
+library(phangorn)
+library(patchwork)
+library(shiny)
 ```
 
 ### Editing the config file
@@ -77,7 +82,7 @@ cube <- read.csv(cube_path, stringsAsFactors = FALSE, sep=",")
 # specify the correct seperator depending on the format of the datacube - occurrence datacubes downloaded through the GBIF SQL API  are currently tab seperated (sep="\t")
 head(cube)
 ```
-Please note that when using datacubes from another source, the column names are renamed to match the GBIF terms (see example datacube above).
+Please note that when using datacubes from another source, the column names are to be renamed to match the GBIF terms (see example datacube above).
 
 ### Load functions -- Can be removed once package is installable -- 
 
@@ -86,12 +91,13 @@ The pdindicatoR functions can be loaded using *source()*.
 # Load functions
 source("./R/taxonmatch.R")
 source("./R/append_ott_id.R")
-source("./R/generate_map_and_indicator.R")
-source("./R/convert_multipolygons.R")
-source("./R/get_pd.R")
-source("./R/calculate_faithpd.R")
 source("./R/check_completeness.R")
 source("./R/aggregate_cube.R")
+source("./R/get_pd.R")
+source("./R/calculate_faithpd.R")
+source("./R/generate_map_and_indicator.R")
+source("./R/convert_multipolygons.R")
+source("./R/make_shiny_maps.R")
 ```
 
 ### Matching species in phylogenetic tree and datacube
@@ -130,12 +136,12 @@ mcube <- mcube %>% dplyr::filter(!is.na(ott_id))
 
 ### Calculate Phylogenetic Diversity for each grid cell
 
-We first have to aggregate the occurrence cube in order to get a list of observed species for each grid cell. 
+We first have to aggregate the occurrence cube in order to get a list of observed species for each grid cell. The optional argument *timegroup* can be used to indicate a time interval for which the PD metrics should be calculated, eg. `timegroup=5` calculates PD for all occurrences observed within a timespan of 5 years and produces a seperate map and indicator for each period. If no timegroup argument is specified, all occurrences in the dataset will be aggregated over time.
 
 ```{r}
-aggr_cube <- aggregate_cube(mcube)
-head(aggr_cube)
-#print(aggr_cube[[294,4]])
+aggr_cube <- aggregate_cube(mcube, timegroup=5)
+print(aggr_cube, n=50)
+print(aggr_cube[[73,4]])
 ```
 
 We can then calculate the PD value for all grid cells by using the purrr:map function to apply the function get_PD() for each grid cell. The PD values will be appended to the datacube as a new column 'PD'.
@@ -186,13 +192,20 @@ centerpoints that fall within the boundaries of protected areas. The result is
 stored as a list, with the map in the first element and the indicator value as 
 the second element. 
 
-```{r}
-PDindicator <- generate_map_and_indicator(PD_cube, grid, "Musteloidea", cutoff=15)
+```{r echo=T, results='hide', message=F, warning=F}
+PDindicator <- generate_map_and_indicator(PD_cube, grid, "Musteloidea", cutoff=12)
 # Optionally specify a custom bounding box: bbox_custom <- c(xmin,xmax,ymin,ymax)
 # PDmap <- map_pd(PD_cube, grid, "Musteloidea", bbox_custom)
+plots <- PDindicator[[1]]
+indicators <- PDindicator[[2]]
 ```
 
+We can inspect and compare the phylogenetic diversity maps for each time period
+by using *make_shiny_maps()*.
 
+```{r}
+make_shiny_maps(plots)
+```
 
 
 
