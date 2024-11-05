@@ -12,19 +12,50 @@
 #' @example
 #' @export
 
-aggregate_cube <- function(mcube) {
-  simpl_cube <- mcube[, c("year", "eeaCellCode", "speciesKey", "ott_id", "unique_name", "orig_tiplabel")]
-  simpl_cube$eeaCellCode <- factor(simpl_cube$eeaCellCode)
-  simpl_cube$year <- factor(simpl_cube$year)
+aggregate_cube <- function(mcube, timegroup=NULL) {
+  columns_to_select <- c("year", "eeaCellCode", "speciesKey", "ott_id", "unique_name", "orig_tiplabel")
+  simpl_cube <- mcube[, intersect(columns_to_select, colnames(mcube))]
+  min_year <- min(simpl_cube$year)
 
-  aggr_cube <- simpl_cube %>%
-    group_by(eeaCellCode, year) %>%
-    reframe(
-      speciesKeys = list(unique(speciesKey)),
-      ott_ids = list(unique(ott_id)),
-      unique_names = list(unique(unique_name)),
-      orig_tiplabels = list(unique(orig_tiplabel))
-    )
+  # When occurrences are already aggregated over time or when no timegroup is
+  # specified
+  if (!("year" %in% colnames(simpl_cube)) || missing(timegroup)) {
+    aggr_cube <- simpl_cube %>%
+      group_by(eeaCellCode) %>%
+      reframe(
+        speciesKeys = list(unique(speciesKey)),
+        ott_ids = list(unique(ott_id)),
+        unique_names = list(unique(unique_name)),
+        orig_tiplabels = list(unique(orig_tiplabel))
+      )
 
+  # When timegroup ==1
+  } else if(timegroup==1){
+      aggr_cube <- simpl_cube %>%
+      group_by(eeaCellCode, year) %>%
+      reframe(
+        speciesKeys = list(unique(speciesKey)),
+        ott_ids = list(unique(ott_id)),
+        unique_names = list(unique(unique_name)),
+        orig_tiplabels = list(unique(orig_tiplabel))
+      )%>%
+      rename(period = year)
+  } else {
+
+  # Calculate the 5-year period for each row
+   aggr_cube <- simpl_cube %>%
+    mutate(period = min_year + 5 * ((year - min_year) %/% 5)) %>%
+     mutate(period = paste(period, period + 4, sep = "-")) %>%
+    group_by(period, eeaCellCode) %>%
+     reframe(
+       speciesKeys = list(unique(speciesKey)),
+       ott_ids = list(unique(ott_id)),
+       unique_names = list(unique(unique_name)),
+       orig_tiplabels = list(unique(orig_tiplabel))
+     )
+  }
   return(aggr_cube)
-}
+
+  }
+
+

@@ -1,4 +1,4 @@
-#' Mapping PD
+#' Mapping PD and calculating indicator
 #'
 #' This function creates, for a geographic area defined by the user, a map with
 #' the calculated PD metric for each grid cell and the location of protected
@@ -21,96 +21,135 @@
 #' print(map_PD[[1]])
 #'
 #'
-#' Use https://epsg.io/ to determine coordinates
-#' coordinates Belgium: xmin = 3760000, xmax= 4090000, ymin = 2910000,
-#'  ymax = 3190000
-#' coordinates Vlaams-Brabant: xmin = 3885477, xmax = 3973406, ymin = 3080962,
-#'  ymax = 3126672
-#'
-#' to  do: conversion function between crs of cube and lat/lon or some kind of
-#' interactive area selector
-#'
-#' @returns A map for the selected geographic area, which visualizes the PD
-#' value per grid cell with a colour scale, and the boundaries of protected
-#' nature areas.
-#'
 
 generate_map_and_indicator <- function(PD_cube, grid, taxon = NULL, bbox_custom = NULL, cutoff = NULL) {
 
-  # Merge grid with cube
+# Merge grid with cube
+PD_cube_geo <- right_join(grid, PD_cube, by = join_by(CELLCODE == eeaCellCode))
 
-  PD_cube_geo <- right_join(grid, PD_cube, by = join_by(CELLCODE == eeaCellCode))
-
-  # Set bounding box
-
-  if (is.null(bbox_custom)) {
-    bbox <- st_bbox(PD_cube_geo)
-  } else {
-    # Expect bbox_custom to be a numeric vector of length 4:
-    # c(xmin, xmax, ymin, ymax)
-    if (length(bbox_custom) != 4) {
-      stop("bbox_custom must be a numeric vector of length 4:
-           c(xmin, xmax, ymin, ymax).")
-    }
-    bbox <- c(xmin = bbox_custom[1], xmax = bbox_custom[2],
-              ymin = bbox_custom[3], ymax = bbox_custom[4])
+# Set bounding box
+if (is.null(bbox_custom)) {
+  bbox <- st_bbox(PD_cube_geo)
+} else {
+  if (length(bbox_custom) != 4) {
+    stop("bbox_custom must be a numeric vector of length 4: c(xmin, xmax, ymin, ymax).")
   }
+  bbox <- c(xmin = bbox_custom[1], xmax = bbox_custom[2],
+            ymin = bbox_custom[3], ymax = bbox_custom[4])
+}
 
-  expansion_factor <- 0.20  # Example: expand by 10% of bounding box range
-  bbox_expanded <- c(
-  xmin = as.numeric(bbox["xmin"]) - (as.numeric(bbox["xmax"]) -
-    as.numeric(bbox["xmin"])) * expansion_factor,
-  xmax = as.numeric(bbox["xmax"]) + (as.numeric(bbox["xmax"]) -
-    as.numeric(bbox["xmin"])) * expansion_factor,
-  ymin = as.numeric(bbox["ymin"]) - (as.numeric(bbox["ymax"]) -
-    as.numeric(bbox["ymin"])) * expansion_factor,
-  ymax = as.numeric(bbox["ymax"]) + (as.numeric(bbox["ymax"]) -
-    as.numeric(bbox["ymin"])) * expansion_factor
+# Expand bounding box
+expansion_factor <- 0.20
+bbox_expanded <- c(
+  xmin = as.numeric(bbox["xmin"]) - (as.numeric(bbox["xmax"]) - as.numeric(bbox["xmin"])) * expansion_factor,
+  xmax = as.numeric(bbox["xmax"]) + (as.numeric(bbox["xmax"]) - as.numeric(bbox["xmin"])) * expansion_factor,
+  ymin = as.numeric(bbox["ymin"]) - (as.numeric(bbox["ymax"]) - as.numeric(bbox["ymin"])) * expansion_factor,
+  ymax = as.numeric(bbox["ymax"]) + (as.numeric(bbox["ymax"]) - as.numeric(bbox["ymin"])) * expansion_factor
 )
 
-  # Read in country borders
+# Read in country borders
+world <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
+world_3035 <- sf::st_transform(world, crs = 3035)
 
-  world <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
-  world_3035 <- sf::st_transform(world, crs= 3035)
+# Initialize lists to store maps and indicators
+plots <- list()
+indicators <- list()
 
-  # Plot map
+# Calculate global min and max PD values for consistent color scale
+pd_min <- min(PD_cube_geo$PD, na.rm = TRUE)
+pd_max <- max(PD_cube_geo$PD, na.rm = TRUE)
 
-  map <- (ggplot() +
-  geom_sf(data = world_3035, fill="antiquewhite") +
-  geom_sf(data = PD_cube_geo, mapping = aes(fill = PD)) +
-  scale_fill_viridis_c(option="B") +
-  geom_sf(data = pa, fill = NA, color = "darkgreen", linewidth = 0.1) +
-  coord_sf(xlim = c(bbox_expanded["xmin"], bbox_expanded["xmax"]),
-           ylim = c(bbox_expanded["ymin"], bbox_expanded["ymax"]), expand = FALSE) +
-  xlab("Longitude") + ylab("Latitude") +
-  ggtitle("PD indicator", subtitle = paste(taxon)) +
-  theme(panel.grid.major = element_line(color = gray(0.5), linewidth = 0.5),
-        panel.background = element_rect(fill = "aliceblue")))
-  print(map)
+# Check for 'period' column in PD_cube
+if ("period" %in% colnames(PD_cube_geo)) {
+  unique_periods <- unique(PD_cube_geo$period)
 
-  # Calculate indicator
+  for (p in unique_periods) {
+    # Subset data for the current period
+    current_period_data <- PD_cube_geo %>% filter(period == p)
 
-  if (!is.null(cutoff)){
+    # Create the map for the current period
+    map <- ggplot() +
+      geom_sf(data = world_3035, fill = "antiquewhite") +
+      geom_sf(data = current_period_data, mapping = aes(fill = PD)) +
+      scale_fill_viridis_c(option = "B", limits = c(pd_min, pd_max)) +
+      geom_sf(data = pa, fill = NA, color = "darkgreen", linewidth = 0.05) +
+      coord_sf(xlim = c(bbox_expanded["xmin"], bbox_expanded["xmax"]),
+               ylim = c(bbox_expanded["ymin"], bbox_expanded["ymax"]), expand = FALSE) +
+      xlab("Longitude") + ylab("Latitude") +
+      labs(title = paste("Taxon:", taxon),
+           subtitle = paste("Phylogenetic Diversity for period:", p)) +
+      theme(panel.grid.major = element_line(color = gray(0.5), linewidth = 0.5),
+            panel.background = element_rect(fill = "aliceblue"))
 
-    ## Subset dataset for only high PD cells
-    PD_cube_geo$PD_high <- ifelse((PD_cube_geo$PD > cutoff), 1 ,0)
-    cube_highPD <- PD_cube_geo[PD_cube_geo$PD_high==1,c("OBJECTID", "CELLCODE", "PD", "geom","PD_high")]
+    # Store the plot in the list
+    plots[[as.character(p)]] <- map
 
-    ## Convert multisurface object to multipolygon object
+
+    # Calculate indicator for the current period if cutoff is provided
+    if (!is.null(cutoff)) {
+      current_period_data$PD_high <- ifelse((current_period_data$PD > cutoff), 1, 0)
+      cube_highPD <- current_period_data[current_period_data$PD_high == 1, c("OBJECTID", "CELLCODE", "PD", "geom", "PD_high")]
+
+      # Convert to multipolygon object
+      cube_mp <- convert_multipolygons(cube_highPD)
+
+      # Determine centerpoints of high PD grid cells
+      centroids <- sf::st_centroid(cube_mp)
+
+      # Calculate % of high PD grid cell centroids that intersect with protected areas
+      intersecting <- sf::st_intersects(pa, centroids)
+      n_intersecting <- sum(lengths(intersecting))
+      n_total <- nrow(centroids)
+      PD_indicator <- (n_intersecting / n_total) * 100
+      indicators[[as.character(p)]] <- PD_indicator
+
+      print(paste("The percentage of high PD grid cells within protected areas for period", p, "is", PD_indicator, "%"))
+    }
+  }
+
+ } else {
+  # If 'period' column is not present, create a single map and calculate the indicator for all data
+  map <- ggplot() +
+    geom_sf(data = world_3035, fill = "antiquewhite") +
+    geom_sf(data = PD_cube_geo, mapping = aes(fill = PD)) +
+    scale_fill_viridis_c(option = "B") +
+    geom_sf(data = pa, fill = NA, color = "darkgreen", linewidth = 0.05) +
+    coord_sf(xlim = c(bbox_expanded["xmin"], bbox_expanded["xmax"]),
+             ylim = c(bbox_expanded["ymin"], bbox_expanded["ymax"]), expand = FALSE) +
+    xlab("Longitude") + ylab("Latitude") +
+    ggtitle(paste("Taxon:", taxon, "\n Phylogenetic Diversity")) +
+    theme(panel.grid.major = element_line(color = gray(0.5), linewidth = 0.5),
+          panel.background = element_rect(fill = "aliceblue"))
+
+  plots <- map
+
+  # Calculate indicator if cutoff is provided
+  if (!is.null(cutoff)) {
+    PD_cube_geo$PD_high <- ifelse((PD_cube_geo$PD > cutoff), 1, 0)
+    cube_highPD <- PD_cube_geo[PD_cube_geo$PD_high == 1, c("OBJECTID", "CELLCODE", "PD", "geom", "PD_high")]
+
+    # Convert to multipolygon object
     cube_mp <- convert_multipolygons(cube_highPD)
 
-    ## Determine centerpoints of high PD grid cells
+    # Determine centerpoints of high PD grid cells
     centroids <- sf::st_centroid(cube_mp)
 
-    ## Calculate % of high PD grid cell centroids that fall within (intersect)
-    ## with the PA polygons
+    # Calculate % of high PD grid cell centroids that intersect with protected areas
     intersecting <- sf::st_intersects(pa, centroids)
-    n_intersecting<- sum(lengths(intersecting))
+    n_intersecting <- sum(lengths(intersecting))
     n_total <- nrow(centroids)
     PD_indicator <- (n_intersecting / n_total) * 100
-    print(paste("The percentage of high PD grid cells that fall within protected
-                areas is", PD_indicator, "%"))
-    return(list(map,PD_indicator))
-  } else {return(map)}
+    indicators[["Overall"]] <- PD_indicator
 
+    print(paste("The percentage of high PD grid cells that fall within protected areas is", PD_indicator, "%"))
+  }
+
+ }
+
+# Return the list of maps and indicators
+if (!is.null(cutoff)) {
+  return(list(plots, indicators))  # Return the combined map and indicators for each period or overall
+} else {
+  return(plots)  # Return only the combined map if no cutoff
 }
+ }

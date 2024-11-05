@@ -24,7 +24,9 @@ Imports:
     purrr,
     dplyr,
     phytools,
-    phangorn
+    phangorn,
+    patchwork,
+    shiny,
 License: MIT
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
