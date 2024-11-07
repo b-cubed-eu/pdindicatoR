@@ -16,33 +16,37 @@
 # gbif id match
 #
 #
+
 taxonmatch <- function(tree) {
-tree_labels <- tree$tip.label
+  tree_labels <- tree$tip.label
 
-if (any(stringr::str_detect(tree_labels,'ott\\d+')) == FALSE){
-  taxa <- rotl::tnrs_match_names(tree_labels)
-} else {
-  taxa <- data.frame(tree_labels)
-  colnames(taxa)[1] <- "ott_id"
+  if (any(stringr::str_detect(tree_labels,'ott\\d+')) == FALSE){
+    taxa <- rotl::tnrs_match_names(tree_labels)
+  } else {
+    taxa <- data.frame(tree_labels)
+    colnames(taxa)[1] <- "ott_id"
+  }
+
+
+  taxa[,"gbif_id"] <- NA
+  i=1
+  for(id in taxa$ott_id){
+    if (is.na(id) == FALSE){
+      tax_info <- rotl::taxonomy_taxon_info(id)
+      for(source in tax_info[[1]]$tax_sources){
+        if (grepl('gbif', source, fixed=TRUE)){
+          gbif <- stringr::str_split(source,":")[[1]][2]
+          taxa[i,]$gbif_id <- gbif
+        }}}
+    i = i + 1}
+  taxa$gbif_id <- as.integer(taxa$gbif_id)
+
+  original_df <- data.frame(
+    orig_tiplabel = unique(tree_labels),
+    search_string = tolower(unique(tree_labels)))
+
+  matched_result <- merge(taxa, original_df, by = "search_string", all.x = TRUE)
+  return(matched_result)
 }
-
-
-taxa[,"gbif_id"] <- NA
-i=1
-for(id in taxa$ott_id){
-  if (is.na(id) == FALSE){
-  tax_info <- rotl::taxonomy_taxon_info(id)
-  for(source in tax_info[[1]]$tax_sources){
-    if (grepl('gbif', source, fixed=TRUE)){
-      gbif <- stringr::str_split(source,":")[[1]][2]
-      taxa[i,]$gbif_id <- gbif
-    }}}
-  i = i + 1}
-taxa$gbif_id <- as.integer(taxa$gbif_id)
-
-taxa["orig_tiplabel"] <- tree$tip.label
-return(taxa)
-}
-
 
 
