@@ -18,12 +18,12 @@
 append_ott_id <- function(tree, cube, matched){
 
     # Append OTT id's to occurrence cube
-  speciesKeys <- cube["speciesKey"] %>% distinct()
+  speciesKeys <- cube["specieskey"] %>% distinct()
 
   mtable <- speciesKeys %>% left_join(matched[,c("ott_id","gbif_id", "unique_name", "orig_tiplabel")],
-                                      by = join_by(speciesKey == gbif_id))
+                                      by = join_by(specieskey == gbif_id))
 
-  mcube <- cube %>% left_join(mtable[,c("speciesKey", "ott_id", "unique_name", "orig_tiplabel")],
-                              by = join_by(speciesKey == speciesKey))
+  mcube <- cube %>% left_join(mtable[,c("specieskey", "ott_id", "unique_name", "orig_tiplabel")],
+                              by = join_by(specieskey == specieskey))
   return(mcube)
   }
