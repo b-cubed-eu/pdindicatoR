@@ -10,10 +10,11 @@
 #' taxa and per grid cell
 #' @return A dataframe with for each grid cell
 #' @example
+#' @import dplyr
 #' @export
 
 aggregate_cube <- function(mcube, timegroup=NULL) {
-  columns_to_select <- c("year", "eeaCellCode", "speciesKey", "ott_id", "unique_name", "orig_tiplabel")
+  columns_to_select <- c("year", "eeacellcode", "specieskey", "ott_id", "unique_name", "orig_tiplabel")
   simpl_cube <- mcube[, intersect(columns_to_select, colnames(mcube))]
   min_year <- min(simpl_cube$year)
 
@@ -21,9 +22,9 @@ aggregate_cube <- function(mcube, timegroup=NULL) {
   # specified
   if (!("year" %in% colnames(simpl_cube)) || missing(timegroup)) {
     aggr_cube <- simpl_cube %>%
-      group_by(eeaCellCode) %>%
+      group_by(eeacellcode) %>%
       reframe(
-        speciesKeys = list(unique(speciesKey)),
+        specieskeys = list(unique(specieskey)),
         ott_ids = list(unique(ott_id)),
         unique_names = list(unique(unique_name)),
         orig_tiplabels = list(unique(orig_tiplabel))
@@ -32,9 +33,9 @@ aggregate_cube <- function(mcube, timegroup=NULL) {
   # When timegroup ==1
   } else if(timegroup==1){
       aggr_cube <- simpl_cube %>% arrange(year) %>%
-      group_by(eeaCellCode, year) %>%
+      group_by(eeacellcode, year) %>%
       reframe(
-        speciesKeys = list(unique(speciesKey)),
+        specieskeys = list(unique(specieskey)),
         ott_ids = list(unique(ott_id)),
         unique_names = list(unique(unique_name)),
         orig_tiplabels = list(unique(orig_tiplabel))
@@ -46,9 +47,9 @@ aggregate_cube <- function(mcube, timegroup=NULL) {
    aggr_cube <- simpl_cube %>% arrange(year) %>%
     mutate(period = min_year + 5 * ((year - min_year) %/% 5)) %>%
      mutate(period = paste(period, period + 4, sep = "-")) %>%
-    group_by(period, eeaCellCode) %>%
+    group_by(period, eeacellcode) %>%
      reframe(
-       speciesKeys = list(unique(speciesKey)),
+       specieskeys = list(unique(specieskey)),
        ott_ids = list(unique(ott_id)),
        unique_names = list(unique(unique_name)),
        orig_tiplabels = list(unique(orig_tiplabel))

@@ -25,7 +25,7 @@
 generate_map_and_indicator <- function(PD_cube, grid, taxon = NULL, bbox_custom = NULL, cutoff = NULL) {
 
 # Merge grid with cube
-PD_cube_geo <- right_join(grid, PD_cube, by = join_by(CELLCODE == eeaCellCode))
+PD_cube_geo <- right_join(grid, PD_cube, by = join_by(CELLCODE == eeacellcode))
 
 # Set bounding box
 if (is.null(bbox_custom)) {

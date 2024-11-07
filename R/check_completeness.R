@@ -14,8 +14,8 @@
 
 check_completeness <- function(mcube){
 
-  mcube_dist <- distinct(mcube, speciesKey, .keep_all=TRUE)
-  sp_na <- mcube_dist %>% dplyr::filter(is.na(ott_id)) %>% select(speciesKey)
+  mcube_dist <- distinct(mcube, specieskey, .keep_all=TRUE)
+  sp_na <- mcube_dist %>% dplyr::filter(is.na(ott_id)) %>% select(specieskey)
   sp_miss <- paste(sp_na,collapse=",")
   missing <- print(paste("The following species are not part of the provided
   phylogenetic tree:", sp_miss))
