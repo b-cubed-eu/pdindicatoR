@@ -9,7 +9,7 @@
 #' @param cube A dataframe with for selected taxa, the number of occurrences per
 #' taxa and per grid cell
 #' @return A dataframe with for each grid cell
-#' @example
+#' @example aggregate_cube(mcube, timegroup=5)
 #' @export
 
 aggregate_cube <- function(mcube, timegroup=NULL) {

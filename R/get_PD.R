@@ -11,7 +11,7 @@
 #' @export
 #'
 
-get_pd <- function(tree, species){
+get_pd <- function(tree, species, metric="faith"){
 
 # get all species in matched cube
 
@@ -21,5 +21,7 @@ all_matched_sp<-unique(mcube[["orig_tiplabel"]])
 MRCA <- ape::getMRCA(tree, all_matched_sp)
 
 # calculate PD metric
+if (metric=="faith"){
 calculate_faithpd(tree, species, MRCA)
+}
 }
