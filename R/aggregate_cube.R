@@ -10,7 +10,6 @@
 #' taxa and per grid cell
 #' @return A dataframe with for each grid cell
 #' @example
-#' @import dplyr
 #' @export
 
 aggregate_cube <- function(mcube, timegroup=NULL) {

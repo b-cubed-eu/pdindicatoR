@@ -15,7 +15,6 @@ Description: A package to calculate and produce a map of phylogenetic diversity
     You provide a phylogenetic tree, the datacube for the corresponding species 
     is downloaded from GBIF (or user-uploaded), and the package does the rest.
 Imports:
-    tidyverse,
     rotl,
     sf,
     gdalUtilities,

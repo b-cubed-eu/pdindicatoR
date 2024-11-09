@@ -1,6 +1,12 @@
-## Convert multisurface object to multipolygon object
+#' Convert multisurface object to multipolygon object
+#'
+#' @param object An object of class multisurface
+#' @return An object of class multipolygon
+#' @example convert_multipolygons(cube_highPD)
+#' @export
 
-convert_multipolygons <- function(X) {
+
+convert_multipolygons <- function(object) {
   tmp1 <- tempfile(fileext = ".gpkg")
   tmp2 <- tempfile(fileext = ".gpkg")
   sf::st_write(X, tmp1)

@@ -8,6 +8,7 @@
 #' @param species A character vector with species names
 #' @return Calculated PD value
 #' @example get_pd(tree, species)
+#' @export
 #'
 
 get_pd <- function(tree, species){
