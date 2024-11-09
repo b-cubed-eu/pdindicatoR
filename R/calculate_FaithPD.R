@@ -23,10 +23,15 @@
 #' tiplabels()
 #'
 #' # Create vector with selected leaves/species for which to calculate the PD
-#' trio <- c("t3", "t10", "t1")
+#' trio <- c("t3", "t5", "t1")
+#'
+#' # Determine MRCA of all species under study. If the group of species under
+#' # study contains of t1, t2, t3, t4, t5, t6
+#' all_species <_ c(t1, t2, t3, t4, t5, t6)
+#' MRCA <- get_MRCA(tree, all_species )
 #'
 #' # Calculate PD for trio of observed species
-#' calculate_pd(rtree, trio)
+#' calculate_faithpd(rtree, trio, MRCA)
 #' @export
 
 calculate_faithpd <- function(tree, species, MRCA){
