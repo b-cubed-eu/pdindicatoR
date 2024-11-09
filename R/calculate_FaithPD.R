@@ -69,7 +69,7 @@ calculate_faithpd <- function(tree, species, MRCA){
 
   edge_lengths <- tree$edge.length[edge_ids_unique]
   pd <- sum(edge_lengths)
-  #print(paste("Phylogenetic diversity:", pd))
+  # print(paste("Phylogenetic diversity:", pd))
 }
 
 # This is an alternative method using the existing ape::which.edge function,

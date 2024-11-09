@@ -110,10 +110,10 @@ if ("period" %in% colnames(PD_cube_geo)) {
  } else {
   # If 'period' column is not present, create a single map and calculate the indicator for all data
   map <- ggplot() +
+    annotation_map_tile("osm", zoom = 6) +
     geom_sf(data = world_3035, fill = "antiquewhite") +
-    geom_sf(data = PD_cube_geo, mapping = aes(fill = PD)) +
     scale_fill_viridis_c(option = "B") +
-    geom_sf(data = pa, fill = NA, color = "darkgreen", linewidth = 0.05) +
+    geom_sf(data = pa, fill = NA, color = "lightblue", linewidth = 0.03) +
     coord_sf(xlim = c(bbox_expanded["xmin"], bbox_expanded["xmax"]),
              ylim = c(bbox_expanded["ymin"], bbox_expanded["ymax"]), expand = FALSE) +
     xlab("Longitude") + ylab("Latitude") +
