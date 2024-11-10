@@ -2,7 +2,7 @@
 #'
 #' @param object An object of class multisurface
 #' @return An object of class multipolygon
-#' @example convert_multipolygons(cube_highPD)
+#' @examples convert_multipolygons(cube_highPD)
 #' @export
 
 

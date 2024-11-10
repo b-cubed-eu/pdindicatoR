@@ -4,9 +4,8 @@
 #' OTT id's) with corresponding GBIF id's.
 #' @param tree An object of class 'phylo', iow a phylogenetic tree in Newick
 #' format that was parsed by ape::read_tree()
-#' @result A dataframe with columns ott_id and gbif_id
-#' @example mtable <- taxonmatch(tree_musceloidea)
-#' head(mtable)
+#' @returns A dataframe with columns ott_id and gbif_id
+#' @examples mtable <- taxonmatch(tree_musceloidea)
 #' @export
 #'
 # TO DO:

@@ -9,14 +9,14 @@
 #' @return a list - first element is the total number of species in the
 #' occurence cube, second element is the number of species lacking in the
 #' phylogenetic tree.
-#' @example
+#' @examples check_completeness(mcube)
 #' @export
 
 check_completeness <- function(mcube){
 
   mcube_dist <- distinct(mcube, specieskey, .keep_all=TRUE)
-  sp_na <- mcube_dist %>% dplyr::filter(is.na(ott_id)) %>% select(specieskey,
-                                                                  species)
+  sp_na <- mcube_dist %>% dplyr::filter(is.na(.data$ott_id)) %>% dplyr::select(.data$specieskey,
+                                                                  .data$species)
   # sp_miss <- paste(sp_na,collapse=",")
   cat("The following species are not part of the provided phylogenetic tree:\n")
   print(sp_na)

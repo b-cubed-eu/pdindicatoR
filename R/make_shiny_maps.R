@@ -6,7 +6,7 @@
 #' @param plots A list of PD maps produced by the function
 #' generate_map_and_indicator(), named by their time-period.
 #' @return An r-shiny app with PD maps in tabs
-#' @example make_shiny_maps(plots)
+#' @examples make_shiny_maps(plots)
 #'
 #'
 

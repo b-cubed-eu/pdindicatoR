@@ -12,7 +12,7 @@
 #' corresponding gbif_id's
 #' @return A dataframe which consist of all the data in the original datacube,
 #' appended with column ott_id
-#' @example
+#' @examples append_ott_id(tree, cube, matched)
 #' @export
 
 append_ott_id <- function(tree, cube, matched){

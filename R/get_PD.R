@@ -7,7 +7,7 @@
 #' @param tree A phylogenetic tree with branch lengths
 #' @param species A character vector with species names
 #' @return Calculated PD value
-#' @example get_pd(tree, species)
+#' @examples get_pd(tree, species)
 #' @export
 #'
 
