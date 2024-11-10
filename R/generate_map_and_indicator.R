@@ -15,11 +15,9 @@
 #' coordinates as c(xmin, xmax, ymin, ymax)
 #' @param cutoff A variable of type numeric which determines the cut-off point
 #' between low PD and high PD
-#' @return
-#' @example map_PD <- PD_map(PD_cube, grid, "Musceloidea", 3885477, 3929441,
-#' 3103857, 3126672)
-#' print(map_PD[[1]])
-#'
+#' @return a list PDindicator, which contains one or more maps in it's first element.
+#' and possibly one or more indicator values in it's second element
+#' @examples map_PD <- PD_map(PD_cube, grid, "Musceloidea", cutoff=150)
 #'
 
 generate_map_and_indicator <- function(PD_cube, grid, taxon = NULL, bbox_custom = NULL, cutoff = NULL) {
@@ -109,9 +107,9 @@ if ("period" %in% colnames(PD_cube_geo)) {
 
  } else {
   # If 'period' column is not present, create a single map and calculate the indicator for all data
-  map <- ggplot() +
-    annotation_map_tile("osm", zoom = 6) +
+  map_PD <- ggplot2::ggplot() +
     geom_sf(data = world_3035, fill = "antiquewhite") +
+    geom_sf(data = PD_cube_geo, mapping = aes(fill = PD)) +
     scale_fill_viridis_c(option = "B") +
     geom_sf(data = pa, fill = NA, color = "lightblue", linewidth = 0.03) +
     coord_sf(xlim = c(bbox_expanded["xmin"], bbox_expanded["xmax"]),
@@ -121,12 +119,10 @@ if ("period" %in% colnames(PD_cube_geo)) {
     theme(panel.grid.major = element_line(color = gray(0.5), linewidth = 0.5),
           panel.background = element_rect(fill = "aliceblue"))
 
-  plots <- map
-
-  # Calculate indicator if cutoff is provided
+  # Calculate indicator if cutoff is provided and produce a high/low PD map
   if (!is.null(cutoff)) {
-    PD_cube_geo$PD_high <- ifelse((PD_cube_geo$PD > cutoff), 1, 0)
-    cube_highPD <- PD_cube_geo[PD_cube_geo$PD_high == 1, c("OBJECTID", "CELLCODE", "PD", "geom", "PD_high")]
+    PD_cube_geo$PD_high <- as.factor(ifelse((PD_cube_geo$PD > cutoff), 1, 0))
+    cube_highPD <- PD_cube_geo[PD_cube_geo$PD_high == 1, c("OBJECTID", "CELLCODE", "PD", "geometry", "PD_high")]
 
     # Convert to multipolygon object
     cube_mp <- convert_multipolygons(cube_highPD)
@@ -142,7 +138,23 @@ if ("period" %in% colnames(PD_cube_geo)) {
     indicators[["Overall"]] <- PD_indicator
 
     print(paste("The percentage of high PD grid cells that fall within protected areas is", PD_indicator, "%"))
-  }
+
+
+    map_hiloPD <- ggplot2::ggplot() +
+      geom_sf(data = world_3035, fill = "antiquewhite") +
+      geom_sf(data = PD_cube_geo, mapping = aes(fill = PD_high)) +
+      #scale_fill_viridis_c(option = "B") +
+      geom_sf(data = pa, fill = NA, color = "lightblue", linewidth = 0.03) +
+      coord_sf(xlim = c(bbox_expanded["xmin"], bbox_expanded["xmax"]),
+               ylim = c(bbox_expanded["ymin"], bbox_expanded["ymax"]), expand = FALSE) +
+      xlab("Longitude") + ylab("Latitude") +
+      ggtitle(paste("Taxon:", taxon, "\n Phylogenetic Diversity")) +
+      theme(panel.grid.major = element_line(color = gray(0.5), linewidth = 0.5),
+            panel.background = element_rect(fill = "aliceblue"))
+
+    plots <- list(map_PD, map_hiloPD)
+
+    }
 
  }
 
