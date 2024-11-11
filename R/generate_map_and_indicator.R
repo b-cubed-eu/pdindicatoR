@@ -9,6 +9,7 @@
 #' geometries of those grid cells.
 #' @param grid An sf object with variable detailing grid cell codes and a
 #' geometry column
+#' @param pa An sf object which contains a .shp-file with polygons of the boundaries of protected areas
 #' @param taxon A selected higher taxon, for which the occurrence cube was
 #' generated. Used to generate the map's title only.
 #' @param bbox_custom Optional, numeric vector with custom bounding box
@@ -17,17 +18,20 @@
 #' between low PD and high PD
 #' @return a list PDindicator, which contains one or more maps in it's first element.
 #' and possibly one or more indicator values in it's second element
-#' @examples map_PD <- PD_map(PD_cube, grid, "Musceloidea", cutoff=150)
-#'
+#' @importFrom dplyr group_by reframe arrange rename mutate left_join right_join join_by filter
+#' @importFrom magrittr %>%
+#' @importFrom grDevices gray
+#' @examples map_PD <- PD_map(PD_cube, grid, pa, "Musceloidea", cutoff=150)
+#' @export
 
-generate_map_and_indicator <- function(PD_cube, grid, taxon = NULL, bbox_custom = NULL, cutoff = NULL) {
+generate_map_and_indicator <- function(PD_cube, grid, pa, taxon = NULL, bbox_custom = NULL, cutoff = NULL) {
 
 # Merge grid with cube
-PD_cube_geo <- right_join(grid, PD_cube, by = join_by(CELLCODE == eeacellcode))
+PD_cube_geo <- right_join(grid, PD_cube, by = join_by(.data$CELLCODE == .data$eeacellcode))
 
 # Set bounding box
 if (is.null(bbox_custom)) {
-  bbox <- st_bbox(PD_cube_geo)
+  bbox <- sf::st_bbox(PD_cube_geo)
 } else {
   if (length(bbox_custom) != 4) {
     stop("bbox_custom must be a numeric vector of length 4: c(xmin, xmax, ymin, ymax).")
@@ -63,21 +67,22 @@ if ("period" %in% colnames(PD_cube_geo)) {
 
   for (p in unique_periods) {
     # Subset data for the current period
-    current_period_data <- PD_cube_geo %>% filter(period == p)
+    current_period_data <- PD_cube_geo %>% filter(.data$period == p)
 
     # Create the map for the current period
-    map <- ggplot() +
-      geom_sf(data = world_3035, fill = "antiquewhite") +
-      geom_sf(data = current_period_data, mapping = aes(fill = PD)) +
-      scale_fill_viridis_c(option = "B", limits = c(pd_min, pd_max)) +
-      geom_sf(data = pa, fill = NA, color = "darkgreen", linewidth = 0.05) +
-      coord_sf(xlim = c(bbox_expanded["xmin"], bbox_expanded["xmax"]),
-               ylim = c(bbox_expanded["ymin"], bbox_expanded["ymax"]), expand = FALSE) +
-      xlab("Longitude") + ylab("Latitude") +
-      labs(title = paste("Taxon:", taxon),
+    map <- ggplot2::ggplot() +
+      ggplot2::geom_sf(data = world_3035, fill = "antiquewhite") +
+      ggplot2::geom_sf(data = current_period_data, mapping = ggplot2::aes(fill = .data$PD)) +
+      viridis::scale_fill_viridis_c(option = "B", limits = c(pd_min, pd_max)) +
+      ggplot2::geom_sf(data = pa, fill = NA, color = "darkgreen", linewidth = 0.05) +
+      ggplot2::coord_sf(xlim = c(bbox_expanded["xmin"], bbox_expanded["xmax"]),
+               ylim = c(bbox_expanded["ymin"], bbox_expanded["ymax"]),
+               expand = FALSE) +
+      ggplot2::xlab("Longitude") + ggplot2::ylab("Latitude") +
+      ggplot2::labs(title = paste("Taxon:", taxon),
            subtitle = paste("Phylogenetic Diversity for period:", p)) +
-      theme(panel.grid.major = element_line(color = gray(0.5), linewidth = 0.5),
-            panel.background = element_rect(fill = "aliceblue"))
+      ggplot2::theme(panel.grid.major = ggplot2::element_line(color = gray(0.5), linewidth = 0.5),
+            panel.background = ggplot2::element_rect(fill = "aliceblue"))
 
     # Store the plot in the list
     plots[[as.character(p)]] <- map
@@ -108,16 +113,16 @@ if ("period" %in% colnames(PD_cube_geo)) {
  } else {
   # If 'period' column is not present, create a single map and calculate the indicator for all data
   map_PD <- ggplot2::ggplot() +
-    geom_sf(data = world_3035, fill = "antiquewhite") +
-    geom_sf(data = PD_cube_geo, mapping = aes(fill = PD)) +
-    scale_fill_viridis_c(option = "B") +
-    geom_sf(data = pa, fill = NA, color = "lightblue", linewidth = 0.03) +
-    coord_sf(xlim = c(bbox_expanded["xmin"], bbox_expanded["xmax"]),
+    ggplot2::geom_sf(data = world_3035, fill = "antiquewhite") +
+    ggplot2::geom_sf(data = PD_cube_geo, mapping = ggplot2::aes(fill = .data$PD)) +
+    viridis::scale_fill_viridis_c(option = "B") +
+    ggplot2::geom_sf(data = pa, fill = NA, color = "lightblue", linewidth = 0.03) +
+    ggplot2::coord_sf(xlim = c(bbox_expanded["xmin"], bbox_expanded["xmax"]),
              ylim = c(bbox_expanded["ymin"], bbox_expanded["ymax"]), expand = FALSE) +
-    xlab("Longitude") + ylab("Latitude") +
-    ggtitle(paste("Taxon:", taxon, "\n Phylogenetic Diversity")) +
-    theme(panel.grid.major = element_line(color = gray(0.5), linewidth = 0.5),
-          panel.background = element_rect(fill = "aliceblue"))
+    ggplot2::xlab("Longitude") + ggplot2::ylab("Latitude") +
+    ggplot2::ggtitle(paste("Taxon:", taxon, "\n Phylogenetic Diversity")) +
+    ggplot2::theme(panel.grid.major = ggplot2::element_line(color = grDevices::gray(0.5), linewidth = 0.5),
+          panel.background = ggplot2::element_rect(fill = "aliceblue"))
 
   # Calculate indicator if cutoff is provided and produce a high/low PD map
   if (!is.null(cutoff)) {
@@ -141,16 +146,16 @@ if ("period" %in% colnames(PD_cube_geo)) {
 
 
     map_hiloPD <- ggplot2::ggplot() +
-      geom_sf(data = world_3035, fill = "antiquewhite") +
-      geom_sf(data = PD_cube_geo, mapping = aes(fill = PD_high)) +
+      ggplot2::geom_sf(data = world_3035, fill = "antiquewhite") +
+      ggplot2::geom_sf(data = PD_cube_geo, mapping = ggplot2::aes(fill = .data$PD_high)) +
       #scale_fill_viridis_c(option = "B") +
-      geom_sf(data = pa, fill = NA, color = "lightblue", linewidth = 0.03) +
-      coord_sf(xlim = c(bbox_expanded["xmin"], bbox_expanded["xmax"]),
+      ggplot2::geom_sf(data = pa, fill = NA, color = "lightblue", linewidth = 0.03) +
+      ggplot2::coord_sf(xlim = c(bbox_expanded["xmin"], bbox_expanded["xmax"]),
                ylim = c(bbox_expanded["ymin"], bbox_expanded["ymax"]), expand = FALSE) +
-      xlab("Longitude") + ylab("Latitude") +
-      ggtitle(paste("Taxon:", taxon, "\n Phylogenetic Diversity")) +
-      theme(panel.grid.major = element_line(color = gray(0.5), linewidth = 0.5),
-            panel.background = element_rect(fill = "aliceblue"))
+      ggplot2::xlab("Longitude") + ggplot2::ylab("Latitude") +
+      ggplot2::ggtitle(paste("Taxon:", taxon, "\n Phylogenetic Diversity")) +
+      ggplot2::theme(panel.grid.major = ggplot2::element_line(color = gray(0.5), linewidth = 0.5),
+            panel.background = ggplot2::element_rect(fill = "aliceblue"))
 
     plots <- list(map_PD, map_hiloPD)
 
