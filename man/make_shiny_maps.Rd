@@ -4,9 +4,12 @@
 \alias{make_shiny_maps}
 \title{Visualizing PD maps for time periods in tabs}
 \usage{
-make_shiny_maps(plots)
+make_shiny_maps(PDindicator, plots)
 }
 \arguments{
+\item{PDindicator}{List containing PD plots and indicators, produced by
+function generate_map_and_indicator.R}
+
 \item{plots}{A list of PD maps produced by the function
 generate_map_and_indicator(), named by their time-period.}
 }
@@ -18,7 +21,5 @@ This function creates produces an r-shiny app that can showcase
 multiple PD maps (for seperate timeperiods) in tabs
 }
 \examples{
-make_shiny_maps(plots)
-
-
+make_shiny_maps(PDindicator, plots)
 }

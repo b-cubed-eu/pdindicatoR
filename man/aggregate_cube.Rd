@@ -9,8 +9,8 @@ aggregate_cube(mcube, timegroup = NULL)
 \arguments{
 \item{mcube}{An occurence datacube with appended ott_id's, as produced by the append_ott_id function}
 
-\item{cube}{A dataframe with for selected taxa, the number of occurrences per
-taxa and per grid cell}
+\item{timegroup}{An integer, representing the number of years by which you want to group
+your occurence data}
 }
 \value{
 A dataframe with for each grid cell

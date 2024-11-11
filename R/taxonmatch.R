@@ -5,7 +5,10 @@
 #' @param tree An object of class 'phylo', iow a phylogenetic tree in Newick
 #' format that was parsed by ape::read_tree()
 #' @returns A dataframe with columns ott_id and gbif_id
-#' @examples mtable <- taxonmatch(tree_musceloidea)
+#' @examples
+#' tree_path <- "./data/Fagales_species.nwk"
+#' tree <- ape::read.tree(tree_path)
+#' mtable <- taxonmatch(tree)
 #' @export
 #'
 # TO DO:

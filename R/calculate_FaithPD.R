@@ -7,6 +7,8 @@
 #' format that was parsed by ape::read_tree()
 #' @param species A character vector where each element is a species, and more
 #' specifically, matches a tip label of the phylogenetic tree exactly
+#' @param MRCA Node id of the taxon that represents the most recent common ancestor
+#' of the set of species under study
 #' @return A string that combines "Phylogenetic diversity:" and the calculated
 #' value
 #' @examples calculate_faithpd(tree, c("F_alessandri", "C_kawakamii", MRCA)

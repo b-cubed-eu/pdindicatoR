@@ -7,6 +7,7 @@
 generate_map_and_indicator(
   PD_cube,
   grid,
+  pa,
   taxon = NULL,
   bbox_custom = NULL,
   cutoff = NULL
@@ -19,6 +20,8 @@ geometries of those grid cells.}
 
 \item{grid}{An sf object with variable detailing grid cell codes and a
 geometry column}
+
+\item{pa}{An sf object which contains a .shp-file with polygons of the boundaries of protected areas}
 
 \item{taxon}{A selected higher taxon, for which the occurrence cube was
 generated. Used to generate the map's title only.}
@@ -39,6 +42,5 @@ the calculated PD metric for each grid cell and the location of protected
 nature areas.
 }
 \examples{
-map_PD <- PD_map(PD_cube, grid, "Musceloidea", cutoff=150)
-
+map_PD <- PD_map(PD_cube, grid, pa, "Musceloidea", cutoff=150)
 }

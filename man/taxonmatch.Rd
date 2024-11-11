@@ -18,5 +18,7 @@ This function matches the tip labels of a phylogenetic tree (Taxon names or
 OTT id's) with corresponding GBIF id's.
 }
 \examples{
-mtable <- taxonmatch(tree_musceloidea)
+tree_path <- "./data/Fagales_species.nwk"
+tree <- ape::read.tree(tree_path)
+mtable <- taxonmatch(tree)
 }

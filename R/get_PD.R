@@ -6,6 +6,7 @@
 #'
 #' @param tree A phylogenetic tree with branch lengths
 #' @param species A character vector with species names
+#' @param metric Name of the PD metric to be calculated
 #' @return Calculated PD value
 #' @examples get_pd(tree, species)
 #' @export
@@ -25,3 +26,4 @@ if (metric=="faith"){
 calculate_faithpd(tree, species, MRCA)
 }
 }
+

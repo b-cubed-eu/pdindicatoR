@@ -6,11 +6,15 @@
 #' each grid cell (as speciesKeys, ott_id's and names).
 #'
 #' @param mcube An occurence datacube with appended ott_id's, as produced by the append_ott_id function
-#' @param cube A dataframe with for selected taxa, the number of occurrences per
-#' taxa and per grid cell
+#' @param timegroup An integer, representing the number of years by which you want to group
+#' your occurence data
 #' @return A dataframe with for each grid cell
+#' @importFrom rlang .data
+#' @importFrom dplyr group_by reframe arrange rename mutate join_by distinct
+#' @importFrom magrittr %>%
 #' @examples aggregate_cube(mcube, timegroup=5)
 #' @export
+
 
 aggregate_cube <- function(mcube, timegroup=NULL) {
   columns_to_select <- c("year", "eeacellcode", "specieskey", "ott_id", "unique_name", "orig_tiplabel")
@@ -21,37 +25,38 @@ aggregate_cube <- function(mcube, timegroup=NULL) {
   # specified
   if (!("year" %in% colnames(simpl_cube)) || missing(timegroup)) {
     aggr_cube <- simpl_cube %>%
-      group_by(eeacellcode) %>%
+      group_by(.data$eeacellcode) %>%
       reframe(
-        specieskeys = list(unique(specieskey)),
-        ott_ids = list(unique(ott_id)),
-        unique_names = list(unique(unique_name)),
-        orig_tiplabels = list(unique(orig_tiplabel))
+        specieskeys = list(unique(.data$specieskey)),
+        ott_ids = list(unique(.data$ott_id)),
+        unique_names = list(unique(.data$unique_name)),
+        orig_tiplabels = list(unique(.data$orig_tiplabel))
       )
 
   # When timegroup ==1
   } else if(timegroup==1){
-      aggr_cube <- simpl_cube %>% arrange(year) %>%
-      group_by(eeacellcode, year) %>%
+      aggr_cube <- simpl_cube %>% arrange(.data$year) %>%
+      group_by(.data$eeacellcode, .data$year) %>%
       reframe(
-        specieskeys = list(unique(specieskey)),
-        ott_ids = list(unique(ott_id)),
-        unique_names = list(unique(unique_name)),
-        orig_tiplabels = list(unique(orig_tiplabel))
+        specieskeys = list(unique(.data$specieskey)),
+        ott_ids = list(unique(.data$ott_id)),
+        unique_names = list(unique(.data$unique_name)),
+        orig_tiplabels = list(unique(.data$orig_tiplabel))
       )%>%
-      rename(period = year)
+      rename(period = .data$year)
   } else {
 
   # Calculate the 5-year period for each row
-   aggr_cube <- simpl_cube %>% arrange(year) %>%
-    mutate(period = min_year + 5 * ((year - min_year) %/% 5)) %>%
+   period <- NULL
+   aggr_cube <- simpl_cube %>% arrange(.data$year) %>%
+    mutate(period = min_year + 5 * ((.data$year - min_year) %/% 5)) %>%
      mutate(period = paste(period, period + 4, sep = "-")) %>%
-    group_by(period, eeacellcode) %>%
+    group_by(.data$period, .data$eeacellcode) %>%
      reframe(
-       specieskeys = list(unique(specieskey)),
-       ott_ids = list(unique(ott_id)),
-       unique_names = list(unique(unique_name)),
-       orig_tiplabels = list(unique(orig_tiplabel))
+       specieskeys = list(unique(.data$specieskey)),
+       ott_ids = list(unique(.data$ott_id)),
+       unique_names = list(unique(.data$unique_name)),
+       orig_tiplabels = list(unique(.data$orig_tiplabel))
      )
   }
   return(aggr_cube)

@@ -9,12 +9,15 @@
 #' @return a list - first element is the total number of species in the
 #' occurence cube, second element is the number of species lacking in the
 #' phylogenetic tree.
+#' @importFrom dplyr group_by reframe arrange rename mutate distinct
+
+#' @importFrom magrittr %>%
 #' @examples check_completeness(mcube)
 #' @export
 
 check_completeness <- function(mcube){
 
-  mcube_dist <- distinct(mcube, specieskey, .keep_all=TRUE)
+  mcube_dist <- distinct(mcube, .data$specieskey, .keep_all=TRUE)
   sp_na <- mcube_dist %>% dplyr::filter(is.na(.data$ott_id)) %>% dplyr::select(.data$specieskey,
                                                                   .data$species)
   # sp_miss <- paste(sp_na,collapse=",")

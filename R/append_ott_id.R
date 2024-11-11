@@ -12,18 +12,20 @@
 #' corresponding gbif_id's
 #' @return A dataframe which consist of all the data in the original datacube,
 #' appended with column ott_id
+#' @importFrom magrittr %>%
+#' @importFrom dplyr group_by reframe arrange rename mutate join_by left_join distinct
 #' @examples append_ott_id(tree, cube, matched)
 #' @export
 
 append_ott_id <- function(tree, cube, matched){
 
     # Append OTT id's to occurrence cube
-  speciesKeys <- cube["specieskey"] %>% distinct()
+  speciesKeys <- cube %>% distinct(.data$specieskey)
 
   mtable <- speciesKeys %>% left_join(matched[,c("ott_id","gbif_id", "unique_name", "orig_tiplabel")],
-                                      by = join_by(specieskey == gbif_id))
+                                      by = join_by(.data$specieskey == .data$gbif_id))
 
   mcube <- cube %>% left_join(mtable[,c("specieskey", "ott_id", "unique_name", "orig_tiplabel")],
-                              by = join_by(specieskey == specieskey))
+                              by = join_by(.data$specieskey == .data$specieskey))
   return(mcube)
   }

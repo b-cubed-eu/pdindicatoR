@@ -10,6 +10,8 @@ get_pd(tree, species, metric = "faith")
 \item{tree}{A phylogenetic tree with branch lengths}
 
 \item{species}{A character vector with species names}
+
+\item{metric}{Name of the PD metric to be calculated}
 }
 \value{
 Calculated PD value
