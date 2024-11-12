@@ -32,13 +32,18 @@ library(pdindicatoR)
 
 ```
 
-### Editing the config file
+### Editing the filepaths
 
 In order to start the workflow, the user should edit config.R in order to specify the location of the phylogenetic tree (Newick format) and data cube (.csv format) files.
 
 ```{r}
-tree_path <- "./data/Fagales_species.nwk"
-cube_path <- "./data/0004018-241107131044228_Fagales1km.csv"
+tree_path <- system.file("extdata","Fagales_species.nwk", package = "pdindicatoR")
+cube_path <- system.file("extdata", "0004018-241107131044228_Fagales1km.csv", package = "pdindicatoR")
+pa_filepath <- system.file("extdata","protected_areas_NPHogeKempen.shp", package = "pdindicatoR")
+grid_filepath <- system.file("extdata", "EEA_1km_NPHogeKempen/EEA_1km_HK.shp", package = "pdindicatoR")
+```
+
+
 ```
 ### Loading tree and datacube
 
@@ -75,6 +80,13 @@ cube <- read.csv(cube_path, stringsAsFactors = FALSE, sep="\t")
 head(cube)
 ```
 Please note that when using datacubes from another source, the column names are to be renamed to match the GBIF terms (see example datacube above).
+
+### Loading grid and protected areas shapefiles
+
+```{r}
+grid <- sf::st_read(grid_filepath)
+pa <- sf::st_read(pa_filepath)
+```
 
 ### Matching species in phylogenetic tree and datacube
 
@@ -133,24 +145,6 @@ head(PD_cube)
 
 Finally we read in the EEA Grid shapefiles and merge them to the occurrence cube by joining on the eeaCellCode field. The PD cube can then be plotted and overlayn with a polygon layer depicting the boundaries of WDPA protected areas.
 
-#### Reading in the grid shapefile
-
-The function `sf::st_layers(grid_filepath)` can be used to get an overview of the 
-layers in a gpkg file. The correct layer can then be read in with `sf::st_read`.
-
-```{r}
-grid_filepath <- "./data/EEA_1km_NPHogeKempen/EEA_1km_HK.shp"
-grid <- sf::st_read(grid_filepath)
-```
-
-#### Reading in the protected areas shapefile 
-
-Make sure the CRS of this layer corresponds to the CRS of the used grid by using `sf::st_crs(pa)`.
-
-```{r}
-pa_filepath <- "./data/PA_NPHogeKempen/protected_areas_NPHogeKempen.shp"
-pa <- sf::st_read(pa_filepath)
-```
 
 #### Plot PD map
 
@@ -158,8 +152,8 @@ The function generate_map_and_indicator() can be used to generate a map
 visualizing phylogenetic diversity covering the geographic area that is used to
 generate the occurrence cube.If more detailed maps are desired, the optional 
 argument *bbox_custom* can be used to delineate the bounding box. Coordinates 
-for the desired geographic area 
-can be determined using https://epsg.io/ and selecting the CRS of the used grid.
+for the desired geographic area can be determined using https://epsg.io/ and 
+selecting the CRS of the used grid.
 
 
 ```{r echo=T, results='hide', message=F, warning=F}
@@ -167,7 +161,7 @@ PDindicator <- generate_map_and_indicator(PD_cube, grid, "Fagales")
 PDindicator
 
 # Optionally specify a custom bounding box: bbox_custom <- c(xmin,xmax,ymin,ymax)
-# PDmap <- map_pd(PD_cube, grid, "Musteloidea", bbox_custom)
+# PDmap <- generate_map_and_indicator(PD_cube, grid, "Musteloidea", bbox_custom)
 
 # In case a cut-off is specified
 #plots <- PDindicator[[1]]
