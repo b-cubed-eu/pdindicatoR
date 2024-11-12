@@ -21,6 +21,7 @@ This function creates produces an r-shiny app that can showcase
 multiple PD maps (for seperate timeperiods) in tabs
 }
 \examples{
+library(dplyr)
 ex_data <- retrieve_example_data()
 mcube <- append_ott_id(ex_data$tree, ex_data$cube, ex_data$matched_nona)
 mcube <- dplyr::filter(mcube, !is.na(ott_id))
