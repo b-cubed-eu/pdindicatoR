@@ -21,3 +21,11 @@ phylogenetic tree.
 This function calculates which number of species in the provided occurence
 cube, is not a tip label of the provided phylogenetic tree.
 }
+<<<<<<< HEAD
+=======
+\examples{
+ex_data <- retrieve_example_data()
+mcube<- append_ott_id(ex_data$tree, ex_data$cube, ex_data$matched_nona)
+check_completeness(mcube)
+}
+>>>>>>> 67bcd32c845d767a9ac64ed67c0bdbc8f69f1515

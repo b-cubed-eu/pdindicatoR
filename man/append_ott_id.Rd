@@ -26,3 +26,12 @@ This function uses the table produced by the taxonmatch() function to create
 a linking table, and then append the ott_id's as a new field to the occurence
 cube.
 }
+<<<<<<< HEAD
+=======
+\examples{
+ex_data <- retrieve_example_data()
+mcube <- append_ott_id(ex_data$tree, ex_data$cube, ex_data$matched_nona)
+mcube <- dplyr::filter(mcube, !is.na(ott_id))
+aggr_cube <- aggregate_cube(mcube)
+}
+>>>>>>> 67bcd32c845d767a9ac64ed67c0bdbc8f69f1515

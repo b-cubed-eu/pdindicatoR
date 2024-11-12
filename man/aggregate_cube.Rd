@@ -4,10 +4,20 @@
 \alias{aggregate_cube}
 \title{Aggregate datacube over grid cell to create new dataframe with species list per grid}
 \usage{
+<<<<<<< HEAD
 aggregate_cube(mcube)
 }
 \arguments{
 \item{mcube}{An occurence datacube with appended ott_id's, as produced by the append_ott_id function}
+=======
+aggregate_cube(mcube, timegroup = NULL)
+}
+\arguments{
+\item{mcube}{An occurence datacube with appended ott_id's, as produced by the append_ott_id function}
+
+\item{timegroup}{An integer, representing the number of years by which you want to group
+your occurrence data}
+>>>>>>> 67bcd32c845d767a9ac64ed67c0bdbc8f69f1515
 }
 \value{
 A dataframe with for each grid cell
@@ -17,3 +27,12 @@ This function aggregates a provided datacube over grid cell id, so that a new da
 is outputted with 3 variables that contain the lists of species that are observed for
 each grid cell (as speciesKeys, ott_id's and names).
 }
+<<<<<<< HEAD
+=======
+\examples{
+ex_data <- retrieve_example_data()
+mcube <- append_ott_id(ex_data$tree, ex_data$cube, ex_data$matched_nona)
+mcube <- dplyr::filter(mcube, !is.na(ott_id))
+aggr_cube <- aggregate_cube(mcube)
+}
+>>>>>>> 67bcd32c845d767a9ac64ed67c0bdbc8f69f1515

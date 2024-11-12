@@ -1,6 +1,5 @@
 .Rproj.user
 shpfiles/*
-data/*
 output/*
 demo/*
 reports/*

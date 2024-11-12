@@ -10,7 +10,21 @@ taxonmatch(tree)
 \item{tree}{An object of class 'phylo', iow a phylogenetic tree in Newick
 format that was parsed by ape::read_tree()}
 }
+<<<<<<< HEAD
+=======
+\value{
+A dataframe with columns ott_id and gbif_id
+}
+>>>>>>> 67bcd32c845d767a9ac64ed67c0bdbc8f69f1515
 \description{
 This function matches the tip labels of a phylogenetic tree (Taxon names or
 OTT id's) with corresponding GBIF id's.
 }
+<<<<<<< HEAD
+=======
+\examples{
+\dontrun{ex_data <- retrieve_example_data()
+# This can take a while!
+mtable <- taxonmatch(ex_data$tree)}
+}
+>>>>>>> 67bcd32c845d767a9ac64ed67c0bdbc8f69f1515
