@@ -20,19 +20,15 @@ Imports:
     gdalUtilities,
     ape,
     rnaturalearth,
-    purrr,
     dplyr,
-    phytools,
-    phangorn,
-    patchwork,
     shiny,
     stringr,
     magrittr,
     ggplot2,
-    viridis,
     rlang
 Suggests: 
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    purrr
 Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-GB

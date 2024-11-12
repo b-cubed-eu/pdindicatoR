@@ -293,7 +293,7 @@ print(aggr_cube[[73,4]])
     ## [1] 923126 354525
 
 We can then calculate the PD value for all grid cells by using the
-purrr:map function to apply the function get_PD() for each grid cell.
+purrr::map function to apply the function get_PD() for each grid cell.
 The PD values will be appended to the datacube as a new column ‘PD’.
 
 ``` r

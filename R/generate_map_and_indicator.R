@@ -21,6 +21,7 @@
 #' @importFrom dplyr group_by reframe arrange rename mutate left_join right_join join_by filter
 #' @importFrom magrittr %>%
 #' @importFrom grDevices gray
+#' @import ggplot2
 #' @examples
 #' library(dplyr)
 #' ex_data <- retrieve_example_data()
@@ -92,7 +93,7 @@ if ("period" %in% colnames(PD_cube_geo)) {
     map <- ggplot2::ggplot() +
       ggplot2::geom_sf(data = world_3035, fill = "antiquewhite") +
       ggplot2::geom_sf(data = current_period_data, mapping = ggplot2::aes(fill = .data$PD)) +
-      viridis::scale_fill_viridis_c(option = "B", limits = c(pd_min, pd_max)) +
+      ggplot2::scale_fill_viridis_c(option = "B", limits = c(pd_min, pd_max)) +
       ggplot2::geom_sf(data = pa, fill = NA, color = "darkgreen", linewidth = 0.05) +
       ggplot2::coord_sf(xlim = c(bbox_expanded["xmin"], bbox_expanded["xmax"]),
                ylim = c(bbox_expanded["ymin"], bbox_expanded["ymax"]),
