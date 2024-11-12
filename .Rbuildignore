@@ -13,13 +13,12 @@
 ^codecov\.yml$
 ^codemeta\.json$
 ^data-raw$
+^data$
 ^docs$
 ^man-roxygen$
 ^organisation.yml$
 ^pkgdown$
 ^vignettes/articles$
-
-^data$
 ^demo$
 ^output$
 ^shpfiles$
