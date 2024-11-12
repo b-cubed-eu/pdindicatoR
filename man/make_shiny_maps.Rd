@@ -36,5 +36,5 @@ PDindicator<- generate_map_and_indicator(
   ex_data$pa,
   "Fagales")
 plots <- PDindicator[[1]]
-make_shiny_maps(PDindicator, plots)
+\dontrun{make_shiny_maps(PDindicator, plots)}
 }

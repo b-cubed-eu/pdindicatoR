@@ -26,7 +26,7 @@
 #'   "Fagales")
 #' plots <- PDindicator[[1]]
 #  indicators <- PDindicator[[2]]
-#' make_shiny_maps(PDindicator, plots)
+#' \dontrun{make_shiny_maps(PDindicator, plots)}
 #' @export
 #'
 
