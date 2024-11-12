@@ -43,7 +43,6 @@ This example shows a basic workflow for using the functions in the pdindicatoR p
 ```{r loadlib, echo=T, results='hide', message=F, warning=F}
 # Load pdindicatoR package
 library(pdindicatoR)
-
 ```
 
 ### Editing the filepaths

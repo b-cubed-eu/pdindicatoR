@@ -11,6 +11,7 @@
 #' @import dplyr
 #' @importFrom magrittr %>%
 #' @examples
+#' library(dplyr)
 #' ex_data <- retrieve_example_data()
 #' mcube <- append_ott_id(ex_data$tree, ex_data$cube, ex_data$matched_nona)
 #' mcube <- dplyr::filter(mcube, !is.na(ott_id))
@@ -22,17 +23,15 @@
 #' @export
 
 get_pd <- function(tree, species, metric="faith"){
+  # Get all species in matched cube
+  all_matched_sp <- unique(mcube[["orig_tiplabel"]])
 
-# get all species in matched cube
+  # Find most recent common ancestor
+  MRCA <- ape::getMRCA(tree, all_matched_sp)
 
-all_matched_sp<-unique(mcube[["orig_tiplabel"]])
-
-# find most recent common ancestor
-MRCA <- ape::getMRCA(tree, all_matched_sp)
-
-# calculate PD metric
-if (metric=="faith"){
-calculate_faithpd(tree, species, MRCA)
-}
+  # Calculate PD metric
+  if (metric == "faith"){
+    calculate_faithpd(tree, species, MRCA)
+  }
 }
 
