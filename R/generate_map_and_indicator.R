@@ -21,13 +21,21 @@
 #' @importFrom dplyr group_by reframe arrange rename mutate left_join right_join join_by filter
 #' @importFrom magrittr %>%
 #' @importFrom grDevices gray
-#' @examples map_PD <- PD_map(PD_cube, grid, pa, "Musceloidea", cutoff=150)
+#' @examples
+#' ex_data <- retrieve_example_data()
+#' mcube <- append_ott_id(ex_data$tree, ex_data$cube, ex_data$matched_nona)
+#' mcube <- mcube %>% dplyr::filter(!is.na(ott_id))
+#' aggr_cube <- aggregate_cube(mcube)
+#' PD_cube <- aggr_cube %>% mutate(PD = unlist(purrr::map(orig_tiplabels, ~ get_pd(ex_data$tree, unlist(.x)))))
+#' PDindicator <- generate_map_and_indicator(PD_cube, ex_data$grid, ex_data$pa, "Fagales", cutoff=150)
+#' map <- PDindicator[[1]]
+#  indicator <- PDindicator[[2]]
 #' @export
 
 generate_map_and_indicator <- function(PD_cube, grid, pa, taxon = NULL, bbox_custom = NULL, cutoff = NULL) {
 
 # Merge grid with cube
-PD_cube_geo <- right_join(grid, PD_cube, by = join_by(.data$CELLCODE == .data$eeacellcode))
+PD_cube_geo <- right_join(grid, PD_cube, by = join_by(CELLCODE == eeacellcode))
 
 # Set bounding box
 if (is.null(bbox_custom)) {
@@ -115,7 +123,7 @@ if ("period" %in% colnames(PD_cube_geo)) {
   map_PD <- ggplot2::ggplot() +
     ggplot2::geom_sf(data = world_3035, fill = "antiquewhite") +
     ggplot2::geom_sf(data = PD_cube_geo, mapping = ggplot2::aes(fill = .data$PD)) +
-    viridis::scale_fill_viridis_c(option = "B") +
+    ggplot2::scale_fill_viridis_c(option = "B") +
     ggplot2::geom_sf(data = pa, fill = NA, color = "lightblue", linewidth = 0.03) +
     ggplot2::coord_sf(xlim = c(bbox_expanded["xmin"], bbox_expanded["xmax"]),
              ylim = c(bbox_expanded["ymin"], bbox_expanded["ymax"]), expand = FALSE) +

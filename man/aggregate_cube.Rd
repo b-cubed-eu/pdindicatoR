@@ -10,7 +10,7 @@ aggregate_cube(mcube, timegroup = NULL)
 \item{mcube}{An occurence datacube with appended ott_id's, as produced by the append_ott_id function}
 
 \item{timegroup}{An integer, representing the number of years by which you want to group
-your occurence data}
+your occurrence data}
 }
 \value{
 A dataframe with for each grid cell
@@ -21,5 +21,8 @@ is outputted with 3 variables that contain the lists of species that are observe
 each grid cell (as speciesKeys, ott_id's and names).
 }
 \examples{
-aggregate_cube(mcube, timegroup=5)
+ex_data <- retrieve_example_data()
+mcube <- append_ott_id(ex_data$tree, ex_data$cube, ex_data$matched_nona)
+mcube <- mcube \%>\% dplyr::filter(!is.na(ott_id))
+aggr_cube <- aggregate_cube(mcube)
 }

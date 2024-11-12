@@ -7,7 +7,16 @@
 #' @param plots A list of PD maps produced by the function
 #' generate_map_and_indicator(), named by their time-period.
 #' @return An r-shiny app with PD maps in tabs
-#' @examples make_shiny_maps(PDindicator, plots)
+#' @examples
+#' ex_data <- retrieve_example_data()
+#' mcube <- append_ott_id(ex_data$tree, ex_data$cube, ex_data$matched_nona)
+#' mcube <- mcube %>% dplyr::filter(!is.na(ott_id))
+#' aggr_cube <- aggregate_cube(mcube, timegroup=5)
+#' PD_cube <- aggr_cube %>% mutate(PD = unlist(purrr::map(orig_tiplabels, ~ get_pd(ex_data$tree, unlist(.x)))))
+#' PDindicator<- generate_map_and_indicator(PD_cube, ex_data$grid, ex_data$pa, "Fagales")
+#' plots <- PDindicator[[1]]
+#  indicators <- PDindicator[[2]]
+#' make_shiny_maps(PDindicator, plots)
 #' @export
 #'
 

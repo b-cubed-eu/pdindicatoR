@@ -7,14 +7,17 @@
 #'
 #' @param mcube An occurence datacube with appended ott_id's, as produced by the append_ott_id function
 #' @param timegroup An integer, representing the number of years by which you want to group
-#' your occurence data
+#' your occurrence data
 #' @return A dataframe with for each grid cell
 #' @importFrom rlang .data
 #' @importFrom dplyr group_by reframe arrange rename mutate join_by distinct
 #' @importFrom magrittr %>%
-#' @examples aggregate_cube(mcube, timegroup=5)
+#' @examples
+#' ex_data <- retrieve_example_data()
+#' mcube <- append_ott_id(ex_data$tree, ex_data$cube, ex_data$matched_nona)
+#' mcube <- mcube %>% dplyr::filter(!is.na(ott_id))
+#' aggr_cube <- aggregate_cube(mcube)
 #' @export
-
 
 aggregate_cube <- function(mcube, timegroup=NULL) {
   columns_to_select <- c("year", "eeacellcode", "specieskey", "ott_id", "unique_name", "orig_tiplabel")

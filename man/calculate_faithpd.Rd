@@ -25,5 +25,10 @@ This function calculates Faith's PD, based on a provided list of species
 and a phylogenetic tree.
 }
 \examples{
-calculate_faithpd(tree, c("F_alessandri", "C_kawakamii", MRCA)
+ex_data <- retrieve_example_data()
+# determine the most recent common ancestor of all species under study
+# (not necessarily all species in the tree!)
+MRCA <- ape::getMRCA(ex_data$tree, ex_data$tree$tip.label)
+species <- c("Fagus lucida", "Castanopsis fabri", "Quercus_robur")
+calculate_faithpd(ex_data$tree, species, MRCA)
 }

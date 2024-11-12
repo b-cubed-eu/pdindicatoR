@@ -14,7 +14,11 @@
 #' appended with column ott_id
 #' @importFrom magrittr %>%
 #' @importFrom dplyr group_by reframe arrange rename mutate join_by left_join distinct
-#' @examples append_ott_id(tree, cube, matched)
+#' @examples
+#' ex_data <- retrieve_example_data()
+#' mcube <- append_ott_id(ex_data$tree, ex_data$cube, ex_data$matched_nona)
+#' mcube <- mcube %>% dplyr::filter(!is.na(ott_id))
+#' aggr_cube <- aggregate_cube(mcube)
 #' @export
 
 append_ott_id <- function(tree, cube, matched){
@@ -23,9 +27,9 @@ append_ott_id <- function(tree, cube, matched){
   speciesKeys <- cube %>% distinct(.data$specieskey)
 
   mtable <- speciesKeys %>% left_join(matched[,c("ott_id","gbif_id", "unique_name", "orig_tiplabel")],
-                                      by = join_by(.data$specieskey == .data$gbif_id))
+                                      by = join_by(specieskey == gbif_id))
 
   mcube <- cube %>% left_join(mtable[,c("specieskey", "ott_id", "unique_name", "orig_tiplabel")],
-                              by = join_by(.data$specieskey == .data$specieskey))
+                              by = join_by(specieskey == specieskey))
   return(mcube)
   }

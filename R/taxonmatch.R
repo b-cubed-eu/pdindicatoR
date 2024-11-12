@@ -5,19 +5,15 @@
 #' @param tree An object of class 'phylo', iow a phylogenetic tree in Newick
 #' format that was parsed by ape::read_tree()
 #' @returns A dataframe with columns ott_id and gbif_id
+#' @importFrom magrittr %>%
+#' @importFrom dplyr group_by reframe arrange rename mutate join_by left_join distinct
 #' @examples
-#' tree_path <- "./data/Fagales_species.nwk"
-#' tree <- ape::read.tree(tree_path)
-#' mtable <- taxonmatch(tree)
+#' \dontrun{ex_data <- retrieve_example_data()
+#' # This can take a while!
+#' mtable <- taxonmatch(ex_data$tree)}
 #' @export
 #'
-# TO DO:
-# - After name matching, some quality measurements should be outputted eg.
-# number of matches with a score under a certain threshold, number of species
-# with >1 match (what does this mean in practice?), number of NA's for
-# gbif id match
-#
-#
+
 
 taxonmatch <- function(tree) {
   tree_labels <- tree$tip.label

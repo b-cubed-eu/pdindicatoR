@@ -27,5 +27,8 @@ a linking table, and then append the ott_id's as a new field to the occurence
 cube.
 }
 \examples{
-append_ott_id(tree, cube, matched)
+ex_data <- retrieve_example_data()
+mcube <- append_ott_id(ex_data$tree, ex_data$cube, ex_data$matched_nona)
+mcube <- mcube \%>\% dplyr::filter(!is.na(ott_id))
+aggr_cube <- aggregate_cube(mcube)
 }

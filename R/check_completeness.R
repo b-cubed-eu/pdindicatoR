@@ -12,7 +12,10 @@
 #' @importFrom dplyr group_by reframe arrange rename mutate distinct
 
 #' @importFrom magrittr %>%
-#' @examples check_completeness(mcube)
+#' @examples
+#' ex_data <- retrieve_example_data()
+#' mcube<- append_ott_id(ex_data$tree, ex_data$cube, ex_data$matched_nona)
+#' check_completeness(mcube)
 #' @export
 
 check_completeness <- function(mcube){
