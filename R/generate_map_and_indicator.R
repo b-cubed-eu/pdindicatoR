@@ -22,12 +22,23 @@
 #' @importFrom magrittr %>%
 #' @importFrom grDevices gray
 #' @examples
+#' library(dplyr)
 #' ex_data <- retrieve_example_data()
 #' mcube <- append_ott_id(ex_data$tree, ex_data$cube, ex_data$matched_nona)
 #' mcube <- dplyr::filter(mcube, !is.na(ott_id))
 #' aggr_cube <- aggregate_cube(mcube)
-#' PD_cube <- aggr_cube %>% mutate(PD = unlist(purrr::map(orig_tiplabels, ~ get_pd(ex_data$tree, unlist(.x)))))
-#' PDindicator <- generate_map_and_indicator(PD_cube, ex_data$grid, ex_data$pa, "Fagales", cutoff=150)
+#' PD_cube <- aggr_cube %>%
+#'   mutate(
+#'     PD = unlist(purrr::map(orig_tiplabels,
+#'                            ~ get_pd(ex_data$tree, unlist(.x)))
+#'     )
+#'   )
+#' PDindicator <- generate_map_and_indicator(
+#'   PD_cube,
+#'   ex_data$grid,
+#'   ex_data$pa,
+#'   "Fagales",
+#'   cutoff=150)
 #' map <- PDindicator[[1]]
 #  indicator <- PDindicator[[2]]
 #' @export
