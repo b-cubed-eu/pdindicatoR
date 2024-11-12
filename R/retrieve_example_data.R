@@ -16,6 +16,7 @@
 #' print(ex_data$pa)
 #' print(ex_data$matched_nona)
 #' @export
+
 file_path <- system.file("extdata", "Fagales_species.nwk", package = "pdindicatoR")
 
 if (file_path == "") {
