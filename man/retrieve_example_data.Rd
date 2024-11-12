@@ -15,7 +15,8 @@ study area
 }
 \description{
 This function specifies the paths to the example data and reads the example
-data files in and processes them so they are ready to be used in the workflow.
+data files in and processes them so they are ready to be used in the
+workflow.
 }
 \examples{
 ex_data <- retrieve_example_data()
