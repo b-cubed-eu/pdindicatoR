@@ -10,7 +10,6 @@
 #' occurence cube, second element is the number of species lacking in the
 #' phylogenetic tree.
 #' @importFrom dplyr group_by reframe arrange rename mutate distinct
-
 #' @importFrom magrittr %>%
 #' @examples
 #' ex_data <- retrieve_example_data()

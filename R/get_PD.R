@@ -8,10 +8,12 @@
 #' @param species A character vector with species names
 #' @param metric Name of the PD metric to be calculated
 #' @return Calculated PD value
+#' @importFrom dplyr group_by reframe arrange rename mutate join_by left_join distinct
+#' @importFrom magrittr %>%
 #' @examples
 #' ex_data <- retrieve_example_data()
 #' mcube <- append_ott_id(ex_data$tree, ex_data$cube, ex_data$matched_nona)
-#' mcube <- mcube %>% dplyr::filter(!is.na(ott_id))
+#' mcube <- dplyr::filter(mcube, !is.na(ott_id))
 #' aggr_cube <- aggregate_cube(mcube)
 #' PD_cube <- aggr_cube %>% mutate(PD = unlist(purrr::map(orig_tiplabels, ~ get_pd(ex_data$tree, unlist(.x)))))
 #' @export
