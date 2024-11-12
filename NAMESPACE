@@ -2,10 +2,6 @@
 
 export(aggregate_cube)
 export(append_ott_id)
-<<<<<<< HEAD
-export(check_completeness)
-export(taxonmatch)
-=======
 export(calculate_faithpd)
 export(check_completeness)
 export(convert_multipolygons)
@@ -27,4 +23,3 @@ importFrom(dplyr,right_join)
 importFrom(grDevices,gray)
 importFrom(magrittr,"%>%")
 importFrom(rlang,.data)
->>>>>>> 67bcd32c845d767a9ac64ed67c0bdbc8f69f1515
