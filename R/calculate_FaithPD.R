@@ -11,7 +11,13 @@
 #' of the set of species under study
 #' @return A string that combines "Phylogenetic diversity:" and the calculated
 #' value
-#' @examples calculate_faithpd(tree, c("F_alessandri", "C_kawakamii", MRCA)
+#' @examples
+#' ex_data <- retrieve_example_data()
+#' # determine the most recent common ancestor of all species under study
+#' # (not necessarily all species in the tree!)
+#' MRCA <- ape::getMRCA(ex_data$tree, ex_data$tree$tip.label)
+#' species <- c("Fagus lucida", "Castanopsis fabri", "Quercus_robur")
+#' calculate_faithpd(ex_data$tree, species, MRCA)
 #' @export
 
 calculate_faithpd <- function(tree, species, MRCA){
@@ -21,8 +27,14 @@ calculate_faithpd <- function(tree, species, MRCA){
    tip_ids <- vector(mode="integer", length=length(species))
    for (i in seq_along(species)) {
        x <- which(tree$tip.label == species[i])
-       tip_ids[i] <- x
-   }
+       if (length(x) > 0) {
+         tip_ids[i] <- x
+       } else {
+         # Optionally, print a warning or assign a default value for missing matches
+         warning(paste("Species", species[i], "not found in tree$tip.label"))
+         tip_ids[i] <- NA  # Assign NA if the species is not found
+       }}
+   tip_ids <- tip_ids[!is.na(tip_ids)]
 
   # determine spanning paths (nodes) from species to MRCA
 
