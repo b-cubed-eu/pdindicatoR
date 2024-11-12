@@ -56,8 +56,6 @@ pa_filepath <- system.file("extdata","protected_areas_NPHogeKempen.shp", package
 grid_filepath <- system.file("extdata", "EEA_1km_NPHogeKempen/EEA_1km_HK.shp", package = "pdindicatoR")
 ```
 
-
-```
 ### Loading tree and datacube
 
 A phylogenetic tree and occurrence datacube for selected taxa should be provided by the user. 
