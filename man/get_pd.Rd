@@ -21,6 +21,7 @@ This function determines the MRCA of all species in the datacube
 and calls the function(s) to calculate PD metrics
 }
 \examples{
+library(dplyr)
 ex_data <- retrieve_example_data()
 mcube <- append_ott_id(ex_data$tree, ex_data$cube, ex_data$matched_nona)
 mcube <- dplyr::filter(mcube, !is.na(ott_id))
