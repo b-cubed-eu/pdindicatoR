@@ -45,15 +45,16 @@ This example shows a basic workflow for using the functions in the pdindicatoR p
 library(pdindicatoR)
 ```
 
-### Editing the filepaths
+### Reading in the example data
 
-In order to start the workflow, the user should edit config.R in order to specify the location of the phylogenetic tree (Newick format) and data cube (.csv format) files.
+In order to start the workflow, the user should specify the filepaths to a phylogenetic tree, a species data occurrence cube, and two shapefiles with 1) a grid, which should correspond to the grid used to generate the datacube, and 2) boundaries of protected areas as polygons. The phylogenetic tree should be in either nexus or newick format. The species occurrence cube must have the same variable names as the example datacube (or the columns should be renamed after loading). The example data can be loaded by using the function *retrieve_example_data()*
 
 ```{r}
-tree_path <- system.file("extdata","Fagales_species.nwk", package = "pdindicatoR")
-cube_path <- system.file("extdata", "0004018-241107131044228_Fagales1km.csv", package = "pdindicatoR")
-pa_filepath <- system.file("extdata","protected_areas_NPHogeKempen.shp", package = "pdindicatoR")
-grid_filepath <- system.file("extdata", "EEA_1km_NPHogeKempen/EEA_1km_HK.shp", package = "pdindicatoR")
+ex_data <- retrieve_example_data()
+tree <- ex_data$tree 
+cube <- ex_data$cube 
+grid <- ex_data$grid
+pa <- ex_data$pa
 ```
 
 ### Loading tree and datacube
@@ -80,10 +81,10 @@ tree$tip.label <- gsub("_", " ", tree$tip.label)
 head(tree$tip.label)
 ```
 ```{r}
-plot(tree, cex=0.35,y.lim=75)
-ape::nodelabels(cex=0.35)
-ape::edgelabels(cex=0.35)
-ape::tiplabels(cex=0.35)
+plot(tree, cex=0.35,y.lim=100)
+# ape::nodelabels(cex=0.35)
+# ape::edgelabels(cex=0.35)
+# ape::tiplabels(cex=0.35)
 ```
 ```{r}
 cube <- read.csv(cube_path, stringsAsFactors = FALSE, sep="\t")
@@ -95,8 +96,8 @@ Please note that when using datacubes from another source, the column names are 
 ### Loading grid and protected areas shapefiles
 
 ```{r}
-grid <- sf::st_read(grid_filepath)
-pa <- sf::st_read(pa_filepath)
+# grid <- sf::st_read(grid_filepath)
+# pa <- sf::st_read(pa_filepath)
 ```
 
 ### Matching species in phylogenetic tree and datacube
@@ -168,7 +169,7 @@ selecting the CRS of the used grid.
 
 
 ```{r echo=T, results='hide', message=F, warning=F}
-PDindicator <- generate_map_and_indicator(PD_cube, grid, "Fagales")
+PDindicator <- generate_map_and_indicator(PD_cube, grid, "Fagales", cutoff = 450)
 PDindicator
 
 # Optionally specify a custom bounding box: bbox_custom <- c(xmin,xmax,ymin,ymax)
