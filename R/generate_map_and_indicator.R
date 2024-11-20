@@ -44,8 +44,11 @@
 #  indicator <- PDindicator[[2]]
 #' @export
 
-generate_map_and_indicator <- function(PD_cube, grid, pa, taxon = NULL, bbox_custom = NULL, cutoff = NULL) {
+generate_map_and_indicator <- function(PD_cube, grid, taxon = NULL, bbox_custom = NULL, cutoff = NULL) {
 
+ex_data <- retrieve_example_data(data="pa")
+pa <- ex_data$pa
+  
 # Merge grid with cube
 PD_cube_geo <- right_join(grid, PD_cube,
                           by = join_by("CELLCODE" == "eeacellcode"))
@@ -179,15 +182,12 @@ if ("period" %in% colnames(PD_cube_geo)) {
             panel.background = ggplot2::element_rect(fill = "aliceblue"))
 
     plots <- list(map_PD, map_hiloPD)
-
-    }
-
  }
+  else if (is.null(cutoff)){plots <- map_PD}
 
 # Return the list of maps and indicators
 if (!is.null(cutoff)) {
   return(list(plots, indicators))  # Return the combined map and indicators for each period or overall
 } else {
   return(plots)  # Return only the combined map if no cutoff
-}
- }
+}}}
