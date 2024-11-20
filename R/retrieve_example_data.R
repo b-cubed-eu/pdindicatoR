@@ -24,7 +24,8 @@
 
 
 
-retrieve_example_data <- function() {
+retrieve_example_data <- function(data = "all") {
+  # Initialize paths for each data type
   tree_path <- system.file("extdata", "Fagales_species.nwk",  package = "pdindicatoR")
   if (tree_path == "") {
     stop("File not found. Please check that 'Fagales_species.nwk' is in inst/extdata/")
@@ -46,14 +47,36 @@ retrieve_example_data <- function() {
     stop("File not found. Please check that 'matched_nona.shp' is in inst/extdata/")
   }
 
+  # Define a list to store the loaded data
+  result <- list()
 
-  tree <- ape::read.tree(tree_path)
-  tree$tip.label <- gsub("_", " ", tree$tip.label)
-  cube <- utils::read.csv(cube_path, stringsAsFactors = FALSE, sep="\t")
-  grid <- sf::st_read(grid_path)
-  pa <- sf::st_read(pa_path)
-  matched_nona <- utils::read.csv(matched_nona_path, stringsAsFactors = FALSE,
-                                  sep=",")
-  return(list(tree = tree, cube = cube, grid = grid, pa = pa,
-              matched_nona=matched_nona))
+  # Load data based on the specified 'data' argument
+  if ("all" %in% data || "tree" %in% data) {
+    tree <- ape::read.tree(tree_path)
+    tree$tip.label <- gsub("_", " ", tree$tip.label)
+    result$tree <- tree
+  }
+
+  if ("all" %in% data || "cube" %in% data) {
+    cube <- utils::read.csv(cube_path, stringsAsFactors = FALSE, sep = "\t")
+    result$cube <- cube
+  }
+
+  if ("all" %in% data || "grid" %in% data) {
+    grid <- sf::st_read(grid_path)
+    result$grid <- grid
+  }
+
+  if ("all" %in% data || "pa" %in% data) {
+    pa <- sf::st_read(pa_path)
+    result$pa <- pa
+  }
+
+  if ("all" %in% data || "matched_nona" %in% data) {
+    matched_nona <- read.csv(matched_nona_path, stringsAsFactors = FALSE, sep = ",")
+    result$matched_nona <- matched_nona
+  }
+  
+# Return only the specified variables
+return(result)
 }
