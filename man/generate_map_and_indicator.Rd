@@ -7,7 +7,6 @@
 generate_map_and_indicator(
   PD_cube,
   grid,
-  pa,
   taxon = NULL,
   bbox_custom = NULL,
   cutoff = NULL
@@ -21,8 +20,6 @@ geometries of those grid cells.}
 \item{grid}{An sf object with variable detailing grid cell codes and a
 geometry column}
 
-\item{pa}{An sf object which contains a .shp-file with polygons of the boundaries of protected areas}
-
 \item{taxon}{A selected higher taxon, for which the occurrence cube was
 generated. Used to generate the map's title only.}
 
@@ -31,6 +28,8 @@ coordinates as c(xmin, xmax, ymin, ymax)}
 
 \item{cutoff}{A variable of type numeric which determines the cut-off point
 between low PD and high PD}
+
+\item{pa}{An sf object which contains a .shp-file with polygons of the boundaries of protected areas}
 }
 \value{
 a list PDindicator, which contains one or more maps in it's first element.

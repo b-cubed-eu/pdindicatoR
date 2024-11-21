@@ -4,7 +4,7 @@
 \alias{retrieve_example_data}
 \title{Retrieve example data}
 \usage{
-retrieve_example_data()
+retrieve_example_data(data = "all")
 }
 \value{
 Objects tree (a phylogenetic tree of the order Fagales), cube (an
