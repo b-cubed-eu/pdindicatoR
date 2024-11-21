@@ -1,86 +1,47 @@
-# Contributing to our_package
+# Contributing to pdindicatoR
 
-<!-- This CONTRIBUTING.md is adapted from https://gist.github.com/peterdesmet/e90a1b0dc17af6c12daf6e8b2f044e7c -->
+This outlines how to propose a change to pdindicatoR.
+For a detailed discussion on contributing to this and other tidyverse packages, please see the [development contributing guide](https://rstd.io/tidy-contrib) and our [code review principles](https://code-review.tidyverse.org/).
 
-First of all, thanks for considering contributing to our_package! 👍 It's people like you that make it rewarding for us - the project maintainers - to work on our_package. 😊
+## Fixing typos
 
-our_package is an open source project, maintained by people who care. We are not directly funded to do so.
+You can fix typos, spelling mistakes, or grammatical errors in the documentation directly using the GitHub web interface, as long as the changes are made in the _source_ file. 
+This generally means you'll need to edit [roxygen2 comments](https://roxygen2.r-lib.org/articles/roxygen2.html) in an `.R`, not a `.Rd` file. 
+You can find the `.R` file that generates the `.Rd` by reading the comment in the first line.
 
-[repo]: https://github.com/b-cubed-eu/phylo-indicatoR
-[issues]: https://github.com/b-cubed-eu/phylo-indicatoR/issues
-[new_issue]: https://github.com/b-cubed-eu/phylo-indicatoR/issues/new
-[website]: https://b-cubed-eu.github.io/phylo-indicatoR
-[citation]: https://b-cubed-eu/.github.io/phylo-indicatoR/authors.html
-[email]: mailto:b-cubedsupport@meisebotanicgarden.be
+## Bigger changes
 
-## Code of conduct
+If you want to make a bigger change, it's a good idea to first file an issue and make sure someone from the team agrees that it’s needed. 
+If you’ve found a bug, please file an issue that illustrates the bug with a minimal 
+[reprex](https://www.tidyverse.org/help/#reprex) (this will also help you write a unit test, if needed).
+See our guide on [how to create a great issue](https://code-review.tidyverse.org/issues/) for more advice.
 
-Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
+### Pull request process
 
-## How you can contribute
+*   Fork the package and clone onto your computer. If you haven't done this before, we recommend using `usethis::create_from_github("b-cubed-eu/pdindicatoR", fork = TRUE)`.
 
-There are several ways you can contribute to this project. If you want to know more about why and how to contribute to open source projects like this one, see this [Open Source Guide](https://opensource.guide/how-to-contribute/).
+*   Install all development dependencies with `devtools::install_dev_deps()`, and then make sure the package passes R CMD check by running `devtools::check()`. 
+    If R CMD check doesn't pass cleanly, it's a good idea to ask for help before continuing. 
+*   Create a Git branch for your pull request (PR). We recommend using `usethis::pr_init("brief-description-of-change")`.
 
-### Share the love ❤️
+*   Make your changes, commit to git, and then create a PR by running `usethis::pr_push()`, and following the prompts in your browser.
+    The title of your PR should briefly describe the change.
+    The body of your PR should contain `Fixes #issue-number`.
 
-Think our_package is useful? Let others discover it, by telling them in person, via Twitter or a blog post.
+*  For user-facing changes, add a bullet to the top of `NEWS.md` (i.e. just below the first header). Follow the style described in <https://style.tidyverse.org/news.html>.
 
-Using our_package for a paper you are writing? Consider [citing it][citation].
+### Code style
 
-### Ask a question ⁉️
+*   New code should follow the tidyverse [style guide](https://style.tidyverse.org). 
+    You can use the [styler](https://CRAN.R-project.org/package=styler) package to apply these styles, but please don't restyle code that has nothing to do with your PR.  
 
-Using our_package and got stuck? Browse the [documentation][website] to see if you can find a solution. Still stuck? Post your question as an [issue on GitHub][new_issue]. While we cannot offer user support, we'll try to do our best to address it, as questions often lead to better documentation or the discovery of bugs.
+*  We use [roxygen2](https://cran.r-project.org/package=roxygen2), with [Markdown syntax](https://cran.r-project.org/web/packages/roxygen2/vignettes/rd-formatting.html), for documentation.  
 
-Want to ask a question in private? Contact the package maintainer by [email][mailto:email].
+*  We use [testthat](https://cran.r-project.org/package=testthat) for unit tests. 
+   Contributions with test cases included are easier to accept.  
 
-### Propose an idea 💡
+## Code of Conduct
 
-Have an idea for a new our_package feature? Take a look at the [documentation][website] and [issue list][issues] to see if it isn't included or suggested yet. If not, suggest your idea as an [issue on GitHub][new_issue]. While we can't promise to implement your idea, it helps to:
-
-* Explain in detail how it would work.
-* Keep the scope as narrow as possible.
-
-See below if you want to contribute code for your idea as well.
-
-### Report a bug 🐛
-
-Using our_package and discovered a bug? That's annoying! Don't let others have the same experience and report it as an [issue on GitHub][new_issue] so we can fix it. A good bug report makes it easier for us to do so, so please include:
-
-* Your operating system name and version (e.g. Mac OS 10.13.6).
-* Any details about your local setup that might be helpful in troubleshooting.
-* Detailed steps to reproduce the bug.
-
-### Improve the documentation 📖
-
-Noticed a typo on the website? Think a function could use a better example? Good documentation makes all the difference, so your help to improve it is very welcome!
-
-#### The website
-
-[This website][website] is generated with [`pkgdown`](http://pkgdown.r-lib.org/). That means we don't have to write any html: content is pulled together from documentation in the code, vignettes, [Markdown](https://guides.github.com/features/mastering-markdown/) files, the package `DESCRIPTION` and `_pkgdown.yml` settings. If you know your way around `pkgdown`, you can [propose a file change](https://help.github.com/articles/editing-files-in-another-user-s-repository/) to improve documentation. If not, [report an issue][new_issue] and we can point you in the right direction.
-
-#### Function documentation
-
-Functions are described as comments near their code and translated to documentation using [`roxygen2`](https://klutometis.github.io/roxygen/). If you want to improve a function description:
-
-1. Go to `R/` directory in the [code repository][repo].
-2. Look for the file with the name of the function.
-3. [Propose a file change](https://help.github.com/articles/editing-files-in-another-user-s-repository/) to update the function documentation in the roxygen comments (starting with `#'`).
-
-### Contribute code 📝
-
-Care to fix bugs or implement new functionality for our_package? Awesome! 👏 Have a look at the [issue list][issues] and leave a comment on the things you want to work on. See also the development guidelines below.
-
-## Development guidelines
-
-We try to follow the [GitHub flow](https://guides.github.com/introduction/flow/) for development.
-
-1. Fork [this repo][repo] and clone it to your computer. To learn more about this process, see [this guide](https://guides.github.com/activities/forking/).
-2. If you have forked and cloned the project before and it has been a while since you worked on it, [pull changes from the original repo](https://help.github.com/articles/merging-an-upstream-repository-into-your-fork/) to your clone by using `git pull upstream master`.
-3. Open the RStudio project file (`.Rproj`).
-4. Make your changes:
-    * Write your code.
-    * Test your code (bonus points for adding unit tests).
-    * Document your code (see function documentation above).
-    * Check your code with `devtools::check()` and aim for 0 errors and warnings.
-5. Commit and push your changes.
-6. Submit a [pull request](https://guides.github.com/activities/forking/#making-a-pull-request).
+Please note that the pdindicatoR project is released with a
+[Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this
+project you agree to abide by its terms.

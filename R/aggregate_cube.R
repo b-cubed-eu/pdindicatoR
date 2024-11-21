@@ -6,32 +6,65 @@
 #' each grid cell (as speciesKeys, ott_id's and names).
 #'
 #' @param mcube An occurence datacube with appended ott_id's, as produced by the append_ott_id function
-#' @param cube A dataframe with for selected taxa, the number of occurrences per
-#' taxa and per grid cell
+#' @param timegroup An integer, representing the number of years by which you want to group
+#' your occurrence data
 #' @return A dataframe with for each grid cell
-#' @example
+#' @importFrom rlang .data
+#' @importFrom dplyr group_by reframe arrange rename mutate join_by distinct
+#' @importFrom magrittr %>%
+#' @examples
+#' ex_data <- retrieve_example_data()
+#' mcube <- append_ott_id(ex_data$tree, ex_data$cube, ex_data$matched_nona)
+#' mcube <- dplyr::filter(mcube, !is.na(ott_id))
+#' aggr_cube <- aggregate_cube(mcube)
 #' @export
 
-# aggregate_cube <- function(mcube){
-#   simpl_cube <- mcube[,c("year", "eeaCellCode","speciesKey","ott_id", "unique_name")]
-#   simpl_cube$eeaCellCode <- factor(simpl_cube$eeaCellCode)
-#   simpl_cube$year <- factor(simpl_cube$year)
-#   aggr_cube <- simpl_cube %>% group_by(eeaCellCode, year) %>%
-#   summarize(speciesKeys = list(speciesKey), ott_ids = list(ott_id), names = list(unique_name)) %>%
-#   mutate(unique_spkeys = lapply(speciesKeys, unique)) %>%
-#   mutate(unique_ott_ids = lapply(ott_ids, unique)) %>%
-#   mutate(unique_names = lapply(names, unique))
-#   return(aggr_cube)
-# }
+aggregate_cube <- function(mcube, timegroup=NULL) {
 
-aggregate_cube <- function(mcube){
-  simpl_cube <- mcube[,c("year", "eeaCellCode","speciesKey","ott_id", "unique_name")]
-  simpl_cube$eeaCellCode <- factor(simpl_cube$eeaCellCode)
-  simpl_cube$year <- factor(simpl_cube$year)
-  aggr_cube <- simpl_cube %>% group_by(eeaCellCode, year) %>%
-    summarize(speciesKeys = list(speciesKey), ott_ids = list(ott_id), names = list(unique_name)) %>%
-    mutate(unique_spkeys = lapply(speciesKeys, unique)) %>%
-    mutate(unique_ott_ids = lapply(ott_ids, unique)) %>%
-    mutate(unique_names = lapply(names, unique))
+  columns_to_select <- c("year", "eeacellcode", "specieskey", "ott_id", "unique_name", "orig_tiplabel")
+  simpl_cube <- mcube[, intersect(columns_to_select, colnames(mcube))]
+  min_year <- min(simpl_cube$year)
+
+  # When occurrences are already aggregated over time or when no timegroup is
+  # specified
+  if (!("year" %in% colnames(simpl_cube)) || is.null(timegroup) || missing(timegroup)){
+    aggr_cube <- simpl_cube %>%
+      group_by(.data$eeacellcode) %>%
+      reframe(
+        specieskeys = list(unique(.data$specieskey)),
+        ott_ids = list(unique(.data$ott_id)),
+        unique_names = list(unique(.data$unique_name)),
+        orig_tiplabels = list(unique(.data$orig_tiplabel))
+      )
+
+  # When timegroup ==1
+  } else if(timegroup==1){
+      aggr_cube <- simpl_cube %>% arrange(.data$year) %>%
+      group_by(.data$eeacellcode, .data$year) %>%
+      reframe(
+        specieskeys = list(unique(.data$specieskey)),
+        ott_ids = list(unique(.data$ott_id)),
+        unique_names = list(unique(.data$unique_name)),
+        orig_tiplabels = list(unique(.data$orig_tiplabel))
+      )%>%
+      rename(period = .data$year)
+  } else {
+
+  # Calculate the 5-year period for each row
+   period <- NULL
+   aggr_cube <- simpl_cube %>% arrange(.data$year) %>%
+    mutate(period = min_year + 5 * ((.data$year - min_year) %/% 5)) %>%
+     mutate(period = paste(period, period + 4, sep = "-")) %>%
+    group_by(.data$period, .data$eeacellcode) %>%
+     reframe(
+       specieskeys = list(unique(.data$specieskey)),
+       ott_ids = list(unique(.data$ott_id)),
+       unique_names = list(unique(.data$unique_name)),
+       orig_tiplabels = list(unique(.data$orig_tiplabel))
+     )
+  }
   return(aggr_cube)
-}
+
+  }
+
+

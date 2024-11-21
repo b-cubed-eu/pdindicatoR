@@ -1,6 +1,5 @@
 .Rproj.user
 shpfiles/*
-data/*
 output/*
 demo/*
 reports/*
@@ -11,3 +10,4 @@ reports/*
 .Rhistory
 .Ruserdata
 .httr-oauth
+docs
