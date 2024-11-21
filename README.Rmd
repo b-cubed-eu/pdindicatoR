@@ -31,7 +31,7 @@ In this package, we provide a workflow to calculate a metric that gives informat
 
 You can install the development version from [GitHub](https://github.com/) with:
 
-``` r
+``` {r}
 # install.packages("remotes")
 remotes::install_github("b-cubed-eu/pdindicatoR")
 ```
