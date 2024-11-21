@@ -14,16 +14,11 @@
 #' ex_data <- retrieve_example_data()
 #' mcube <- append_ott_id(ex_data$tree, ex_data$cube, ex_data$matched_nona)
 #' mcube <- dplyr::filter(mcube, !is.na(ott_id))
-#' aggr_cube <- aggregate_cube(mcube, timegroup=5)
-#' PD_cube <- aggr_cube %>%
-#'   mutate(
-#'     PD = unlist(purrr::map(orig_tiplabels,
-#'                            ~ get_pd(ex_data$tree, unlist(.x)))))
+#' PD_cube <- get_pd_cube(mcube, ex_data$tree)
 #' PDindicator<- generate_map_and_indicator(
 #'   PD_cube,
 #'   ex_data$grid,
-#'   ex_data$pa,
-#'   "Fagales")
+#'   taxon="Fagales")
 #' plots <- PDindicator[[1]]
 #  indicators <- PDindicator[[2]]
 #' \dontrun{make_shiny_maps(PDindicator, plots)}

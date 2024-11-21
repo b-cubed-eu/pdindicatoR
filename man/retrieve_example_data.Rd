@@ -6,6 +6,11 @@
 \usage{
 retrieve_example_data(data = "all")
 }
+\arguments{
+\item{data}{a list with the names of the datasets to
+be retrieved. Can be one or multiple of the following: "all", "tree", "cube",
+"grid", "pa"}
+}
 \value{
 Objects tree (a phylogenetic tree of the order Fagales), cube (an
 occurrence datacube, see query specifications:

@@ -12,9 +12,10 @@ product of function taxonmatch()}
 
 \item{tree}{A phylogenetic tree with branch lengths}
 
-\item{metric}{Name of the PD metric to be calculated}
+\item{timegroup}{Optional, an integer which represents the number of years
+over which occurrences need to be aggregated and the PD value calculated}
 
-\item{species}{A character vector with species names}
+\item{metric}{Name of the PD metric to be calculated}
 }
 \value{
 Calculated PD value
@@ -28,5 +29,5 @@ library(dplyr)
 ex_data <- retrieve_example_data()
 mcube <- append_ott_id(ex_data$tree, ex_data$cube, ex_data$matched_nona)
 mcube <- dplyr::filter(mcube, !is.na(ott_id))
-PD_cube <- get_PD_cube(mcube, tree, metric="faith")
+PD_cube <- get_pd_cube(mcube, ex_data$tree, metric="faith")
 }

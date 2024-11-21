@@ -3,7 +3,9 @@
 #' This function specifies the paths to the example data and reads the example
 #' data files in and processes them so they are ready to be used in the
 #' workflow.
-#'
+#' @param data a list with the names of the datasets to
+#' be retrieved. Can be one or multiple of the following: "all", "tree", "cube",
+#' "grid", "pa"
 #' @return Objects tree (a phylogenetic tree of the order Fagales), cube (an
 #' occurrence datacube, see query specifications:
 #' https://www.gbif.org/occurrence/download/0004018-241107131044228), grid
@@ -76,7 +78,7 @@ retrieve_example_data <- function(data = "all") {
     matched_nona <- read.csv(matched_nona_path, stringsAsFactors = FALSE, sep = ",")
     result$matched_nona <- matched_nona
   }
-  
+
 # Return only the specified variables
 return(result)
 }

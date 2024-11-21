@@ -9,7 +9,6 @@
 #' geometries of those grid cells.
 #' @param grid An sf object with variable detailing grid cell codes and a
 #' geometry column
-#' @param pa An sf object which contains a .shp-file with polygons of the boundaries of protected areas
 #' @param taxon A selected higher taxon, for which the occurrence cube was
 #' generated. Used to generate the map's title only.
 #' @param bbox_custom Optional, numeric vector with custom bounding box
@@ -27,18 +26,11 @@
 #' ex_data <- retrieve_example_data()
 #' mcube <- append_ott_id(ex_data$tree, ex_data$cube, ex_data$matched_nona)
 #' mcube <- dplyr::filter(mcube, !is.na(ott_id))
-#' aggr_cube <- aggregate_cube(mcube)
-#' PD_cube <- aggr_cube %>%
-#'   mutate(
-#'     PD = unlist(purrr::map(orig_tiplabels,
-#'                            ~ get_pd(ex_data$tree, unlist(.x)))
-#'     )
-#'   )
+#' PD_cube <- get_pd_cube(mcube, ex_data$tree)
 #' PDindicator <- generate_map_and_indicator(
 #'   PD_cube,
 #'   ex_data$grid,
-#'   ex_data$pa,
-#'   "Fagales",
+#'   taxon="Fagales",
 #'   cutoff=150)
 #' map <- PDindicator[[1]]
 #  indicator <- PDindicator[[2]]
@@ -48,7 +40,7 @@ generate_map_and_indicator <- function(PD_cube, grid, taxon = NULL, bbox_custom 
 
 ex_data <- retrieve_example_data(data="pa")
 pa <- ex_data$pa
-  
+
 # Merge grid with cube
 PD_cube_geo <- right_join(grid, PD_cube,
                           by = join_by("CELLCODE" == "eeacellcode"))

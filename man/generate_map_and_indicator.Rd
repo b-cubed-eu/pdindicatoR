@@ -28,8 +28,6 @@ coordinates as c(xmin, xmax, ymin, ymax)}
 
 \item{cutoff}{A variable of type numeric which determines the cut-off point
 between low PD and high PD}
-
-\item{pa}{An sf object which contains a .shp-file with polygons of the boundaries of protected areas}
 }
 \value{
 a list PDindicator, which contains one or more maps in it's first element.
@@ -45,18 +43,11 @@ library(dplyr)
 ex_data <- retrieve_example_data()
 mcube <- append_ott_id(ex_data$tree, ex_data$cube, ex_data$matched_nona)
 mcube <- dplyr::filter(mcube, !is.na(ott_id))
-aggr_cube <- aggregate_cube(mcube)
-PD_cube <- aggr_cube \%>\%
-  mutate(
-    PD = unlist(purrr::map(orig_tiplabels,
-                           ~ get_pd(ex_data$tree, unlist(.x)))
-    )
-  )
+PD_cube <- get_pd_cube(mcube, ex_data$tree)
 PDindicator <- generate_map_and_indicator(
   PD_cube,
   ex_data$grid,
-  ex_data$pa,
-  "Fagales",
+  taxon="Fagales",
   cutoff=150)
 map <- PDindicator[[1]]
 }
