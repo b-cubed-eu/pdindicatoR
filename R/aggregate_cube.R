@@ -20,13 +20,14 @@
 #' @export
 
 aggregate_cube <- function(mcube, timegroup=NULL) {
+
   columns_to_select <- c("year", "eeacellcode", "specieskey", "ott_id", "unique_name", "orig_tiplabel")
   simpl_cube <- mcube[, intersect(columns_to_select, colnames(mcube))]
   min_year <- min(simpl_cube$year)
 
   # When occurrences are already aggregated over time or when no timegroup is
   # specified
-  if (!("year" %in% colnames(simpl_cube)) || missing(timegroup)) {
+  if (!("year" %in% colnames(simpl_cube)) || is.null(timegroup) || missing(timegroup)){
     aggr_cube <- simpl_cube %>%
       group_by(.data$eeacellcode) %>%
       reframe(

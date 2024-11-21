@@ -4,6 +4,8 @@
 #' This function determines the MRCA of all species in the datacube
 #' and calls the function(s) to calculate PD metrics
 #'
+#' @param mcube An occurrence data cube with matched names appended,
+#' product of function taxonmatch()
 #' @param tree A phylogenetic tree with branch lengths
 #' @param species A character vector with species names
 #' @param metric Name of the PD metric to be calculated
@@ -15,14 +17,14 @@
 #' ex_data <- retrieve_example_data()
 #' mcube <- append_ott_id(ex_data$tree, ex_data$cube, ex_data$matched_nona)
 #' mcube <- dplyr::filter(mcube, !is.na(ott_id))
-#' aggr_cube <- aggregate_cube(mcube)
-#' PD_cube <- aggr_cube %>%
-#'   mutate(
-#'     PD = unlist(purrr::map(orig_tiplabels,
-#'                            ~ get_pd(ex_data$tree, unlist(.x)))))
+#' PD_cube <- get_PD_cube(mcube, tree, metric="faith")
 #' @export
 
-get_pd <- function(tree, species, metric="faith"){
+get_pd_cube <- function(mcube, tree, timegroup=NULL, metric="faith"){
+
+  # Aggregate cube
+  aggr_cube <- aggregate_cube(mcube, timegroup)
+
   # Get all species in matched cube
   all_matched_sp <- unique(mcube[["orig_tiplabel"]])
 
@@ -31,7 +33,7 @@ get_pd <- function(tree, species, metric="faith"){
 
   # Calculate PD metric
   if (metric == "faith"){
-    calculate_faithpd(tree, species, MRCA)
+    PD_cube <- aggr_cube %>% mutate(PD = unlist(purrr::map(orig_tiplabels, ~ calculate_faithpd(tree, unlist(.x), MRCA))))
   }
 }
 

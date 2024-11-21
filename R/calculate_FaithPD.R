@@ -12,7 +12,7 @@
 #' @return A string that combines "Phylogenetic diversity:" and the calculated
 #' value
 #' @importFrom magrittr %>%
-#'@importFrom dplyr group_by reframe arrange rename mutate join_by left_join distinct
+#' @importFrom dplyr group_by reframe arrange rename mutate join_by left_join distinct
 #' @examples
 #' ex_data <- retrieve_example_data()
 #' # determine the most recent common ancestor of all species under study
