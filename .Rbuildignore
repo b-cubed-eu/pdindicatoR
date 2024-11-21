@@ -3,6 +3,7 @@
 ^LICENSE.md$
 ^LICENSE\.md$
 ^README\.Rmd$
+^README\.md$
 ^\.Rproj\.user$
 ^\.github$
 ^\.httr-oauth$
