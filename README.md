@@ -277,9 +277,9 @@ PDindicator <- generate_map_and_indicator(
     ## Dimension:     XY
     ## Bounding box:  xmin: 3948585 ymin: 3065773 xmax: 4049889 ymax: 3141858
     ## Projected CRS: ETRS89-extended / LAEA Europe
-    ## Writing layer `file41c06cd5317d' to data source `C:\Users\WARD_L~1\AppData\Local\Temp\RtmpmgaUt2\file41c06cd5317d.gpkg' using driver `GPKG'
+    ## Writing layer `file32c034ad4fa' to data source `C:\Users\WARD_L~1\AppData\Local\Temp\Rtmpuev21E\file32c034ad4fa.gpkg' using driver `GPKG'
     ## Writing 358 features with 4 fields and geometry type Polygon.
-    ## Reading layer `file41c06cd5317d' from data source `C:\Users\ward_langeraert\AppData\Local\Temp\RtmpmgaUt2\file41c07058407f.gpkg' using driver `GPKG'
+    ## Reading layer `file32c034ad4fa' from data source `C:\Users\ward_langeraert\AppData\Local\Temp\Rtmpuev21E\file32c03e62602f.gpkg' using driver `GPKG'
     ## Simple feature collection with 358 features and 4 fields
     ## Geometry type: MULTIPOLYGON
     ## Dimension:     XY
