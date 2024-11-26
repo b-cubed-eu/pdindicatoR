@@ -31,5 +31,6 @@ PDindicator<- generate_map_and_indicator(
   ex_data$grid,
   taxon="Fagales")
 plots <- PDindicator[[1]]
+indicators <- PDindicator[[2]]
 \dontrun{make_shiny_maps(PDindicator, plots)}
 }
