@@ -40,17 +40,23 @@ You can install the development version from
 ``` r
 # install.packages("remotes")
 remotes::install_github("b-cubed-eu/pdindicatoR")
-# Load pdindicatoR package
-library(pdindicatoR)
 ```
 
 ## Example workflow
 
 This example shows a basic workflow for using the functions in the
-pdindicatoR package to calculate PD from a phylogenetic tree and an
+**pdindicatoR** package to calculate PD from a phylogenetic tree and an
 occurrence cube with occurrences for a certain higher taxon, produce a
 gridded map of PD scores with colour gradient scale, and show the
 overlap with protected areas.
+
+``` r
+# Load packages
+library(pdindicatoR)
+
+library(sf)      # working with spatial objects
+library(dplyr)   # data wrangling
+```
 
 ### Reading in data
 
@@ -75,16 +81,22 @@ tree_path <- "/path/to/mytree.tre"
 cube_path <- "/path/to/mycube.csv"
 grid_path <- "/path/to/grid.shp"
 
-tree <- ape::read.tree(tree_path) # Read in newick or nexus format phylogenetic tree
-cube <- read.csv(cube_path, stringsAsFactors = FALSE, sep="\t") # Read in species occurrence data cube. Use appropriate seperator!
-grid <- sf::st_read(grid_filepath) # Read in grid and protected areas shapefile
+# Read in newick or nexus format phylogenetic tree
+library(ape)
+tree <- ape::read.tree(tree_path)
+
+# Read in species occurrence data cube. Use appropriate seperator!
+cube <- read.csv(cube_path, stringsAsFactors = FALSE, sep = "\t") 
+
+# Read in grid and protected areas shapefile
+grid <- sf::st_read(grid_filepath)
 ```
 
 ### Loading example data
 
 For this example workflow, we will be using the example data that is
-included in the pdindicatoR package. The example data can be loaded by
-using the function *retrieve_example_data()*
+included in the **pdindicatoR** package. The example data can be loaded
+by using the function `retrieve_example_data()`
 
 ``` r
 ex_data <- retrieve_example_data()
@@ -101,10 +113,10 @@ confirm they are processed correctly.
 
 ``` r
 options(width = 1000)
-plot(tree, cex=0.35,y.lim=100)
+plot(tree, cex = 0.35, y.lim = 100)
 ```
 
-![](man/figures/unnamed-chunk-4-1.png)<!-- -->
+![](man/figures/unnamed-chunk-3-1.png)<!-- -->
 
 ``` r
 head(cube)
@@ -121,8 +133,8 @@ head(cube)
 ### Matching species in phylogenetic tree and datacube
 
 The leaf labels of a phylogenetic tree downloaded from the OTL database
-are specified as either species names or OTL id’s (ott_id). We can use
-the function taxonmatch() to retrieve the corresponding GBIF id’s.
+are specified as either species names or OTL id’s (`ott_id`). We can use
+the function `taxonmatch()` to retrieve the corresponding GBIF id’s.
 
 ``` r
 matched <- taxonmatch(tree)
@@ -138,16 +150,18 @@ head(matched)
     ## 6 allocasuarina acutivalvis Allocasuarina acutivalvis             FALSE     1  769753      FALSE                     1 2891875 Allocasuarina acutivalvis
 
 Carefully evaluate the table with matches to ensure that matching scores
-are acceptable and that most species have a corresponding gbif_id.
+are acceptable and that most species have a corresponding `gbif_id`.
 Species that cannot be reliable matched or that don’t have an associated
-gbif_id, can not contribute to the PD calculation and should be removed.
+`gbif_id`, can not contribute to the PD calculation and should be
+removed.
 
 ``` r
-matched_nona <- matched %>% dplyr::filter(!is.na(gbif_id))
+matched_nona <- matched %>%
+  dplyr::filter(!is.na(gbif_id))
 ```
 
-Then, we can use the function append_ott_id() to append the ott_id’s as
-a new variable to the provided datacube, by joining on gbif_id.
+Then, we can use the function `append_ott_id()` to append the `ott_id`’s
+as a new variable to the provided datacube, by joining on `gbif_id`.
 
 ``` r
 mcube <- append_ott_id(tree, cube, matched_nona)
@@ -163,7 +177,7 @@ head(mcube)
     ## 6 2024 1kmE3997N3104    8313153 Quercus palustris                                       NA      NA           1                 1  538292 Quercus palustris Quercus palustris
 
 When species in the datacube are not included in the provided
-phylogenetic tree, the ott_id variable will be *NA*. We can use the
+phylogenetic tree, the `ott_id` variable will be `NA`. We can use the
 function check_completeness() to see how complete the provided
 phylogenetic tree is.
 
@@ -190,7 +204,8 @@ is large, please consider searching for a more complete phylogenetic
 tree that covers all your species!
 
 ``` r
-mcube <- mcube %>% dplyr::filter(!is.na(ott_id))
+mcube <- mcube %>%
+  dplyr::filter(!is.na(ott_id))
 ```
 
 ### Calculate Phylogenetic Diversity for each grid cell
@@ -198,24 +213,24 @@ mcube <- mcube %>% dplyr::filter(!is.na(ott_id))
 We can used the function get_pd_cube() to calculate the PD values per
 gridcell. This function first creates a new aggregated cube, with a list
 of observed species for each grid cell. The optional argument
-*timegroup* can be used to indicate a time interval for which the PD
-metrics should be calculated, eg. `timegroup=5` calculates PD for all
+`timegroup` can be used to indicate a time interval for which the PD
+metrics should be calculated, e.g. `timegroup = 5` calculates PD for all
 occurrences observed within a timespan of 5 years and produces a
-seperate map and indicator for each period. If no timegroup argument is
-specified, all occurrences in the dataset will be aggregated over time.
-The argument *metric* can be used to specify which PD metric needs to be
-calculated. The PD values will be appended to the datacube as a new
-column ‘PD’.
+separate map and indicator for each period. If no `timegroup` argument
+is specified, all occurrences in the dataset will be aggregated over
+time. The argument `metric` can be used to specify which PD metric needs
+to be calculated. The PD values will be appended to the datacube as a
+new column ‘PD’.
 
 ``` r
-PD_cube <- get_pd_cube(mcube,tree,metric="faith")
+PD_cube <- get_pd_cube(mcube, tree, metric = "faith")
 ```
 
 ### Visualize PD on a map & calculate indicator
 
 Finally we read in the EEA Grid shapefiles and merge them to the
-occurrence cube by joining on the eeaCellCode field. The PD cube can
-then be plotted and overlayn with a polygon layer depicting the
+occurrence cube by joining on the `eeaCellCode` field. The PD cube can
+then be plotted and overlaid with a polygon layer depicting the
 boundaries of WDPA protected areas.
 
 #### Plot PD map
@@ -223,7 +238,7 @@ boundaries of WDPA protected areas.
 The function generate_map_and_indicator() can be used to generate a map
 visualizing phylogenetic diversity covering the geographic area that is
 used to generate the occurrence cube.If more detailed maps are desired,
-the optional argument *bbox_custom* can be used to delineate the
+the optional argument `bbox_custom` can be used to delineate the
 bounding box. Coordinates for the desired geographic area can be
 determined using <https://epsg.io/> and selecting the CRS of the used
 grid.
@@ -233,14 +248,15 @@ PDindicator <- generate_map_and_indicator(PD_cube, grid, "Fagales")
 PDindicator
 ```
 
-![](man/figures/unnamed-chunk-11-1.png)<!-- -->
+![](man/figures/unnamed-chunk-10-1.png)<!-- -->
 
 ``` r
-# Optionally specify a custom bounding box: bbox_custom <- c(xmin,xmax,ymin,ymax)
+# Optionally specify a custom bounding box
+# bbox_custom <- c(xmin,xmax,ymin,ymax)
 # PDmap <- generate_map_and_indicator(PD_cube, grid, "Musteloidea", bbox_custom)
 ```
 
-If the optional parameter *cutoff* is specified, than this value is used
+If the optional parameter `cutoff` is specified, than this value is used
 to classify cells as *high PD* cells if their PD exceeds this threshold
 value. An indicator value is then calculated as the percentage of high
 PD cell centerpoints that fall within the boundaries of protected areas.
@@ -248,18 +264,22 @@ The result is stored as a list, with two maps in the first element (PD
 map and high/low PD map) and the indicator value as the second element.
 
 ``` r
-PDindicator <- generate_map_and_indicator(PD_cube, grid, "Fagales", cutoff=450)
+PDindicator <- generate_map_and_indicator(
+  PD_cube,
+  grid,
+  "Fagales",
+  cutoff = 450)
 ```
 
-    ## Reading layer `protected_areas_NPHogeKempen' from data source `C:\Users\lissa\AppData\Local\R\win-library\4.3\pdindicatoR\extdata\PA_NPHogeKempen\protected_areas_NPHogeKempen.shp' using driver `ESRI Shapefile'
+    ## Reading layer `protected_areas_NPHogeKempen' from data source `C:\R\library\pdindicatoR\extdata\PA_NPHogeKempen\protected_areas_NPHogeKempen.shp' using driver `ESRI Shapefile'
     ## Simple feature collection with 32 features and 6 fields
     ## Geometry type: MULTIPOLYGON
     ## Dimension:     XY
     ## Bounding box:  xmin: 3948585 ymin: 3065773 xmax: 4049889 ymax: 3141858
     ## Projected CRS: ETRS89-extended / LAEA Europe
-    ## Writing layer `file7d7454f91ba0' to data source `C:\Users\lissa\AppData\Local\Temp\Rtmp2vKRtc\file7d7454f91ba0.gpkg' using driver `GPKG'
+    ## Writing layer `file41c06cd5317d' to data source `C:\Users\WARD_L~1\AppData\Local\Temp\RtmpmgaUt2\file41c06cd5317d.gpkg' using driver `GPKG'
     ## Writing 358 features with 4 fields and geometry type Polygon.
-    ## Reading layer `file7d7454f91ba0' from data source `C:\Users\lissa\AppData\Local\Temp\Rtmp2vKRtc\file7d7462e8c0b.gpkg' using driver `GPKG'
+    ## Reading layer `file41c06cd5317d' from data source `C:\Users\ward_langeraert\AppData\Local\Temp\RtmpmgaUt2\file41c07058407f.gpkg' using driver `GPKG'
     ## Simple feature collection with 358 features and 4 fields
     ## Geometry type: MULTIPOLYGON
     ## Dimension:     XY
@@ -278,12 +298,12 @@ print(plots)
 
     ## [[1]]
 
-![](man/figures/unnamed-chunk-12-1.png)<!-- -->
+![](man/figures/unnamed-chunk-11-1.png)<!-- -->
 
     ## 
     ## [[2]]
 
-![](man/figures/unnamed-chunk-12-2.png)<!-- -->
+![](man/figures/unnamed-chunk-11-2.png)<!-- -->
 
 ``` r
 print(indicators)
