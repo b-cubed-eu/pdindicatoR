@@ -18,7 +18,6 @@
 #' @return a list PDindicator, which contains one or more maps in it's first
 #' element, and possibly one or more indicator values in it's second element
 #' @import dplyr
-#' @importFrom magrittr %>%
 #' @importFrom grDevices gray
 #' @import ggplot2
 #' @examples

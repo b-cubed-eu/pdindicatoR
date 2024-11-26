@@ -22,7 +22,6 @@ Imports:
     dplyr,
     gdalUtilities,
     ggplot2,
-    magrittr,
     rlang,
     rnaturalearth,
     rnaturalearthdata,

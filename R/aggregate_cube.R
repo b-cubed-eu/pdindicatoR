@@ -12,8 +12,7 @@
 #' your occurrence data
 #' @return A dataframe with for each grid cell
 #' @importFrom rlang .data
-#' @importFrom dplyr group_by reframe arrange rename mutate join_by distinct
-#' @importFrom magrittr %>%
+#' @import dplyr
 #' @examples
 #' ex_data <- retrieve_example_data()
 #' mcube <- append_ott_id(ex_data$tree, ex_data$cube, ex_data$matched_nona)

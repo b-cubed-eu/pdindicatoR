@@ -12,7 +12,6 @@
 #' corresponding gbif_id's
 #' @return A dataframe which consist of all the data in the original datacube,
 #' appended with column ott_id
-#' @importFrom magrittr %>%
 #' @import dplyr
 #' @examples
 #' ex_data <- retrieve_example_data()

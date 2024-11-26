@@ -8,7 +8,6 @@
 #' generate_map_and_indicator(), named by their time-period.
 #' @return An r-shiny app with PD maps in tabs
 #' @import dplyr
-#' @importFrom magrittr %>%
 #' @examples
 #' library(dplyr)
 #' ex_data <- retrieve_example_data()

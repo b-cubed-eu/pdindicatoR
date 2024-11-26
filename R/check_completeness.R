@@ -9,8 +9,7 @@
 #' @return a list - first element is the total number of species in the
 #' occurence cube, second element is the number of species lacking in the
 #' phylogenetic tree.
-#' @importFrom dplyr group_by reframe arrange rename mutate distinct
-#' @importFrom magrittr %>%
+#' @import dplyr
 #' @examples
 #' ex_data <- retrieve_example_data()
 #' mcube<- append_ott_id(ex_data$tree, ex_data$cube, ex_data$matched_nona)

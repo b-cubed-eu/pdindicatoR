@@ -5,7 +5,6 @@
 #' @param tree An object of class 'phylo', iow a phylogenetic tree in Newick
 #' format that was parsed by ape::read_tree()
 #' @returns A dataframe with columns ott_id and gbif_id
-#' @importFrom magrittr %>%
 #' @import dplyr
 #' @examples
 #' \dontrun{ex_data <- retrieve_example_data()

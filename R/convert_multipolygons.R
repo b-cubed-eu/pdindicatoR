@@ -3,7 +3,6 @@
 #' @param object An object of class multisurface
 #' @return An object of class multipolygon
 #' @import dplyr
-#' @importFrom magrittr %>%
 #' @examples
 #' library(dplyr)
 #' ex_data <- retrieve_example_data()

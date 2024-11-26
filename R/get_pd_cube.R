@@ -12,7 +12,6 @@
 #' @param metric Name of the PD metric to be calculated
 #' @return Calculated PD value
 #' @import dplyr
-#' @importFrom magrittr %>%
 #' @examples
 #' library(dplyr)
 #' ex_data <- retrieve_example_data()

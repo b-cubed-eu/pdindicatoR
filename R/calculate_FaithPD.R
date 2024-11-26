@@ -11,7 +11,6 @@
 #' ancestor of the set of species under study
 #' @return A string that combines "Phylogenetic diversity:" and the calculated
 #' value
-#' @importFrom magrittr %>%
 #' @import dplyr
 #' @examples
 #' ex_data <- retrieve_example_data()
@@ -41,7 +40,7 @@ calculate_faithpd <- function(tree, species, MRCA) {
   # determine spanning paths (nodes) from species to MRCA
 
   nodepath <- vector(mode = "list", length(tip_ids))
-  for (i in seq_along(tip_ids)){
+  for (i in seq_along(tip_ids)) {
     x <- ape::nodepath(tree, MRCA, tip_ids[i])
     nodepath[[i]] <- x
   }
@@ -49,7 +48,7 @@ calculate_faithpd <- function(tree, species, MRCA) {
   # get the branches/edges along the spanning paths
 
   edge_ids <- vector(mode = "list", length(tip_ids))
-  for (i in seq_along(tip_ids)){
+  for (i in seq_along(tip_ids)) {
     edges <- which(tree$edge[, 1] %in% nodepath[[i]][-length(nodepath[[i]])] &
                      tree$edge[, 2] %in% nodepath[[i]][-1])
     edge_ids[[i]] <- edges

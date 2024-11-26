@@ -11,7 +11,6 @@
 #' https://www.gbif.org/occurrence/download/0004018-241107131044228), grid
 #' (EEA 1km grid for study area) and pa (Natura2000 protected area polygons for
 #'study area
-#' @importFrom magrittr %>%
 #' @importFrom utils read.csv
 #' @import dplyr
 #' @examples
