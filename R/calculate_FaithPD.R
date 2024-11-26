@@ -7,12 +7,12 @@
 #' format that was parsed by ape::read_tree()
 #' @param species A character vector where each element is a species, and more
 #' specifically, matches a tip label of the phylogenetic tree exactly
-#' @param MRCA Node id of the taxon that represents the most recent common ancestor
-#' of the set of species under study
+#' @param MRCA Node id of the taxon that represents the most recent common
+#' ancestor of the set of species under study
 #' @return A string that combines "Phylogenetic diversity:" and the calculated
 #' value
 #' @importFrom magrittr %>%
-#' @importFrom dplyr group_by reframe arrange rename mutate join_by left_join distinct
+#' @import dplyr
 #' @examples
 #' ex_data <- retrieve_example_data()
 #' # determine the most recent common ancestor of all species under study
@@ -22,25 +22,25 @@
 #' calculate_faithpd(ex_data$tree, species, MRCA)
 #' @export
 
-calculate_faithpd <- function(tree, species, MRCA){
+calculate_faithpd <- function(tree, species, MRCA) {
 
   # get tip id's from tip labels
-
-   tip_ids <- vector(mode="integer", length=length(species))
-   for (i in seq_along(species)) {
-       x <- which(tree$tip.label == species[i])
-       if (length(x) > 0) {
-         tip_ids[i] <- x
-       } else {
-         # Optionally, print a warning or assign a default value for missing matches
-         warning(paste("Species", species[i], "not found in tree$tip.label"))
-         tip_ids[i] <- NA  # Assign NA if the species is not found
-       }}
+  tip_ids <- vector(mode = "integer", length = length(species))
+  for (i in seq_along(species)) {
+    x <- which(tree$tip.label == species[i])
+    if (length(x) > 0) {
+     tip_ids[i] <- x
+    } else {
+     # Optionally, print a warning or assign a default value for missing matches
+     warning(paste("Species", species[i], "not found in tree$tip.label"))
+     tip_ids[i] <- NA  # Assign NA if the species is not found
+    }
+  }
    tip_ids <- tip_ids[!is.na(tip_ids)]
 
   # determine spanning paths (nodes) from species to MRCA
 
-  nodepath <- vector(mode="list", length(tip_ids))
+  nodepath <- vector(mode = "list", length(tip_ids))
   for (i in seq_along(tip_ids)){
     x <- ape::nodepath(tree, MRCA, tip_ids[i])
     nodepath[[i]] <- x
@@ -48,7 +48,7 @@ calculate_faithpd <- function(tree, species, MRCA){
 
   # get the branches/edges along the spanning paths
 
-  edge_ids <- vector(mode="list", length(tip_ids))
+  edge_ids <- vector(mode = "list", length(tip_ids))
   for (i in seq_along(tip_ids)){
     edges <- which(tree$edge[, 1] %in% nodepath[[i]][-length(nodepath[[i]])] &
                      tree$edge[, 2] %in% nodepath[[i]][-1])
@@ -77,6 +77,3 @@ calculate_faithpd <- function(tree, species, MRCA){
 #  return(pd)
 #  print(paste("Phylogenetic diversity:", pd))
 # }
-
-
-

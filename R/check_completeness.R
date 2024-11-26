@@ -17,12 +17,13 @@
 #' check_completeness(mcube)
 #' @export
 
-check_completeness <- function(mcube){
+check_completeness <- function(mcube) {
 
-  mcube_dist <- distinct(mcube, .data$specieskey, .keep_all=TRUE)
-  sp_na <- mcube_dist %>% dplyr::filter(is.na(.data$ott_id)) %>% dplyr::select(.data$specieskey,
-                                                                  .data$species)
-  # sp_miss <- paste(sp_na,collapse=",")
+  mcube_dist <- distinct(mcube, .data$specieskey, .keep_all = TRUE)
+  sp_na <- mcube_dist %>%
+    dplyr::filter(is.na(.data$ott_id)) %>%
+    dplyr::select(.data$specieskey, .data$species)
+
   cat("The following species are not part of the provided phylogenetic tree:\n")
   print(sp_na)
 }

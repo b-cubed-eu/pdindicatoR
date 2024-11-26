@@ -21,7 +21,7 @@
 #' PD_cube <- get_pd_cube(mcube, ex_data$tree, metric="faith")
 #' @export
 
-get_pd_cube <- function(mcube, tree, timegroup=NULL, metric="faith"){
+get_pd_cube <- function(mcube, tree, timegroup = NULL, metric = "faith") {
 
   # Aggregate cube
   aggr_cube <- aggregate_cube(mcube, timegroup)
@@ -33,8 +33,11 @@ get_pd_cube <- function(mcube, tree, timegroup=NULL, metric="faith"){
   MRCA <- ape::getMRCA(tree, all_matched_sp)
 
   # Calculate PD metric
-  if (metric == "faith"){
-    PD_cube <- aggr_cube %>% mutate(PD = unlist(purrr::map(aggr_cube$orig_tiplabels, ~ calculate_faithpd(tree, unlist(.x), MRCA))))
+  if (metric == "faith") {
+    PD_cube <- aggr_cube %>%
+      mutate(PD = unlist(purrr::map(aggr_cube$orig_tiplabels,
+                                    ~ calculate_faithpd(tree, unlist(.x), MRCA))
+                         )
+             )
   }
 }
-

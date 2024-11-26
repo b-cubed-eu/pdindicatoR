@@ -23,31 +23,48 @@
 #' print(ex_data$matched_nona)
 #' @export
 
-
-
-
 retrieve_example_data <- function(data = "all") {
   # Initialize paths for each data type
-  tree_path <- system.file("extdata", "Fagales_species.nwk",  package = "pdindicatoR")
-  if (tree_path == "") {
-    stop("File not found. Please check that 'Fagales_species.nwk' is in inst/extdata/")
+  tree_path <- system.file("extdata", "Fagales_species.nwk",
+                           package = "pdindicatoR")
+  cube_path <-  system.file("extdata", "0004018-241107131044228_Fagales1km.csv",
+                            package = "pdindicatoR")
+  grid_path <- system.file("extdata", "EEA_1km_NPHogeKempen", "EEA_1km_HK.shp",
+                           package = "pdindicatoR")
+  pa_path <- system.file("extdata", "PA_NPHogeKempen",
+                         "protected_areas_NPHogeKempen.shp",
+                         package = "pdindicatoR")
+  matched_nona_path <- system.file("extdata", "matched_nona.csv",
+                                   package = "pdindicatoR")
+
+  # Check if example data are present
+  get_error_message <- function(file_name, folder_name = "inst/extdata/") {
+    paste0("File not found. Please check that '", file_name,
+           "' is in ", folder_name)
   }
-  cube_path <-  system.file("extdata", "0004018-241107131044228_Fagales1km.csv", package = "pdindicatoR")
-  if (cube_path == "") {
-    stop("File not found. Please check that '0004018-241107131044228_Fagales1km.csv' is in inst/extdata/")
-  }
-  grid_path <- system.file("extdata", "EEA_1km_NPHogeKempen", "EEA_1km_HK.shp",  package = "pdindicatoR")
-  if (grid_path == "") {
-    stop("File not found. Please check that 'EEA_1km_HK.shp' is in inst/extdata/EEA_1km_NPHogeKempen")
-  }
-  pa_path <- system.file("extdata", "PA_NPHogeKempen", "protected_areas_NPHogeKempen.shp", package = "pdindicatoR")
-  if (pa_path == "") {
-    stop("File not found. Please check that 'PA_NPHogeKempen/protected_areas_NPHogeKempen.shp' is in inst/extdata/")
-  }
-  matched_nona_path <- system.file("extdata", "matched_nona.csv", package = "pdindicatoR")
-  if (matched_nona_path == "") {
-    stop("File not found. Please check that 'matched_nona.shp' is in inst/extdata/")
-  }
+
+  do.call(stopifnot,
+          stats::setNames(
+            list(
+              tree_path != "",
+              cube_path != "",
+              grid_path != "",
+              pa_path != "",
+              matched_nona_path != ""
+              ),
+            c(get_error_message(
+                "Fagales_species.nwk"),
+              get_error_message(
+                "0004018-241107131044228_Fagales1km.csv"),
+              get_error_message(
+                "EEA_1km_HK.shp", "inst/extdata/EEA_1km_NPHogeKempen"),
+              get_error_message(
+                "PA_NPHogeKempen/protected_areas_NPHogeKempen.shp"),
+              get_error_message(
+                "matched_nona.shp")
+              )
+            )
+          )
 
   # Define a list to store the loaded data
   result <- list()
@@ -75,7 +92,8 @@ retrieve_example_data <- function(data = "all") {
   }
 
   if ("all" %in% data || "matched_nona" %in% data) {
-    matched_nona <- read.csv(matched_nona_path, stringsAsFactors = FALSE, sep = ",")
+    matched_nona <- read.csv(matched_nona_path, stringsAsFactors = FALSE,
+                             sep = ",")
     result$matched_nona <- matched_nona
   }
 

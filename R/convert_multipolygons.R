@@ -2,7 +2,7 @@
 #'
 #' @param object An object of class multisurface
 #' @return An object of class multipolygon
-#' @importFrom dplyr group_by reframe arrange rename mutate join_by left_join distinct
+#' @import dplyr
 #' @importFrom magrittr %>%
 #' @examples
 #' library(dplyr)
@@ -25,6 +25,6 @@ convert_multipolygons <- function(object) {
   tmp2 <- tempfile(fileext = ".gpkg")
   sf::st_write(object, tmp1)
   gdalUtilities::ogr2ogr(tmp1, tmp2, f = "GPKG", nlt = "MULTIPOLYGON")
-  Y <- sf::st_read(tmp2)
-  sf::st_sf(sf::st_drop_geometry(object), geom = sf::st_geometry(Y))
+  y <- sf::st_read(tmp2)
+  sf::st_sf(sf::st_drop_geometry(object), geom = sf::st_geometry(y))
 }
