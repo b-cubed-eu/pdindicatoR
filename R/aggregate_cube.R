@@ -3,10 +3,10 @@
 #'
 #' This function aggregates a provided datacube over grid cell id, so that a new
 #' datacube is outputted with 3 variables that contain the lists of species that
-#' are observed for each grid cell (as speciesKeys, ott_id's and names).
+#' are observed for each grid cell (as `speciesKeys`, `ott_id`'s and names).
 #'
-#' @param mcube An occurence datacube with appended ott_id's, as produced by the
-#' append_ott_id function
+#' @param mcube An occurrence datacube with appended `ott_id`'s, as produced by
+#' the `append_ott_id()` function
 #' @param timegroup An integer, representing the number of years by which you
 #' want to group
 #' your occurrence data

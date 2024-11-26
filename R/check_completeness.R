@@ -1,13 +1,13 @@
 #' Check if provided phylogenetic tree is complete and covers all species in
-#' occurence cube
+#' occurrence cube
 #'
-#' This function calculates which number of species in the provided occurence
+#' This function calculates which number of species in the provided occurrence
 #' cube, is not a tip label of the provided phylogenetic tree.
 #' @param mcube A dataframe which is returned by the function append_ott_id(),
-#' and contains the occurence datacube with ott_id variable appended.
-#' format that was parsed by ape::read_tree()
+#' and contains the occurrence datacube with `ott_id` variable appended.
+#' format that was parsed by `ape::read_tree()`
 #' @return a list - first element is the total number of species in the
-#' occurence cube, second element is the number of species lacking in the
+#' occurrence cube, second element is the number of species lacking in the
 #' phylogenetic tree.
 #' @import dplyr
 #' @examples

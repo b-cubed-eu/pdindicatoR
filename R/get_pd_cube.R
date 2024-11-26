@@ -5,7 +5,7 @@
 #' and calls the function(s) to calculate PD metrics
 #'
 #' @param mcube An occurrence data cube with matched names appended,
-#' product of function taxonmatch()
+#' product of function `taxonmatch()`
 #' @param tree A phylogenetic tree with branch lengths
 #' @param timegroup Optional, an integer which represents the number of years
 #' over which occurrences need to be aggregated and the PD value calculated

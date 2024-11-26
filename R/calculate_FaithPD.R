@@ -3,8 +3,8 @@
 #' This function calculates Faith's PD, based on a provided list of species
 #' and a phylogenetic tree.
 #'
-#' @param tree An object of class 'phylo', iow a phylogenetic tree in Newick
-#' format that was parsed by ape::read_tree()
+#' @param tree An object of class `'phylo'`, a phylogenetic tree in Newick
+#' format that was parsed by `ape::read_tree()`
 #' @param species A character vector where each element is a species, and more
 #' specifically, matches a tip label of the phylogenetic tree exactly
 #' @param MRCA Node id of the taxon that represents the most recent common

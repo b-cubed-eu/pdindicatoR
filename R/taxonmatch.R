@@ -2,9 +2,9 @@
 #'
 #' This function matches the tip labels of a phylogenetic tree (Taxon names or
 #' OTT id's) with corresponding GBIF id's.
-#' @param tree An object of class 'phylo', iow a phylogenetic tree in Newick
-#' format that was parsed by ape::read_tree()
-#' @returns A dataframe with columns ott_id and gbif_id
+#' @param tree An object of class `'phylo'`, a phylogenetic tree in Newick
+#' format that was parsed by `ape::read_tree()`
+#' @returns A dataframe with columns `ott_id` and `gbif_id`
 #' @import dplyr
 #' @examples
 #' \dontrun{ex_data <- retrieve_example_data()

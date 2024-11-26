@@ -1,17 +1,17 @@
 #' Append ott id's to cube
 #'
-#' This function uses the table produced by the taxonmatch() function to create
-#' a linking table, and then append the ott_id's as a new field to the occurence
-#' cube.
-#' @param tree An object of class 'phylo', iow a phylogenetic tree in Newick
-#' format that was parsed by ape::read_tree()
+#' This function uses the table produced by the `taxonmatch()` function to
+#' create a linking table, and then append the `ott_id`'s as a new field to the
+#' occurrence cube.
+#' @param tree An object of class `'phylo'`, a phylogenetic tree in Newick
+#' format that was parsed by `ape::read_tree()`
 #' @param cube A dataframe with for selected taxa, the number of occurrences per
 #' taxa and per grid cell
-#' @param matched A dataframe, returned by running the function taxonmatch() on
-#' a phylogenetic tree, which contains the tip labels of the tree and their
-#' corresponding gbif_id's
+#' @param matched A dataframe, returned by running the function `taxonmatch()`
+#' on a phylogenetic tree, which contains the tip labels of the tree and their
+#' corresponding `gbif_id`'s
 #' @return A dataframe which consist of all the data in the original datacube,
-#' appended with column ott_id
+#' appended with column `ott_id`
 #' @import dplyr
 #' @examples
 #' ex_data <- retrieve_example_data()
