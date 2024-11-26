@@ -271,15 +271,15 @@ PDindicator <- generate_map_and_indicator(
   cutoff = 450)
 ```
 
-    ## Reading layer `protected_areas_NPHogeKempen' from data source `C:\R\library\pdindicatoR\extdata\PA_NPHogeKempen\protected_areas_NPHogeKempen.shp' using driver `ESRI Shapefile'
+    ## Reading layer `protected_areas_NPHogeKempen' from data source `C:\Users\ward_langeraert\AppData\Local\Temp\RtmpghPFi0\temp_libpath16243dd5531b\pdindicatoR\extdata\PA_NPHogeKempen\protected_areas_NPHogeKempen.shp' using driver `ESRI Shapefile'
     ## Simple feature collection with 32 features and 6 fields
     ## Geometry type: MULTIPOLYGON
     ## Dimension:     XY
     ## Bounding box:  xmin: 3948585 ymin: 3065773 xmax: 4049889 ymax: 3141858
     ## Projected CRS: ETRS89-extended / LAEA Europe
-    ## Writing layer `file32c034ad4fa' to data source `C:\Users\WARD_L~1\AppData\Local\Temp\Rtmpuev21E\file32c034ad4fa.gpkg' using driver `GPKG'
+    ## Writing layer `filea2033f872bb' to data source `C:\Users\WARD_L~1\AppData\Local\Temp\RtmpGArwex\filea2033f872bb.gpkg' using driver `GPKG'
     ## Writing 358 features with 4 fields and geometry type Polygon.
-    ## Reading layer `file32c034ad4fa' from data source `C:\Users\ward_langeraert\AppData\Local\Temp\Rtmpuev21E\file32c03e62602f.gpkg' using driver `GPKG'
+    ## Reading layer `filea2033f872bb' from data source `C:\Users\ward_langeraert\AppData\Local\Temp\RtmpGArwex\filea204f004a78.gpkg' using driver `GPKG'
     ## Simple feature collection with 358 features and 4 fields
     ## Geometry type: MULTIPOLYGON
     ## Dimension:     XY

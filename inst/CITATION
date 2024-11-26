@@ -2,7 +2,7 @@ citHeader("To cite `pdindicatoR` in publications please use:")
 # begin checklist entry
 bibentry(
   bibtype = "Manual",
-  title = "pdindicatoR: Calculate and visualize a phylogenetic diversity indicators based on species occurence data cubes. Version 0.0.1",
+  title = "pdindicatoR: Calculate and visualize a phylogenetic diversity indicators based on species occurence data cubes. Version 0.0.2",
   author = c(person(given = "Lissa", family = "Breugelmans"),
              person(given = "Maarten", family = "Trekels"),
              person(given = "Louise", family = "Hendrickx")),

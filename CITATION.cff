@@ -9,7 +9,7 @@ type: software
 license: MIT
 title: 'pdindicatoR: pdindicatoR: Calculate and Visualize a Phylogenetic Diversity
   Indicator based on species occurence data cubes'
-version: 0.0.1
+version: 0.0.2
 abstract: A package to calculate and produce a map of phylogenetic diversity scores
   for each grid cell in the input species occurences data cube, and calculate the
   percentage of high PD cells within currently protected areas. You provide a phylogenetic

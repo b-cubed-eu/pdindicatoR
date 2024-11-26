@@ -3,22 +3,22 @@
 \name{check_completeness}
 \alias{check_completeness}
 \title{Check if provided phylogenetic tree is complete and covers all species in
-occurence cube}
+occurrence cube}
 \usage{
 check_completeness(mcube)
 }
 \arguments{
 \item{mcube}{A dataframe which is returned by the function append_ott_id(),
-and contains the occurence datacube with ott_id variable appended.
-format that was parsed by ape::read_tree()}
+and contains the occurrence datacube with \code{ott_id} variable appended.
+format that was parsed by \code{ape::read_tree()}}
 }
 \value{
 a list - first element is the total number of species in the
-occurence cube, second element is the number of species lacking in the
+occurrence cube, second element is the number of species lacking in the
 phylogenetic tree.
 }
 \description{
-This function calculates which number of species in the provided occurence
+This function calculates which number of species in the provided occurrence
 cube, is not a tip label of the provided phylogenetic tree.
 }
 \examples{

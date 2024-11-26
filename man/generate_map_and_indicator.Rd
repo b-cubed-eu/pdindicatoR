@@ -30,7 +30,7 @@ coordinates as c(xmin, xmax, ymin, ymax)}
 between low PD and high PD}
 }
 \value{
-a list PDindicator, which contains one or more maps in it's first
+a list \code{PDindicator}, which contains one or more maps in it's first
 element, and possibly one or more indicator values in it's second element
 }
 \description{
