@@ -4,11 +4,15 @@ Title: Calculate and visualize a phylogenetic diversity indicators based
 Version: 0.0.2
 Authors@R: c(
     person("Lissa", "Breugelmans", , "lissa.breugelmans@plantentuinmeise.be", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID")),
+           comment = c(ORCID = "0000-0002-8472-3577", affiliation = "Meise Botanic Garden")),
     person("Maarten", "Trekels", , "maarten.trekels@plantentuinmeise.be", role = "aut",
-           comment = c(ORCID = "YOUR-ORCID-ID")),
+           comment = c(ORCID = "0000-0001-8282-8765", affiliation = "Meise Botanic Garden")),
     person("Louise", "Hendrickx", , "louise.hendrickx@plantentuinmeise.be", role = "aut",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+           comment = c(ORCID = "0000-0002-8472-3577", affiliation = "Meise Botanic Garden")),
+    person("Ward", "Langeraert", , "ward.langeraert@inbo.be", role = "ctb",
+       comment = c(ORCID = "0000-0002-5900-8109", affiliation = "Research Institute for Nature and Forest (INBO)")),
+    person("Meise Botanic Garden", , , "b-cubedsupport@meisebotanicgarden.be", role = "cph"),
+    person("European Union's Horizon Europe Research and Innovation Programme (ID No 101059592)", role = "fnd")
   )
 Description: A package to calculate and produce a map of phylogenetic
     diversity scores for each grid cell in the input species occurences
@@ -32,6 +36,8 @@ Imports:
 Suggests: 
     purrr,
     testthat (>= 3.0.0)
+Config/checklist/communities: inbo
+Config/checklist/keywords: phylogenetic diversity; B-Cubed; biodiversity
 Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-GB
