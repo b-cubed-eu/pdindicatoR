@@ -58,7 +58,7 @@ The phylogenetic tree should be in either nexus or newick format. The species oc
 
 The following functions can be used to read in datafiles:
 
-```{r eval=F}
+```r
 tree_path <- "/path/to/mytree.tre" 
 cube_path <- "/path/to/mycube.csv"
 grid_path <- "/path/to/grid.shp"
@@ -92,6 +92,8 @@ pa <- ex_data$pa
 We plot the tree and print the first lines of the occurrence cube to confirm they are processed correctly.
 
 ```{r}
+#| fig.alt: >
+#|   Phylogenetic tree
 options(width = 1000)
 plot(tree, cex = 0.35, y.lim = 100)
 head(cube)
@@ -154,6 +156,8 @@ for the desired geographic area can be determined using https://epsg.io/ and
 selecting the CRS of the used grid.
 
 ```{r echo=T, results='hide', message=F, warning=F}
+#| fig.alt: >
+#|   PD map
 PDindicator <- generate_map_and_indicator(PD_cube, grid, "Fagales")
 PDindicator
 
@@ -170,6 +174,8 @@ stored as a list, with two maps in the first element (PD map and high/low PD map
 and the indicator value as the second element. 
 
 ```{r}
+#| fig.alt: >
+#|   PD map cut off
 PDindicator <- generate_map_and_indicator(
   PD_cube,
   grid,

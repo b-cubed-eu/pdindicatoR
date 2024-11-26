@@ -21,6 +21,8 @@ Description: A package to calculate and produce a map of phylogenetic
     datacube for the corresponding species is downloaded from GBIF (or
     user-uploaded), and the package does the rest.
 License: MIT + file LICENSE
+URL: https://github.com/b-cubed-eu/pdindicatoR,
+    https://b-cubed-eu.github.io/pdindicatoR/
 Imports:
     ape,
     dplyr,

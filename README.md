@@ -116,7 +116,7 @@ options(width = 1000)
 plot(tree, cex = 0.35, y.lim = 100)
 ```
 
-![](man/figures/unnamed-chunk-3-1.png)<!-- -->
+<img src="man/figures/unnamed-chunk-2-1.png" alt="Phylogenetic tree"  />
 
 ``` r
 head(cube)
@@ -248,7 +248,7 @@ PDindicator <- generate_map_and_indicator(PD_cube, grid, "Fagales")
 PDindicator
 ```
 
-![](man/figures/unnamed-chunk-10-1.png)<!-- -->
+<img src="man/figures/unnamed-chunk-9-1.png" alt="PD map"  />
 
 ``` r
 # Optionally specify a custom bounding box
@@ -271,15 +271,15 @@ PDindicator <- generate_map_and_indicator(
   cutoff = 450)
 ```
 
-    ## Reading layer `protected_areas_NPHogeKempen' from data source `C:\Users\ward_langeraert\AppData\Local\Temp\RtmpghPFi0\temp_libpath16243dd5531b\pdindicatoR\extdata\PA_NPHogeKempen\protected_areas_NPHogeKempen.shp' using driver `ESRI Shapefile'
+    ## Reading layer `protected_areas_NPHogeKempen' from data source `C:\R\library\pdindicatoR\extdata\PA_NPHogeKempen\protected_areas_NPHogeKempen.shp' using driver `ESRI Shapefile'
     ## Simple feature collection with 32 features and 6 fields
     ## Geometry type: MULTIPOLYGON
     ## Dimension:     XY
     ## Bounding box:  xmin: 3948585 ymin: 3065773 xmax: 4049889 ymax: 3141858
     ## Projected CRS: ETRS89-extended / LAEA Europe
-    ## Writing layer `filea2033f872bb' to data source `C:\Users\WARD_L~1\AppData\Local\Temp\RtmpGArwex\filea2033f872bb.gpkg' using driver `GPKG'
+    ## Writing layer `file399c41143e40' to data source `C:\Users\WARD_L~1\AppData\Local\Temp\RtmpYTxbfZ\file399c41143e40.gpkg' using driver `GPKG'
     ## Writing 358 features with 4 fields and geometry type Polygon.
-    ## Reading layer `filea2033f872bb' from data source `C:\Users\ward_langeraert\AppData\Local\Temp\RtmpGArwex\filea204f004a78.gpkg' using driver `GPKG'
+    ## Reading layer `file399c41143e40' from data source `C:\Users\ward_langeraert\AppData\Local\Temp\RtmpYTxbfZ\file399c302273b.gpkg' using driver `GPKG'
     ## Simple feature collection with 358 features and 4 fields
     ## Geometry type: MULTIPOLYGON
     ## Dimension:     XY
@@ -298,12 +298,12 @@ print(plots)
 
     ## [[1]]
 
-![](man/figures/unnamed-chunk-11-1.png)<!-- -->
+<img src="man/figures/unnamed-chunk-10-1.png" alt="PD map cut off"  />
 
     ## 
     ## [[2]]
 
-![](man/figures/unnamed-chunk-11-2.png)<!-- -->
+<img src="man/figures/unnamed-chunk-10-2.png" alt="PD map cut off"  />
 
 ``` r
 print(indicators)
