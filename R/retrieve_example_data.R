@@ -13,6 +13,7 @@
 #'study area
 #' @importFrom utils read.csv
 #' @import dplyr
+#' @importFrom stats setNames
 #' @examples
 #' ex_data <- retrieve_example_data()
 #' print(ex_data$tree)

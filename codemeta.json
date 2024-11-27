@@ -4,6 +4,8 @@
   "identifier": "pdindicatoR",
   "description": "A package to calculate and produce a map of phylogenetic diversity scores for each grid cell in the input species occurences data cube, and calculate the percentage of high PD cells within currently protected areas. You provide a phylogenetic tree, the datacube for the corresponding species is downloaded from GBIF (or user-uploaded), and the package does the rest.",
   "name": "pdindicatoR: Calculate and visualize a phylogenetic diversity indicators based\n    on species occurence data cubes",
+  "relatedLink": "https://b-cubed-eu.github.io/pdindicatoR/",
+  "codeRepository": "https://github.com/b-cubed-eu/pdindicatoR",
   "license": "https://spdx.org/licenses/MIT",
   "version": "0.0.2",
   "programmingLanguage": {
@@ -31,7 +33,8 @@
       "@type": "Person",
       "givenName": "Louise",
       "familyName": "Hendrickx",
-      "email": "louise.hendrickx@plantentuinmeise.be"
+      "email": "louise.hendrickx@plantentuinmeise.be",
+      "@id": "https://orcid.org/0000-0002-9317-7862"
     }
   ],
   "contributor": [
@@ -227,7 +230,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "3812.604KB",
+  "fileSize": "3892.408KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
@@ -253,7 +256,6 @@
       "url": "https://github.com/b-cubed-eu/pdindicatoR/"
     }
   ],
-  "codeRepository": "https://github.com/b-cubed-eu/pdindicatoR",
   "releaseNotes": "https://github.com/b-cubed-eu/pdindicatoR/blob/master/NEWS.md",
   "readme": "https://github.com/b-cubed-eu/pdindicatoR/blob/main/README.md",
   "contIntegration": ["https://github.com/b-cubed-eu/pdindicatoR/actions/workflows/R-CMD-check.yaml", "https://app.codecov.io/gh/b-cubed-eu/pdindicatoR"],
