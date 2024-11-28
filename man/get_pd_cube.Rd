@@ -8,7 +8,7 @@ get_pd_cube(mcube, tree, timegroup = NULL, metric = "faith")
 }
 \arguments{
 \item{mcube}{An occurrence data cube with matched names appended,
-product of function taxonmatch()}
+product of function \code{taxonmatch()}}
 
 \item{tree}{A phylogenetic tree with branch lengths}
 

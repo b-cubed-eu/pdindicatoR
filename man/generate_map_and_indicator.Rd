@@ -13,9 +13,9 @@ generate_map_and_indicator(
 )
 }
 \arguments{
-\item{PD_cube}{An sf dataframe containing the calculated PD metrics (column name
-'PD') for each grid cell with occurrences of a selected higher taxon, and the
-geometries of those grid cells.}
+\item{PD_cube}{An sf dataframe containing the calculated PD metrics (column
+name 'PD') for each grid cell with occurrences of a selected higher taxon,
+and the geometries of those grid cells.}
 
 \item{grid}{An sf object with variable detailing grid cell codes and a
 geometry column}
@@ -30,8 +30,8 @@ coordinates as c(xmin, xmax, ymin, ymax)}
 between low PD and high PD}
 }
 \value{
-a list PDindicator, which contains one or more maps in it's first element.
-and possibly one or more indicator values in it's second element
+a list \code{PDindicator}, which contains one or more maps in it's first
+element, and possibly one or more indicator values in it's second element
 }
 \description{
 This function creates, for a geographic area defined by the user, a map with
@@ -50,4 +50,5 @@ PDindicator <- generate_map_and_indicator(
   taxon="Fagales",
   cutoff=150)
 map <- PDindicator[[1]]
+indicator <- PDindicator[[2]]
 }

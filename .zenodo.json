@@ -1,0 +1,54 @@
+{
+  "title": "pdindicatoR: Calculate and visualize a phylogenetic diversity indicators based on species occurence data cubes",
+  "version": "0.0.2",
+  "license": "MIT",
+  "upload_type": "software",
+  "description": "<p>A package to calculate and produce a map of phylogenetic diversity scores for each grid cell in the input species occurences data cube, and calculate the percentage of high PD cells within currently protected areas. You provide a phylogenetic tree, the datacube for the corresponding species is downloaded from GBIF (or user-uploaded), and the package does the rest.<\/p>",
+  "keywords": [
+    "phylogenetic diversity",
+    "B-Cubed",
+    "biodiversity"
+  ],
+  "access_right": "open",
+  "language": "eng",
+  "contributors": [
+    {
+      "name": "Breugelmans, Lissa",
+      "affiliation": "Meise Botanic Garden",
+      "orcid": "0000-0002-8472-3577",
+      "type": "contactperson"
+    },
+    {
+      "name": "Langeraert, Ward",
+      "affiliation": "Research Institute for Nature and Forest (INBO)",
+      "orcid": "0000-0002-5900-8109",
+      "type": "projectmember"
+    },
+    {
+      "name": "Meise Botanic Garden",
+      "type": "rightsholder"
+    }
+  ],
+  "creators": [
+    {
+      "name": "Breugelmans, Lissa",
+      "affiliation": "Meise Botanic Garden",
+      "orcid": "0000-0002-8472-3577"
+    },
+    {
+      "name": "Trekels, Maarten",
+      "affiliation": "Meise Botanic Garden",
+      "orcid": "0000-0001-8282-8765"
+    },
+    {
+      "name": "Hendrickx, Louise",
+      "affiliation": "Meise Botanic Garden",
+      "orcid": "0000-0002-9317-7862"
+    }
+  ],
+  "communities": [
+    {
+      "identifier": "b3"
+    }
+  ]
+}

@@ -1,35 +1,43 @@
 Package: pdindicatoR
-Title: Calculate and visualize a phylogenetic diversity indicators based on species occurence data cubes
-Version: 0.0.1
+Title: Calculate and visualize a phylogenetic diversity indicators based
+    on species occurence data cubes
+Version: 0.0.2
 Authors@R: c(
-    person("Lissa", "Breugelmans", email = "lissa.breugelmans@plantentuinmeise.be", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID")),
-    person("Maarten", "Trekels", email = "maarten.trekels@plantentuinmeise.be", role = c("aut"),
-           comment = c(ORCID = "YOUR-ORCID-ID")),
-    person("Louise", "Hendrickx", email = "louise.hendrickx@plantentuinmeise.be", role = c("aut"),
-           comment = c(ORCID = "YOUR-ORCID-ID")))
+    person("Lissa", "Breugelmans", , "lissa.breugelmans@plantentuinmeise.be", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-8472-3577", affiliation = "Meise Botanic Garden")),
+    person("Maarten", "Trekels", , "maarten.trekels@plantentuinmeise.be", role = "aut",
+           comment = c(ORCID = "0000-0001-8282-8765", affiliation = "Meise Botanic Garden")),
+    person("Louise", "Hendrickx", , "louise.hendrickx@plantentuinmeise.be", role = "aut",
+           comment = c(ORCID = "0000-0002-9317-7862", affiliation = "Meise Botanic Garden")),
+    person("Ward", "Langeraert", , "ward.langeraert@inbo.be", role = "ctb",
+       comment = c(ORCID = "0000-0002-5900-8109", affiliation = "Research Institute for Nature and Forest (INBO)")),
+    person("Meise Botanic Garden", , , "b-cubedsupport@meisebotanicgarden.be", role = "cph"),
+    person("European Union's Horizon Europe Research and Innovation Programme (ID No 101059592)", role = "fnd")
+  )
+Description: A package to calculate and produce a map of phylogenetic
+    diversity scores for each grid cell in the input species occurences
+    data cube, and calculate the percentage of high PD cells within
+    currently protected areas.  You provide a phylogenetic tree, the
+    datacube for the corresponding species is downloaded from GBIF (or
+    user-uploaded), and the package does the rest.
 License: MIT + file LICENSE
-Description: A package to calculate and produce a map of phylogenetic diversity 
-    scores for each grid cell in the input species occurences data cube, and 
-    calculate the percentage of high PD cells within currently protected areas. 
-    You provide a phylogenetic tree, the datacube for the corresponding species 
-    is downloaded from GBIF (or user-uploaded), and the package does the rest.
+URL: https://github.com/b-cubed-eu/pdindicatoR,
+    https://b-cubed-eu.github.io/pdindicatoR/
 Imports:
-    rotl,
-    sf,
-    gdalUtilities,
     ape,
+    dplyr,
+    gdalUtilities,
+    ggplot2,
+    rlang,
     rnaturalearth,
     rnaturalearthdata,
-    dplyr,
+    rotl,
+    sf,
     shiny,
-    stringr,
-    magrittr,
-    ggplot2,
-    rlang
+    stringr
 Suggests: 
-    testthat (>= 3.0.0),
-    purrr
+    purrr,
+    testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-GB

@@ -7,24 +7,24 @@
 append_ott_id(tree, cube, matched)
 }
 \arguments{
-\item{tree}{An object of class 'phylo', iow a phylogenetic tree in Newick
-format that was parsed by ape::read_tree()}
+\item{tree}{An object of class \code{'phylo'}, a phylogenetic tree in Newick
+format that was parsed by \code{ape::read_tree()}}
 
 \item{cube}{A dataframe with for selected taxa, the number of occurrences per
 taxa and per grid cell}
 
-\item{matched}{A dataframe, returned by running the function taxonmatch() on
-a phylogenetic tree, which contains the tip labels of the tree and their
-corresponding gbif_id's}
+\item{matched}{A dataframe, returned by running the function \code{taxonmatch()}
+on a phylogenetic tree, which contains the tip labels of the tree and their
+corresponding \code{gbif_id}'s}
 }
 \value{
 A dataframe which consist of all the data in the original datacube,
-appended with column ott_id
+appended with column \code{ott_id}
 }
 \description{
-This function uses the table produced by the taxonmatch() function to create
-a linking table, and then append the ott_id's as a new field to the occurence
-cube.
+This function uses the table produced by the \code{taxonmatch()} function to
+create a linking table, and then append the \code{ott_id}'s as a new field to the
+occurrence cube.
 }
 \examples{
 ex_data <- retrieve_example_data()

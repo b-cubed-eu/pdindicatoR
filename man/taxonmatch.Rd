@@ -7,11 +7,11 @@
 taxonmatch(tree)
 }
 \arguments{
-\item{tree}{An object of class 'phylo', iow a phylogenetic tree in Newick
-format that was parsed by ape::read_tree()}
+\item{tree}{An object of class \code{'phylo'}, a phylogenetic tree in Newick
+format that was parsed by \code{ape::read_tree()}}
 }
 \value{
-A dataframe with columns ott_id and gbif_id
+A dataframe with columns \code{ott_id} and \code{gbif_id}
 }
 \description{
 This function matches the tip labels of a phylogenetic tree (Taxon names or

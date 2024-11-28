@@ -7,14 +7,14 @@
 calculate_faithpd(tree, species, MRCA)
 }
 \arguments{
-\item{tree}{An object of class 'phylo', iow a phylogenetic tree in Newick
-format that was parsed by ape::read_tree()}
+\item{tree}{An object of class \code{'phylo'}, a phylogenetic tree in Newick
+format that was parsed by \code{ape::read_tree()}}
 
 \item{species}{A character vector where each element is a species, and more
 specifically, matches a tip label of the phylogenetic tree exactly}
 
-\item{MRCA}{Node id of the taxon that represents the most recent common ancestor
-of the set of species under study}
+\item{MRCA}{Node id of the taxon that represents the most recent common
+ancestor of the set of species under study}
 }
 \value{
 A string that combines "Phylogenetic diversity:" and the calculated

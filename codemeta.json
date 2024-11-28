@@ -3,36 +3,60 @@
   "@type": "SoftwareSourceCode",
   "identifier": "pdindicatoR",
   "description": "A package to calculate and produce a map of phylogenetic diversity scores for each grid cell in the input species occurences data cube, and calculate the percentage of high PD cells within currently protected areas. You provide a phylogenetic tree, the datacube for the corresponding species is downloaded from GBIF (or user-uploaded), and the package does the rest.",
-  "name": "pdindicatoR: Calculate and visualize a phylogenetic diversity indicators based on species occurence data cubes",
+  "name": "pdindicatoR: Calculate and visualize a phylogenetic diversity indicators based\n    on species occurence data cubes",
+  "relatedLink": "https://b-cubed-eu.github.io/pdindicatoR/",
+  "codeRepository": "https://github.com/b-cubed-eu/pdindicatoR",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.4.1 (2024-06-14 ucrt)",
+  "runtimePlatform": "R version 4.4.2 (2024-10-31 ucrt)",
   "author": [
     {
       "@type": "Person",
       "givenName": "Lissa",
       "familyName": "Breugelmans",
       "email": "lissa.breugelmans@plantentuinmeise.be",
-      "@id": "https://orcid.org/YOUR-ORCID-ID"
+      "@id": "https://orcid.org/0000-0002-8472-3577"
     },
     {
       "@type": "Person",
       "givenName": "Maarten",
       "familyName": "Trekels",
       "email": "maarten.trekels@plantentuinmeise.be",
-      "@id": "https://orcid.org/YOUR-ORCID-ID"
+      "@id": "https://orcid.org/0000-0001-8282-8765"
     },
     {
       "@type": "Person",
       "givenName": "Louise",
       "familyName": "Hendrickx",
       "email": "louise.hendrickx@plantentuinmeise.be",
-      "@id": "https://orcid.org/YOUR-ORCID-ID"
+      "@id": "https://orcid.org/0000-0002-9317-7862"
+    }
+  ],
+  "contributor": [
+    {
+      "@type": "Person",
+      "givenName": "Ward",
+      "familyName": "Langeraert",
+      "email": "ward.langeraert@inbo.be",
+      "@id": "https://orcid.org/0000-0002-5900-8109"
+    }
+  ],
+  "copyrightHolder": [
+    {
+      "@type": "Organization",
+      "name": "Meise Botanic Garden",
+      "email": "b-cubedsupport@meisebotanicgarden.be"
+    }
+  ],
+  "funder": [
+    {
+      "@type": "Organization",
+      "name": "European Union's Horizon Europe Research and Innovation Programme (ID No 101059592)"
     }
   ],
   "maintainer": [
@@ -41,10 +65,22 @@
       "givenName": "Lissa",
       "familyName": "Breugelmans",
       "email": "lissa.breugelmans@plantentuinmeise.be",
-      "@id": "https://orcid.org/YOUR-ORCID-ID"
+      "@id": "https://orcid.org/0000-0002-8472-3577"
     }
   ],
   "softwareSuggestions": [
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "purrr",
+      "name": "purrr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=purrr"
+    },
     {
       "@type": "SoftwareApplication",
       "identifier": "testthat",
@@ -62,41 +98,29 @@
   "softwareRequirements": {
     "1": {
       "@type": "SoftwareApplication",
-      "identifier": "tidyverse",
-      "name": "tidyverse",
+      "identifier": "ape",
+      "name": "ape",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=tidyverse"
+      "sameAs": "https://CRAN.R-project.org/package=ape"
     },
     "2": {
       "@type": "SoftwareApplication",
-      "identifier": "rotl",
-      "name": "rotl",
+      "identifier": "dplyr",
+      "name": "dplyr",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=rotl"
+      "sameAs": "https://CRAN.R-project.org/package=dplyr"
     },
     "3": {
-      "@type": "SoftwareApplication",
-      "identifier": "sf",
-      "name": "sf",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=sf"
-    },
-    "4": {
       "@type": "SoftwareApplication",
       "identifier": "gdalUtilities",
       "name": "gdalUtilities",
@@ -108,17 +132,29 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=gdalUtilities"
     },
-    "5": {
+    "4": {
       "@type": "SoftwareApplication",
-      "identifier": "ape",
-      "name": "ape",
+      "identifier": "ggplot2",
+      "name": "ggplot2",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=ape"
+      "sameAs": "https://CRAN.R-project.org/package=ggplot2"
+    },
+    "5": {
+      "@type": "SoftwareApplication",
+      "identifier": "rlang",
+      "name": "rlang",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rlang"
     },
     "6": {
       "@type": "SoftwareApplication",
@@ -134,81 +170,93 @@
     },
     "7": {
       "@type": "SoftwareApplication",
-      "identifier": "purrr",
-      "name": "purrr",
+      "identifier": "rnaturalearthdata",
+      "name": "rnaturalearthdata",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=purrr"
+      "sameAs": "https://CRAN.R-project.org/package=rnaturalearthdata"
     },
     "8": {
       "@type": "SoftwareApplication",
-      "identifier": "dplyr",
-      "name": "dplyr",
+      "identifier": "rotl",
+      "name": "rotl",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=dplyr"
+      "sameAs": "https://CRAN.R-project.org/package=rotl"
     },
     "9": {
       "@type": "SoftwareApplication",
-      "identifier": "phytools",
-      "name": "phytools",
+      "identifier": "sf",
+      "name": "sf",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=phytools"
+      "sameAs": "https://CRAN.R-project.org/package=sf"
     },
     "10": {
       "@type": "SoftwareApplication",
-      "identifier": "phangorn",
-      "name": "phangorn",
+      "identifier": "shiny",
+      "name": "shiny",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=phangorn"
+      "sameAs": "https://CRAN.R-project.org/package=shiny"
+    },
+    "11": {
+      "@type": "SoftwareApplication",
+      "identifier": "stringr",
+      "name": "stringr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=stringr"
     },
     "SystemRequirements": null
   },
-  "fileSize": "59.672KB",
+  "fileSize": "3892.408KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
       "datePublished": "2024",
-      "author": [
-        {
+      "author": {
+        "author1": {
           "@type": "Person",
           "givenName": "Lissa",
           "familyName": "Breugelmans"
         },
-        {
+        "author2": {
           "@type": "Person",
           "givenName": "Maarten",
           "familyName": "Trekels"
         },
-        {
+        "author3": {
           "@type": "Person",
           "givenName": "Louise",
           "familyName": "Hendrickx"
         }
-      ],
-      "name": "pdindicatoR: Calculate and visualize a phylogenetic diversity indicators based on species occurence data cubes. Version 0.0.1",
-      "url": "https://github.com/b-cubed-eu/pdindicatoR"
+      },
+      "name": "pdindicatoR: Calculate and visualize a phylogenetic diversity indicators based on species occurence data cubes. Version 0.0.2",
+      "url": "https://github.com/b-cubed-eu/pdindicatoR/"
     }
   ],
-  "codeRepository": "https://github.com/b-cubed-eu/pdindicatoR",
+  "releaseNotes": "https://github.com/b-cubed-eu/pdindicatoR/blob/master/NEWS.md",
   "readme": "https://github.com/b-cubed-eu/pdindicatoR/blob/main/README.md",
   "contIntegration": ["https://github.com/b-cubed-eu/pdindicatoR/actions/workflows/R-CMD-check.yaml", "https://app.codecov.io/gh/b-cubed-eu/pdindicatoR"],
   "developmentStatus": "https://www.repostatus.org/#wip",

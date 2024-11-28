@@ -5,14 +5,13 @@
 #' and calls the function(s) to calculate PD metrics
 #'
 #' @param mcube An occurrence data cube with matched names appended,
-#' product of function taxonmatch()
+#' product of function `taxonmatch()`
 #' @param tree A phylogenetic tree with branch lengths
 #' @param timegroup Optional, an integer which represents the number of years
 #' over which occurrences need to be aggregated and the PD value calculated
 #' @param metric Name of the PD metric to be calculated
 #' @return Calculated PD value
 #' @import dplyr
-#' @importFrom magrittr %>%
 #' @examples
 #' library(dplyr)
 #' ex_data <- retrieve_example_data()
@@ -21,7 +20,7 @@
 #' PD_cube <- get_pd_cube(mcube, ex_data$tree, metric="faith")
 #' @export
 
-get_pd_cube <- function(mcube, tree, timegroup=NULL, metric="faith"){
+get_pd_cube <- function(mcube, tree, timegroup = NULL, metric = "faith") {
 
   # Aggregate cube
   aggr_cube <- aggregate_cube(mcube, timegroup)
@@ -33,8 +32,11 @@ get_pd_cube <- function(mcube, tree, timegroup=NULL, metric="faith"){
   MRCA <- ape::getMRCA(tree, all_matched_sp)
 
   # Calculate PD metric
-  if (metric == "faith"){
-    PD_cube <- aggr_cube %>% mutate(PD = unlist(purrr::map(aggr_cube$orig_tiplabels, ~ calculate_faithpd(tree, unlist(.x), MRCA))))
+  if (metric == "faith") {
+    PD_cube <- aggr_cube %>%
+      mutate(PD = unlist(purrr::map(aggr_cube$orig_tiplabels,
+                                    ~ calculate_faithpd(tree, unlist(.x), MRCA))
+                         )
+             )
   }
 }
-
