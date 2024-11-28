@@ -29,7 +29,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Convert multisurface object to multipolygon object</h1>
-      <small class="dont-index">Source: <a href="https://github.com/b-cubed-eu/pdindicatoR/blob/main/R/convert_multipolygons.R" class="external-link"><code>R/convert_multipolygons.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/b-cubed-eu/pdindicatoR/blob/v0.0.2/R/convert_multipolygons.R" class="external-link"><code>R/convert_multipolygons.R</code></a></small>
       <div class="d-none name"><code>convert_multipolygons.Rd</code></div>
     </div>
 
@@ -93,11 +93,11 @@
 <span class="r-in"><span><span class="va">cube_highPD</span> <span class="op">&lt;-</span> <span class="va">PD_cube_geo</span><span class="op">[</span><span class="va">PD_cube_geo</span><span class="op">$</span><span class="va">PD_high</span> <span class="op">==</span> <span class="fl">1</span>,</span></span>
 <span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"OBJECTID"</span>, <span class="st">"CELLCODE"</span>, <span class="st">"PD"</span>, <span class="st">"geometry"</span>, <span class="st">"PD_high"</span><span class="op">)</span><span class="op">]</span></span></span>
 <span class="r-in"><span><span class="va">cube_mp</span> <span class="op">&lt;-</span> <span class="fu">convert_multipolygons</span><span class="op">(</span><span class="va">cube_highPD</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Writing layer `file1aa26a3bc934' to data source </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `/tmp/RtmpuWIwZY/file1aa26a3bc934.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Writing layer `file1a8a79c0d2c2' to data source </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `/tmp/RtmpDZZlRB/file1a8a79c0d2c2.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Writing 1149 features with 4 fields and geometry type Polygon.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `file1aa26a3bc934' from data source </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `/tmp/RtmpuWIwZY/file1aa218cf98b5.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `file1a8a79c0d2c2' from data source </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `/tmp/RtmpDZZlRB/file1a8a591c8991.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 1149 features and 4 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: MULTIPOLYGON</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
