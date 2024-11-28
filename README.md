@@ -5,6 +5,7 @@
 
 <!-- badges: start -->
 
+[![DOI](https://zenodo.org/badge/788483688.svg)](https://doi.org/10.5281/zenodo.14237551)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/pdindicatoR)](https://CRAN.R-project.org/package=pdindicatoR)
 [![Release](https://img.shields.io/github/release/b-cubed-eu/pdindicatoR.svg)](https://github.com/b-cubed-eu/pdindicatoR/releases)
@@ -271,15 +272,15 @@ PDindicator <- generate_map_and_indicator(
   cutoff = 450)
 ```
 
-    ## Reading layer `protected_areas_NPHogeKempen' from data source `C:\R\library\pdindicatoR\extdata\PA_NPHogeKempen\protected_areas_NPHogeKempen.shp' using driver `ESRI Shapefile'
+    ## Reading layer `protected_areas_NPHogeKempen' from data source `C:\Users\lissa\AppData\Local\R\win-library\4.3\pdindicatoR\extdata\PA_NPHogeKempen\protected_areas_NPHogeKempen.shp' using driver `ESRI Shapefile'
     ## Simple feature collection with 32 features and 6 fields
     ## Geometry type: MULTIPOLYGON
     ## Dimension:     XY
     ## Bounding box:  xmin: 3948585 ymin: 3065773 xmax: 4049889 ymax: 3141858
     ## Projected CRS: ETRS89-extended / LAEA Europe
-    ## Writing layer `file34683041499c' to data source `C:\Users\WARD_L~1\AppData\Local\Temp\RtmpQVhw3c\file34683041499c.gpkg' using driver `GPKG'
+    ## Writing layer `file4570363f72ce' to data source `C:\Users\lissa\AppData\Local\Temp\RtmpYt9uzm\file4570363f72ce.gpkg' using driver `GPKG'
     ## Writing 358 features with 4 fields and geometry type Polygon.
-    ## Reading layer `file34683041499c' from data source `C:\Users\ward_langeraert\AppData\Local\Temp\RtmpQVhw3c\file34683b16ab0.gpkg' using driver `GPKG'
+    ## Reading layer `file4570363f72ce' from data source `C:\Users\lissa\AppData\Local\Temp\RtmpYt9uzm\file45707bfe3602.gpkg' using driver `GPKG'
     ## Simple feature collection with 358 features and 4 fields
     ## Geometry type: MULTIPOLYGON
     ## Dimension:     XY
