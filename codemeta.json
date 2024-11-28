@@ -13,7 +13,7 @@
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.4.2 (2024-10-31 ucrt)",
+  "runtimePlatform": "R version 4.3.3 (2024-02-29 ucrt)",
   "author": [
     {
       "@type": "Person",
@@ -230,7 +230,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "3892.408KB",
+  "fileSize": "440886.715KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
@@ -260,5 +260,5 @@
   "readme": "https://github.com/b-cubed-eu/pdindicatoR/blob/main/README.md",
   "contIntegration": ["https://github.com/b-cubed-eu/pdindicatoR/actions/workflows/R-CMD-check.yaml", "https://app.codecov.io/gh/b-cubed-eu/pdindicatoR"],
   "developmentStatus": "https://www.repostatus.org/#wip",
-  "keywords": ["biodiversity", "r"]
+  "keywords": ["biodiversity", "r", "conservation", "datacube", "indicator", "phylogenetic-diversity"]
 }
