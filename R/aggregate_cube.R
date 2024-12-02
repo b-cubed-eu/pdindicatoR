@@ -10,7 +10,8 @@
 #' @param timegroup An integer, representing the number of years by which you
 #' want to group
 #' your occurrence data
-#' @return A dataframe with for each grid cell
+#' @return A dataframe with for each grid cell a list of species that are
+#' observed.
 #' @importFrom rlang .data
 #' @import dplyr
 #' @examples
