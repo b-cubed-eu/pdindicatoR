@@ -174,7 +174,7 @@ centerpoints that fall within the boundaries of protected areas. The result is
 stored as a list, with two maps in the first element (PD map and high/low PD map)
 and the indicator value as the second element. 
 
-```{r}
+```{r, echo=T, results='hide', message=F, warning=F}
 #| fig.alt: >
 #|   PD map cut off
 PDindicator <- generate_map_and_indicator(
@@ -186,5 +186,6 @@ PDindicator <- generate_map_and_indicator(
 plots <- PDindicator[[1]]
 indicators <- PDindicator[[2]]
 print(plots)
-print(indicators)
+print(paste("The percentage of high PD grid cells that fall within",
+                "protected areas is", round(indicators$Overall, digits=2), "%"))
 ```
