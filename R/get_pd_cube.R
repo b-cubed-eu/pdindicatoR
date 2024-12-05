@@ -29,14 +29,16 @@ get_pd_cube <- function(mcube, tree, timegroup = NULL, metric = "faith") {
   all_matched_sp <- unique(mcube[["orig_tiplabel"]])
 
   # Find most recent common ancestor
-  MRCA <- ape::getMRCA(tree, all_matched_sp)
+  mrca_node_id <- ape::getMRCA(tree, all_matched_sp)
 
   # Calculate PD metric
   if (metric == "faith") {
     PD_cube <- aggr_cube %>%
       mutate(PD = unlist(purrr::map(aggr_cube$orig_tiplabels,
-                                    ~ calculate_faithpd(tree, unlist(.x), MRCA))
+                                    ~ calculate_faithpd(tree, unlist(.x), mrca_node_id))
                          )
              )
+    return(PD_cube)
   }
+  else print("The selected PD metric is not available.")
 }

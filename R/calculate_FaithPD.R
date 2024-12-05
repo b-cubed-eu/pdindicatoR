@@ -7,7 +7,7 @@
 #' format that was parsed by `ape::read_tree()`
 #' @param species A character vector where each element is a species, and more
 #' specifically, matches a tip label of the phylogenetic tree exactly
-#' @param MRCA Node id of the taxon that represents the most recent common
+#' @param mrca_node_id Node id of the taxon that represents the most recent common
 #' ancestor of the set of species under study
 #' @return A string that combines "Phylogenetic diversity:" and the calculated
 #' value
@@ -16,12 +16,12 @@
 #' ex_data <- retrieve_example_data()
 #' # determine the most recent common ancestor of all species under study
 #' # (not necessarily all species in the tree!)
-#' MRCA <- ape::getMRCA(ex_data$tree, ex_data$tree$tip.label)
+#' mrca_node_id <- ape::getmrca_node_id(ex_data$tree, ex_data$tree$tip.label)
 #' species <- c("Fagus lucida", "Castanopsis fabri", "Quercus_robur")
-#' calculate_faithpd(ex_data$tree, species, MRCA)
+#' calculate_faithpd(ex_data$tree, species, mrca_node_id)
 #' @export
 
-calculate_faithpd <- function(tree, species, MRCA) {
+calculate_faithpd <- function(tree, species, mrca_node_id) {
 
   # get tip id's from tip labels
   tip_ids <- vector(mode = "integer", length = length(species))
@@ -37,11 +37,11 @@ calculate_faithpd <- function(tree, species, MRCA) {
   }
    tip_ids <- tip_ids[!is.na(tip_ids)]
 
-  # determine spanning paths (nodes) from species to MRCA
+  # determine spanning paths (nodes) from species to mrca_node_id
 
   nodepath <- vector(mode = "list", length(tip_ids))
   for (i in seq_along(tip_ids)) {
-    x <- ape::nodepath(tree, MRCA, tip_ids[i])
+    x <- ape::nodepath(tree, mrca_node_id, tip_ids[i])
     nodepath[[i]] <- x
   }
 
@@ -62,17 +62,7 @@ calculate_faithpd <- function(tree, species, MRCA) {
 
   edge_lengths <- tree$edge.length[edge_ids_unique]
   pd <- sum(edge_lengths)
-  # print(paste("Phylogenetic diversity:", pd))
+  return(pd)
 }
 
-# This is an alternative method using the existing ape::which.edge function,
-# seems to do the same thing but should be tested for different (rooted and
-# unrooted) trees to make sure methodology is sound
 
-# calculate_pd_easy <- function(tree, species){
-#  y<-which.edge(rtree, trio)
-#  edge_lengths <- tree$edge.length[y]
-#  pd <- sum(edge_lengths)
-#  return(pd)
-#  print(paste("Phylogenetic diversity:", pd))
-# }
