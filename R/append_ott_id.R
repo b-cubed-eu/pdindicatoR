@@ -24,7 +24,7 @@ append_ott_id <- function(tree, cube, matched) {
 
   # Check if inputs are of required class
 
-  if (!is.phylo(tree)) {
+  if (!inherits(tree, "phylo")) {
     stop("Error: 'tree' must be an object of type 'Phylo'")
   }
 
@@ -38,16 +38,18 @@ append_ott_id <- function(tree, cube, matched) {
 
   # Check that cube contains the required columns
   required_columns <- c("specieskey")
-  missing_columns <- setdiff(required_columns, colnames(mcube))
+  missing_columns <- setdiff(required_columns, colnames(cube))
   if (length(missing_columns) > 0) {
-    stop(paste("Error: 'cube' is missing the following required columns:", paste(missing_columns, collapse = ", ")))
+    stop(paste("Error: 'cube' is missing the following required columns:",
+               paste(missing_columns, collapse = ", ")))
   }
 
   # Check that matched contains the required columns
   required_columns <- c("ott_id", "gbif_id", "unique_name", "orig_tiplabel")
   missing_columns <- setdiff(required_columns, colnames(matched))
   if (length(missing_columns) > 0) {
-    stop(paste("Error: 'matched' is missing the following required columns:", paste(missing_columns, collapse = ", ")))
+    stop(paste("Error: 'matched' is missing the following required columns:",
+               paste(missing_columns, collapse = ", ")))
   }
 
   # Function logic starts here

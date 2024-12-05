@@ -17,7 +17,7 @@
 
 taxonmatch <- function(tree) {
 
-  if (!is.phylo(tree)) {
+  if (!inherits(tree, "phylo")) {
     stop("Error: 'tree' must be an object of type 'Phylo'")
   }
 

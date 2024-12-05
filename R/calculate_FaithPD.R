@@ -39,13 +39,6 @@ calculate_faithpd <- function(tree, species, mrca_node_id) {
     stop("`species` must be a non-empty character vector.")
   }
 
-  # Ensure all species in `species` are present in `tree$tip.label`
-  missing_species <- species[!species %in% tree$tip.label]
-  if (length(missing_species) > 0) {
-    stop(paste("The following species are not found in `tree$tip.label`:",
-               paste(missing_species, collapse = ", ")))
-  }
-
   # Check if `mrca_node_id` is a single integer and a valid node ID in the tree
   if (missing(mrca_node_id) || !is.numeric(mrca_node_id) ||
       length(mrca_node_id) != 1 || mrca_node_id <= length(tree$tip.label) ||

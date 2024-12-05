@@ -13,9 +13,9 @@
 #' ex_data <- retrieve_example_data()
 #' mcube <- append_ott_id(ex_data$tree, ex_data$cube, ex_data$matched_nona)
 #' mcube <- dplyr::filter(mcube, !is.na(ott_id))
-#' PD_cube <- get_pd_cube(mcube, ex_data$tree)
+#' pd_cube <- get_pd_cube(mcube, ex_data$tree)
 #' pd_indicator<- generate_map_and_indicator(
-#'   PD_cube,
+#'   pd_cube,
 #'   ex_data$grid,
 #'   taxon="Fagales")
 #' plots <- pd_indicator[[1]]

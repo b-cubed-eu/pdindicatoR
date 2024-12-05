@@ -17,7 +17,7 @@
 #' ex_data <- retrieve_example_data()
 #' mcube <- append_ott_id(ex_data$tree, ex_data$cube, ex_data$matched_nona)
 #' mcube <- dplyr::filter(mcube, !is.na(ott_id))
-#' PD_cube <- get_pd_cube(mcube, ex_data$tree, metric="faith")
+#' pd_cube <- get_pd_cube(mcube, ex_data$tree, metric="faith")
 #' @export
 
 get_pd_cube <- function(mcube, tree, timegroup = NULL, metric = "faith") {
@@ -28,7 +28,7 @@ get_pd_cube <- function(mcube, tree, timegroup = NULL, metric = "faith") {
   }
 
   # Check if 'tree' is of class phylo
-  if (class(tree)!="phylo") {
+  if (!inherits(tree, "phylo")) {
     stop("Error: 'tree' must be an object of type 'Phylo'")
   }
 
