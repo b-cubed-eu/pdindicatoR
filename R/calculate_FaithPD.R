@@ -16,7 +16,7 @@
 #' ex_data <- retrieve_example_data()
 #' # determine the most recent common ancestor of all species under study
 #' # (not necessarily all species in the tree!)
-#' mrca_node_id <- ape::getmrca_node_id(ex_data$tree, ex_data$tree$tip.label)
+#' mrca_node_id <- ape::getMRCA(ex_data$tree, ex_data$tree$tip.label)
 #' species <- c("Fagus lucida", "Castanopsis fabri", "Quercus_robur")
 #' calculate_faithpd(ex_data$tree, species, mrca_node_id)
 #' @export

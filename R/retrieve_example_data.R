@@ -26,16 +26,16 @@
 retrieve_example_data <- function(data = "all") {
   # Initialize paths for each data type
   paths <- list(
-  tree <- system.file("extdata", "Fagales_species.nwk",
+  tree = system.file("extdata", "Fagales_species.nwk",
                            package = "pdindicatoR"),
-  cube <-  system.file("extdata", "0004018-241107131044228_Fagales1km.csv",
+  cube =  system.file("extdata", "0004018-241107131044228_Fagales1km.csv",
                             package = "pdindicatoR"),
-  grid <- system.file("extdata", "EEA_1km_NPHogeKempen", "EEA_1km_HK.shp",
+  grid = system.file("extdata", "EEA_1km_NPHogeKempen", "EEA_1km_HK.shp",
                            package = "pdindicatoR"),
-  pa <- system.file("extdata", "PA_NPHogeKempen",
+  pa = system.file("extdata", "PA_NPHogeKempen",
                          "protected_areas_NPHogeKempen.shp",
                          package = "pdindicatoR"),
-  matched_nona <- system.file("extdata", "matched_nona.csv",
+  matched_nona = system.file("extdata", "matched_nona.csv",
                                    package = "pdindicatoR")
   )
 
