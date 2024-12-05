@@ -13,9 +13,8 @@ generate_map_and_indicator(
 )
 }
 \arguments{
-\item{pd_cube}{An sf dataframe containing the calculated PD metrics (column
-name 'PD') for each grid cell with occurrences of a selected higher taxon,
-and the geometries of those grid cells.}
+\item{pd_cube}{A dataframe with a variable containing grid cell codes and
+a variable with calculated pd values (output of the function get_pd_cube())}
 
 \item{grid}{An sf object with variable detailing grid cell codes and a
 geometry column}

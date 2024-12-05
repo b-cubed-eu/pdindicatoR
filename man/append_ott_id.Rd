@@ -7,8 +7,8 @@
 append_ott_id(tree, cube, matched)
 }
 \arguments{
-\item{tree}{An object of class \code{'phylo'}, a phylogenetic tree in Newick
-format that was parsed by \code{ape::read_tree()}}
+\item{tree}{An object of class \code{'phylo'}, a phylogenetic tree in Newick or
+Nexus format that was parsed by \code{ape::read_tree()}}
 
 \item{cube}{A dataframe with for selected taxa, the number of occurrences per
 taxa and per grid cell}
@@ -19,7 +19,7 @@ corresponding \code{gbif_id}'s}
 }
 \value{
 A dataframe which consist of all the data in the original datacube,
-appended with column \code{ott_id}
+appended with columns \code{ott_id}, \code{unique_name} and \code{orig_tiplabel}
 }
 \description{
 This function uses the table produced by the \code{taxonmatch()} function to
