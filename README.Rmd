@@ -140,7 +140,7 @@ mcube <- mcube %>%
 We can used the function get_pd_cube() to calculate the PD values per gridcell. This function first creates a new aggregated cube, with a list of observed species for each grid cell. The optional argument `timegroup` can be used to indicate a time interval for which the PD metrics should be calculated, e.g. `timegroup = 5` calculates PD for all occurrences observed within a timespan of 5 years and produces a separate map and indicator for each period. If no `timegroup` argument is specified, all occurrences in the dataset will be aggregated over time. The argument `metric` can be used to specify which PD metric needs to be calculated. The PD values will be appended to the datacube as a new column 'PD'.
 
 ```{r}
-PD_cube <- get_pd_cube(mcube, tree, metric = "faith")
+pd_cube <- get_pd_cube(mcube, tree, metric = "faith")
 ```
 
 ### Visualize PD on a map & calculate indicator
@@ -159,12 +159,12 @@ selecting the CRS of the used grid.
 ```{r echo=T, results='hide', message=F, warning=F}
 #| fig.alt: >
 #|   PD map
-PDindicator <- generate_map_and_indicator(PD_cube, grid, "Fagales")
-PDindicator
+pdindicator <- generate_map_and_indicator(pd_cube, grid, "Fagales")
+pdindicator
 
 # Optionally specify a custom bounding box
 # bbox_custom <- c(xmin,xmax,ymin,ymax)
-# PDmap <- generate_map_and_indicator(PD_cube, grid, "Musteloidea", bbox_custom)
+# pdmap <- generate_map_and_indicator(pd_cube, grid, "Musteloidea", bbox_custom)
 ```
 
 If the optional parameter `cutoff` is specified, than this value is used to 
@@ -175,16 +175,16 @@ stored as a list, with two maps in the first element (PD map and high/low PD map
 and the indicator value as the second element. 
 
 ```{r, echo=T, results='hide', message=F, warning=F}
-#| fig.alt: >
-#|   PD map cut off
-PDindicator <- generate_map_and_indicator(
-  PD_cube,
+pdindicator <- generate_map_and_indicator(
+  pd_cube,
   grid,
   "Fagales",
   cutoff = 450)
 
-plots <- PDindicator[[1]]
-indicators <- PDindicator[[2]]
+plots <- pdindicator[[1]]
+indicators <- pdindicator[[2]]
+```
+```{r}
 print(plots)
 print(paste("The percentage of high PD grid cells that fall within",
                 "protected areas is", round(indicators$Overall, digits=2), "%"))

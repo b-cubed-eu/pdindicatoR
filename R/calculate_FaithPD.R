@@ -8,7 +8,7 @@
 #' @param species A character vector where each element is a species, and more
 #' specifically, matches a tip label of the phylogenetic tree exactly
 #' @param mrca_node_id Node id of the taxon that represents the most recent common
-#' ancestor of the set of species under study
+#' ancestor of the set of species under study (integer)
 #' @return A string that combines "Phylogenetic diversity:" and the calculated
 #' value
 #' @import dplyr
@@ -23,6 +23,38 @@
 
 calculate_faithpd <- function(tree, species, mrca_node_id) {
 
+  # Check if `tree` is of class `phylo`
+  if (missing(tree) || !inherits(tree, "phylo")) {
+    stop("`tree` must be provided and should be an object of class `phylo`.")
+  }
+
+  # Check if `tree` has required components
+  if (is.null(tree$tip.label) || is.null(tree$edge) ||
+      is.null(tree$edge.length)) {
+    stop("`tree` must have `tip.label`, `edge`, and `edge.length` components.")
+  }
+
+  # Check if `species` is a non-empty character vector
+  if (missing(species) || !is.character(species) || length(species) == 0) {
+    stop("`species` must be a non-empty character vector.")
+  }
+
+  # Ensure all species in `species` are present in `tree$tip.label`
+  missing_species <- species[!species %in% tree$tip.label]
+  if (length(missing_species) > 0) {
+    stop(paste("The following species are not found in `tree$tip.label`:",
+               paste(missing_species, collapse = ", ")))
+  }
+
+  # Check if `mrca_node_id` is a single integer and a valid node ID in the tree
+  if (missing(mrca_node_id) || !is.numeric(mrca_node_id) ||
+      length(mrca_node_id) != 1 || mrca_node_id <= length(tree$tip.label) ||
+      mrca_node_id > max(tree$edge)) {
+    stop("`mrca_node_id` must be a single numeric value representing a valid
+         node ID in the tree.")
+  }
+
+  # Function logic starts here
   # get tip id's from tip labels
   tip_ids <- vector(mode = "integer", length = length(species))
   for (i in seq_along(species)) {

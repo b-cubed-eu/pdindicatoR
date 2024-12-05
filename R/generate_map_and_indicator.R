@@ -4,9 +4,8 @@
 #' the calculated PD metric for each grid cell and the location of protected
 #' nature areas.
 #'
-#' @param pd_cube An sf dataframe containing the calculated PD metrics (column
-#' name 'PD') for each grid cell with occurrences of a selected higher taxon,
-#' and the geometries of those grid cells.
+#' @param pd_cube A dataframe with a variable containing grid cell codes and
+#' a variable with calculated pd values (output of the function get_pd_cube())
 #' @param grid An sf object with variable detailing grid cell codes and a
 #' geometry column
 #' @param taxon A selected higher taxon, for which the occurrence cube was
@@ -42,6 +41,46 @@ generate_map_and_indicator <- function(
     bbox_custom = NULL,
     cutoff = NULL) {
 
+  # Check that mcube is a dataframe or tibble
+  if (!is.data.frame(pd_cube)) {
+    stop("Error: 'pd_cube' must be a dataframe or tibble.")
+  }
+
+  if (!"pd" %in% colnames(pd_cube)) {
+    stop("`pd_cube` must contain a column named 'pd' representing Phylogenetic
+         Diversity.")
+  }
+
+  if (missing(grid) || !inherits(grid, "sf")) {
+    stop("`grid` must be provided and should be an `sf` object.")
+  }
+
+  if (!all(sf::st_is_valid(grid))) {
+    stop("Some geometries in `grid` are invalid. Please fix them before
+         proceeding.")
+  }
+
+  if (!"CELLCODE" %in% colnames(grid)) {
+    stop("`grid` must contain a column named 'CELLCODE' for grid cell codes.")
+  }
+
+  if (!"geometry" %in% colnames(grid)) {
+    stop("`grid` must contain a 'geometry' column.")
+  }
+
+  # Check if `taxon` is a character string or NULL
+  if (!is.null(taxon) && !is.character(taxon)) {
+    stop("`taxon` must be a character string or NULL.")
+  }
+
+  # Check if `cutoff` is a single numeric value greater than 0, if provided
+  if (!is.null(cutoff)) {
+    if (!is.numeric(cutoff) || length(cutoff) != 1 || cutoff <= 0) {
+      stop("`cutoff` must be a single numeric value greater than zero.")
+    }
+  }
+
+  # Function logic starts here
   ex_data <- retrieve_example_data(data = "pa")
   pa <- ex_data$pa
 
@@ -83,8 +122,8 @@ generate_map_and_indicator <- function(
   indicators <- list()
 
   # Calculate global min and max PD values for consistent color scale
-  pd_min <- min(pd_cube_geo$PD, na.rm = TRUE)
-  pd_max <- max(pd_cube_geo$PD, na.rm = TRUE)
+  pd_min <- min(pd_cube_geo$pd, na.rm = TRUE)
+  pd_max <- max(pd_cube_geo$pd, na.rm = TRUE)
 
   # Check for 'period' column in pd_cube
   if ("period" %in% colnames(pd_cube_geo)) {
@@ -98,7 +137,7 @@ generate_map_and_indicator <- function(
       map <- ggplot2::ggplot() +
         ggplot2::geom_sf(data = world_3035, fill = "antiquewhite") +
         ggplot2::geom_sf(data = current_period_data,
-                         mapping = ggplot2::aes(fill = .data$PD)) +
+                         mapping = ggplot2::aes(fill = .data$pd)) +
         ggplot2::scale_fill_viridis_c(option = "B",
                                       limits = c(pd_min, pd_max)) +
         ggplot2::geom_sf(data = pa, fill = NA, color = "darkgreen",
@@ -120,15 +159,15 @@ generate_map_and_indicator <- function(
 
       # Calculate indicator for the current period if cutoff is provided
       if (!is.null(cutoff)) {
-        current_period_data$PD_high <- as.numeric(
-          current_period_data$PD > cutoff)
-        cube_highPD <- current_period_data[
-          current_period_data$PD_high == 1,
-          c("OBJECTID", "CELLCODE", "PD", "geom", "PD_high")
+        current_period_data$pd_high <- as.numeric(
+          current_period_data$pd > cutoff)
+        cube_highpd <- current_period_data[
+          current_period_data$pd_high == 1,
+          c("OBJECTID", "CELLCODE", "pd", "geom", "pd_high")
           ]
 
         # Convert to multipolygon object
-        cube_mp <- convert_multipolygons(cube_highPD)
+        cube_mp <- convert_multipolygons(cube_highpd)
 
         # Determine centerpoints of high PD grid cells
         centroids <- sf::st_centroid(cube_mp)
@@ -151,7 +190,7 @@ generate_map_and_indicator <- function(
     map_pd <- ggplot2::ggplot() +
       ggplot2::geom_sf(data = world_3035, fill = "antiquewhite") +
       ggplot2::geom_sf(data = pd_cube_geo,
-                       mapping = ggplot2::aes(fill = .data$PD)) +
+                       mapping = ggplot2::aes(fill = .data$pd)) +
       ggplot2::scale_fill_viridis_c(option = "B") +
       ggplot2::geom_sf(data = pa, fill = NA, color = "lightblue",
                        linewidth = 0.03) +
@@ -167,14 +206,14 @@ generate_map_and_indicator <- function(
 
     # Calculate indicator if cutoff is provided and produce a high/low PD map
     if (!is.null(cutoff)) {
-      pd_cube_geo$PD_high <- as.factor(ifelse((pd_cube_geo$PD > cutoff), 1, 0))
-      cube_highPD <- pd_cube_geo[
-        pd_cube_geo$PD_high == 1,
-        c("OBJECTID", "CELLCODE", "PD", "geometry", "PD_high")
+      pd_cube_geo$pd_high <- as.factor(ifelse((pd_cube_geo$pd > cutoff), 1, 0))
+      cube_highpd <- pd_cube_geo[
+        pd_cube_geo$pd_high == 1,
+        c("OBJECTID", "CELLCODE", "pd", "geometry", "pd_high")
         ]
 
       # Convert to multipolygon object
-      cube_mp <- convert_multipolygons(cube_highPD)
+      cube_mp <- convert_multipolygons(cube_highpd)
 
       # Determine centerpoints of high PD grid cells
       centroids <- sf::st_centroid(cube_mp)
@@ -193,7 +232,7 @@ generate_map_and_indicator <- function(
       map_hilo_pd <- ggplot2::ggplot() +
         ggplot2::geom_sf(data = world_3035, fill = "antiquewhite") +
         ggplot2::geom_sf(data = pd_cube_geo,
-                         mapping = ggplot2::aes(fill = .data$PD_high)) +
+                         mapping = ggplot2::aes(fill = .data$pd_high)) +
         #scale_fill_viridis_c(option = "B") +
         ggplot2::geom_sf(data = pa, fill = NA, color = "lightblue",
                          linewidth = 0.03) +

@@ -22,6 +22,29 @@
 
 get_pd_cube <- function(mcube, tree, timegroup = NULL, metric = "faith") {
 
+  # Check that mcube is a dataframe or tibble
+  if (!is.data.frame(mcube)) {
+    stop("Error: 'mcube' must be a dataframe or tibble.")
+  }
+
+  # Check if 'tree' is of class phylo
+  if (class(tree)!="phylo") {
+    stop("Error: 'tree' must be an object of type 'Phylo'")
+  }
+
+  # Check that timegroup is either NULL or a positive integer
+  if (!is.null(timegroup)) {
+    if (!is.numeric(timegroup) || timegroup <= 0 || length(timegroup) != 1 ||
+        timegroup != as.integer(timegroup)) {
+      stop("Error: 'timegroup' must be a single positive integer or NULL.")
+    }
+  }
+
+  # Check that selected metric(s) are correctly specified
+  available_metrics <- list("faith")
+  if (!metric %in% available_metrics){stop("The selected PD metric is not available.")}
+
+  # Function logic begins here
   # Aggregate cube
   aggr_cube <- aggregate_cube(mcube, timegroup)
 
@@ -33,12 +56,12 @@ get_pd_cube <- function(mcube, tree, timegroup = NULL, metric = "faith") {
 
   # Calculate PD metric
   if (metric == "faith") {
-    PD_cube <- aggr_cube %>%
-      mutate(PD = unlist(purrr::map(aggr_cube$orig_tiplabels,
+    pd_cube <- aggr_cube %>%
+      mutate(pd = unlist(purrr::map(aggr_cube$orig_tiplabels,
                                     ~ calculate_faithpd(tree, unlist(.x), mrca_node_id))
                          )
              )
-    return(PD_cube)
+    return(pd_cube)
   }
-  else print("The selected PD metric is not available.")
+
 }

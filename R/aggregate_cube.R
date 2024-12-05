@@ -10,7 +10,7 @@
 #' @param timegroup An integer, representing the number of years by which you
 #' want to group
 #' your occurrence data
-#' @return A dataframe with for each grid cell
+#' @return A dataframe with for each grid cell a list of observed species
 #' @importFrom rlang .data
 #' @import dplyr
 #' @examples
@@ -22,6 +22,41 @@
 
 aggregate_cube <- function(mcube, timegroup = NULL) {
 
+  # Check that mcube is a dataframe or tibble
+  if (!is.data.frame(mcube)) {
+    stop("Error: 'mcube' must be a dataframe or tibble.")
+  }
+
+  # Check that mcube contains the required columns
+  required_columns <- c("year", "eeacellcode", "specieskey", "ott_id",
+                        "unique_name", "orig_tiplabel")
+  missing_columns <- setdiff(required_columns, colnames(mcube))
+  if (length(missing_columns) > 0) {
+    stop(paste("Error: 'mcube' is missing the following required columns:",
+               paste(missing_columns, collapse = ", ")))
+  }
+
+  # Check that the 'year' column is numeric and does not contain NA
+  if (!is.numeric(mcube$year) || any(is.na(mcube$year))) {
+    stop("Error: The 'year' column in 'mcube' must be numeric and free of NA
+         values.")
+  }
+
+  # Check that the 'eeacellcode' column exists and does not contain NA
+  if (any(is.na(mcube$eeacellcode))) {
+    stop("Error: The 'eeacellcode' column in 'mcube' must not contain NA values.
+         ")
+  }
+
+  # Check that timegroup is either NULL or a positive integer
+  if (!is.null(timegroup)) {
+    if (!is.numeric(timegroup) || timegroup <= 0 || length(timegroup) != 1 ||
+        timegroup != as.integer(timegroup)) {
+      stop("Error: 'timegroup' must be a single positive integer or NULL.")
+    }
+  }
+
+  # Function logic starts here
   columns_to_select <- c("year", "eeacellcode", "specieskey", "ott_id",
                          "unique_name", "orig_tiplabel")
   simpl_cube <- mcube[, intersect(columns_to_select, colnames(mcube))]

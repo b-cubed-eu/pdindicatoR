@@ -224,7 +224,7 @@ to be calculated. The PD values will be appended to the datacube as a
 new column ‘PD’.
 
 ``` r
-PD_cube <- get_pd_cube(mcube, tree, metric = "faith")
+pd_cube <- get_pd_cube(mcube, tree, metric = "faith")
 ```
 
 ### Visualize PD on a map & calculate indicator
@@ -245,8 +245,8 @@ determined using <https://epsg.io/> and selecting the CRS of the used
 grid.
 
 ``` r
-PDindicator <- generate_map_and_indicator(PD_cube, grid, "Fagales")
-PDindicator
+pdindicator <- generate_map_and_indicator(pd_cube, grid, "Fagales")
+pdindicator
 ```
 
 <img src="man/figures/unnamed-chunk-9-1.png" alt="PD map"  />
@@ -254,7 +254,7 @@ PDindicator
 ``` r
 # Optionally specify a custom bounding box
 # bbox_custom <- c(xmin,xmax,ymin,ymax)
-# PDmap <- generate_map_and_indicator(PD_cube, grid, "Musteloidea", bbox_custom)
+# pdmap <- generate_map_and_indicator(pd_cube, grid, "Musteloidea", bbox_custom)
 ```
 
 If the optional parameter `cutoff` is specified, than this value is used
@@ -265,20 +265,32 @@ The result is stored as a list, with two maps in the first element (PD
 map and high/low PD map) and the indicator value as the second element.
 
 ``` r
-PDindicator <- generate_map_and_indicator(
-  PD_cube,
+pdindicator <- generate_map_and_indicator(
+  pd_cube,
   grid,
   "Fagales",
   cutoff = 450)
 
-plots <- PDindicator[[1]]
-indicators <- PDindicator[[2]]
+plots <- pdindicator[[1]]
+indicators <- pdindicator[[2]]
+```
+
+``` r
 print(plots)
 ```
 
-<img src="man/figures/unnamed-chunk-10-1.png" alt="PD map cut off"  /><img src="man/figures/unnamed-chunk-10-2.png" alt="PD map cut off"  />
+    ## [[1]]
+
+![](man/figures/unnamed-chunk-11-1.png)<!-- -->
+
+    ## 
+    ## [[2]]
+
+![](man/figures/unnamed-chunk-11-2.png)<!-- -->
 
 ``` r
 print(paste("The percentage of high PD grid cells that fall within",
                 "protected areas is", round(indicators$Overall, digits=2), "%"))
 ```
+
+    ## [1] "The percentage of high PD grid cells that fall within protected areas is 23.46 %"
