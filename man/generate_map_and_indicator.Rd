@@ -5,7 +5,7 @@
 \title{Mapping PD and calculating indicator}
 \usage{
 generate_map_and_indicator(
-  PD_cube,
+  pd_cube,
   grid,
   taxon = NULL,
   bbox_custom = NULL,
@@ -13,7 +13,7 @@ generate_map_and_indicator(
 )
 }
 \arguments{
-\item{PD_cube}{An sf dataframe containing the calculated PD metrics (column
+\item{pd_cube}{An sf dataframe containing the calculated PD metrics (column
 name 'PD') for each grid cell with occurrences of a selected higher taxon,
 and the geometries of those grid cells.}
 
@@ -43,9 +43,9 @@ library(dplyr)
 ex_data <- retrieve_example_data()
 mcube <- append_ott_id(ex_data$tree, ex_data$cube, ex_data$matched_nona)
 mcube <- dplyr::filter(mcube, !is.na(ott_id))
-PD_cube <- get_pd_cube(mcube, ex_data$tree)
+pd_cube <- get_pd_cube(mcube, ex_data$tree)
 PDindicator <- generate_map_and_indicator(
-  PD_cube,
+  pd_cube,
   ex_data$grid,
   taxon="Fagales",
   cutoff=150)
