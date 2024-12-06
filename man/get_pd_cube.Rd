@@ -29,5 +29,5 @@ library(dplyr)
 ex_data <- retrieve_example_data()
 mcube <- append_ott_id(ex_data$tree, ex_data$cube, ex_data$matched_nona)
 mcube <- dplyr::filter(mcube, !is.na(ott_id))
-PD_cube <- get_pd_cube(mcube, ex_data$tree, metric="faith")
+pd_cube <- get_pd_cube(mcube, ex_data$tree, metric="faith")
 }

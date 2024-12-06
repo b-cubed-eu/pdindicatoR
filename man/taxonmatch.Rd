@@ -11,7 +11,8 @@ taxonmatch(tree)
 format that was parsed by \code{ape::read_tree()}}
 }
 \value{
-A dataframe with columns \code{ott_id} and \code{gbif_id}
+A dataframe with as variables (among others) the search strings,
+matched OTT names and id's, gbif id's and original tiplabels
 }
 \description{
 This function matches the tip labels of a phylogenetic tree (Taxon names or
