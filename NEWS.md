@@ -1,3 +1,9 @@
+
+# pdindicatoR 0.0.3
+
+* Fixed remaining coding style issues
+* Added input checks to functions
+
 # pdindicatoR 0.0.2
 
 * Code review for coding style and spelling
