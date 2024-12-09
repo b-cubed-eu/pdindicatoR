@@ -224,7 +224,7 @@ to be calculated. The PD values will be appended to the datacube as a
 new column ‘PD’.
 
 ``` r
-PD_cube <- get_pd_cube(mcube, tree, metric = "faith")
+pd_cube <- get_pd_cube(mcube, tree, metric = "faith")
 ```
 
 ### Visualize PD on a map & calculate indicator
@@ -245,8 +245,8 @@ determined using <https://epsg.io/> and selecting the CRS of the used
 grid.
 
 ``` r
-PDindicator <- generate_map_and_indicator(PD_cube, grid, "Fagales")
-PDindicator
+pdindicator <- generate_map_and_indicator(pd_cube, grid, "Fagales")
+pdindicator
 ```
 
 <img src="man/figures/unnamed-chunk-9-1.png" alt="PD map"  />
@@ -254,7 +254,7 @@ PDindicator
 ``` r
 # Optionally specify a custom bounding box
 # bbox_custom <- c(xmin,xmax,ymin,ymax)
-# PDmap <- generate_map_and_indicator(PD_cube, grid, "Musteloidea", bbox_custom)
+# pdmap <- generate_map_and_indicator(pd_cube, grid, "Musteloidea", bbox_custom)
 ```
 
 If the optional parameter `cutoff` is specified, than this value is used
@@ -265,50 +265,32 @@ The result is stored as a list, with two maps in the first element (PD
 map and high/low PD map) and the indicator value as the second element.
 
 ``` r
-PDindicator <- generate_map_and_indicator(
-  PD_cube,
+pdindicator <- generate_map_and_indicator(
+  pd_cube,
   grid,
   "Fagales",
   cutoff = 450)
+
+plots <- pdindicator[[1]]
+indicators <- pdindicator[[2]]
 ```
 
-    ## Reading layer `protected_areas_NPHogeKempen' from data source `C:\Users\lissa\AppData\Local\R\win-library\4.3\pdindicatoR\extdata\PA_NPHogeKempen\protected_areas_NPHogeKempen.shp' using driver `ESRI Shapefile'
-    ## Simple feature collection with 32 features and 6 fields
-    ## Geometry type: MULTIPOLYGON
-    ## Dimension:     XY
-    ## Bounding box:  xmin: 3948585 ymin: 3065773 xmax: 4049889 ymax: 3141858
-    ## Projected CRS: ETRS89-extended / LAEA Europe
-    ## Writing layer `file4570363f72ce' to data source `C:\Users\lissa\AppData\Local\Temp\RtmpYt9uzm\file4570363f72ce.gpkg' using driver `GPKG'
-    ## Writing 358 features with 4 fields and geometry type Polygon.
-    ## Reading layer `file4570363f72ce' from data source `C:\Users\lissa\AppData\Local\Temp\RtmpYt9uzm\file45707bfe3602.gpkg' using driver `GPKG'
-    ## Simple feature collection with 358 features and 4 fields
-    ## Geometry type: MULTIPOLYGON
-    ## Dimension:     XY
-    ## Bounding box:  xmin: 3997000 ymin: 3081000 xmax: 4027000 ymax: 3118000
-    ## Projected CRS: ETRS89-extended / LAEA Europe
-
-    ## Warning: st_centroid assumes attributes are constant over geometries
-
-    ## [1] "The percentage of high PD grid cells that fall within protected areas is 23.463687150838 %"
-
 ``` r
-plots <- PDindicator[[1]]
-indicators <- PDindicator[[2]]
 print(plots)
 ```
 
     ## [[1]]
 
-<img src="man/figures/unnamed-chunk-10-1.png" alt="PD map cut off"  />
+![](man/figures/unnamed-chunk-11-1.png)<!-- -->
 
     ## 
     ## [[2]]
 
-<img src="man/figures/unnamed-chunk-10-2.png" alt="PD map cut off"  />
+![](man/figures/unnamed-chunk-11-2.png)<!-- -->
 
 ``` r
-print(indicators)
+print(paste("The percentage of high PD grid cells that fall within",
+                "protected areas is", round(indicators$Overall, digits=2), "%"))
 ```
 
-    ## $Overall
-    ## [1] 23.46369
+    ## [1] "The percentage of high PD grid cells that fall within protected areas is 23.46 %"

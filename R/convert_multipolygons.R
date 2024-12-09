@@ -8,14 +8,14 @@
 #' ex_data <- retrieve_example_data()
 #' mcube <- append_ott_id(ex_data$tree, ex_data$cube, ex_data$matched_nona)
 #' mcube <- dplyr::filter(mcube, !is.na(ott_id))
-#' PD_cube <- get_pd_cube(mcube, ex_data$tree)
-#' PD_cube_geo <- right_join(ex_data$grid, PD_cube,
+#' pd_cube <- get_pd_cube(mcube, ex_data$tree)
+#' pd_cube_geo <- right_join(ex_data$grid, pd_cube,
 #'                           by = join_by(CELLCODE == eeacellcode))
 #' cutoff <- 150
-#' PD_cube_geo$PD_high <- as.factor(ifelse((PD_cube_geo$PD > cutoff), 1, 0))
-#' cube_highPD <- PD_cube_geo[PD_cube_geo$PD_high == 1,
-#'     c("OBJECTID", "CELLCODE", "PD", "geometry", "PD_high")]
-#' cube_mp <- convert_multipolygons(cube_highPD)
+#' pd_cube_geo$pd_high <- as.factor(ifelse((pd_cube_geo$pd > cutoff), 1, 0))
+#' cube_highpd <- pd_cube_geo[pd_cube_geo$pd_high == 1,
+#'     c("OBJECTID", "CELLCODE", "pd", "geometry", "pd_high")]
+#' cube_mp <- convert_multipolygons(cube_highpd)
 #' @export
 
 

@@ -1,6 +1,6 @@
 {
   "title": "pdindicatoR: Calculate and visualize a phylogenetic diversity indicators based on species occurence data cubes",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "MIT",
   "upload_type": "software",
   "description": "<p>A package to calculate and produce a map of phylogenetic diversity scores for each grid cell in the input species occurences data cube, and calculate the percentage of high PD cells within currently protected areas. You provide a phylogenetic tree, the datacube for the corresponding species is downloaded from GBIF (or user-uploaded), and the package does the rest.<\/p>",

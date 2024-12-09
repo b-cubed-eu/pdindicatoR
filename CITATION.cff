@@ -33,4 +33,4 @@ abstract: "A package to calculate and produce a map of phylogenetic diversity sc
   percentage of high PD cells within currently protected areas. You provide a phylogenetic
   tree, the datacube for the corresponding species is downloaded from GBIF (or user-uploaded),
   and the package does the rest."
-version: 0.0.2
+version: 0.0.3
