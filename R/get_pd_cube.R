@@ -42,7 +42,7 @@ get_pd_cube <- function(mcube, tree, timegroup = NULL, metric = "faith") {
 
   # Check that selected metric(s) are correctly specified
   available_metrics <- list("faith")
-  if (!metric %in% available_metrics){stop("The selected PD metric is not available.")}
+stopifnot("The selected PD metric is not available." = metric %in% available_metrics)
 
   # Function logic begins here
   # Aggregate cube
