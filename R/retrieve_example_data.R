@@ -53,10 +53,12 @@ retrieve_example_data <- function(data = "all") {
       tree$tip.label <- gsub("_", " ", tree$tip.label)
       tree
     },
-    cube = function(path) utils::read.csv(path, stringsAsFactors = FALSE, sep = "\t"),
+    cube = function(path) utils::read.csv(path, stringsAsFactors = FALSE,
+                                          sep = "\t"),
     grid = sf::st_read,
     pa = sf::st_read,
-    matched_nona = function(path) read.csv(path, stringsAsFactors = FALSE, sep = ",")
+    matched_nona = function(path) read.csv(path, stringsAsFactors = FALSE,
+                                           sep = ",")
   )
 
   # Initialize result list

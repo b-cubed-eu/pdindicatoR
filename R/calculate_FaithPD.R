@@ -7,8 +7,8 @@
 #' format that was parsed by `ape::read_tree()`
 #' @param species A character vector where each element is a species, and more
 #' specifically, matches a tip label of the phylogenetic tree exactly
-#' @param mrca_node_id Node id of the taxon that represents the most recent common
-#' ancestor of the set of species under study (integer)
+#' @param mrca_node_id Node id of the taxon that represents the most recent
+#' common ancestor of the set of species under study (integer)
 #' @return A string that combines "Phylogenetic diversity:" and the calculated
 #' value
 #' @import dplyr
@@ -89,5 +89,3 @@ calculate_faithpd <- function(tree, species, mrca_node_id) {
   pd <- sum(edge_lengths)
   return(pd)
 }
-
-

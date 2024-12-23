@@ -23,9 +23,9 @@
 aggregate_cube <- function(mcube, timegroup = NULL) {
 
   # Check that mcube is a dataframe or tibble
-  if (!is.data.frame(mcube)) {
-    stop("Error: 'mcube' must be a dataframe or tibble.")
-  }
+
+  stopifnot("Error: 'mcube' must be a dataframe or tibble." =
+              inherits(mcube, "data.frame"))
 
   # Check that mcube contains the required columns
   required_columns <- c("year", "eeacellcode", "specieskey", "ott_id",
@@ -47,6 +47,8 @@ aggregate_cube <- function(mcube, timegroup = NULL) {
     stop("Error: The 'eeacellcode' column in 'mcube' must not contain NA values.
          ")
   }
+
+  assertthat:noNA(mcube$eeacellcode, )
 
   # Check that timegroup is either NULL or a positive integer
   if (!is.null(timegroup)) {

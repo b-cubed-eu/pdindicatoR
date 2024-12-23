@@ -227,7 +227,8 @@ generate_map_and_indicator <- function(
       indicators[["Overall"]] <- pd_indicator
 
       print(paste("The percentage of high PD grid cells that fall within",
-                  "protected areas is", round(indicators$Overall, digits=2), "%"))
+                  "protected areas is", round(indicators$Overall, digits = 2),
+                  "%"))
 
       map_hilo_pd <- ggplot2::ggplot() +
         ggplot2::geom_sf(data = world_3035, fill = "antiquewhite") +

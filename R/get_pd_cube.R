@@ -42,7 +42,8 @@ get_pd_cube <- function(mcube, tree, timegroup = NULL, metric = "faith") {
 
   # Check that selected metric(s) are correctly specified
   available_metrics <- list("faith")
-stopifnot("The selected PD metric is not available." = metric %in% available_metrics)
+  stopifnot("The selected PD metric is not available." = metric %in%
+            available_metrics)
 
   # Function logic begins here
   # Aggregate cube
@@ -58,7 +59,8 @@ stopifnot("The selected PD metric is not available." = metric %in% available_met
   if (metric == "faith") {
     pd_cube <- aggr_cube %>%
       mutate(pd = unlist(purrr::map(aggr_cube$orig_tiplabels,
-                                    ~ calculate_faithpd(tree, unlist(.x), mrca_node_id))
+                                    ~ calculate_faithpd(tree, unlist(.x),
+                                                        mrca_node_id))
                          )
              )
     return(pd_cube)
