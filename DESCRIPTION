@@ -22,7 +22,8 @@ Description: A package to calculate and produce a map of phylogenetic
     user-uploaded), and the package does the rest.
 License: MIT + file LICENSE
 URL: https://github.com/b-cubed-eu/pdindicatoR,
-    https://b-cubed-eu.github.io/pdindicatoR/
+    https://b-cubed-eu.github.io/pdindicatoR/,
+    https://doi.org/10.5281/zenodo.14237551
 Imports:
     ape,
     dplyr,
