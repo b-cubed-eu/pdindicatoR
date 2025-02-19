@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: If you use this software, please cite it using these metadata.
 title: "pdindicatoR: Calculate and visualize a phylogenetic diversity indicators based
-  on species occurence data cubes"
+  on species occurrence data cubes"
 authors:
 - given-names: Lissa
   family-names: Breugelmans
@@ -29,7 +29,7 @@ license: MIT
 repository-code: https://github.com/b-cubed-eu/pdindicatoR/
 type: software
 abstract: "A package to calculate and produce a map of phylogenetic diversity scores
-  for each grid cell in the input species occurences data cube, and calculate the
+  for each grid cell in the input species occurrences data cube, and calculate the
   percentage of high PD cells within currently protected areas. You provide a phylogenetic
   tree, the datacube for the corresponding species is downloaded from GBIF (or user-uploaded),
   and the package does the rest."
