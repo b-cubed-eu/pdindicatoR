@@ -12,6 +12,7 @@
 #' your occurrence data
 #' @return A dataframe with for each grid cell a list of observed species
 #' @importFrom rlang .data
+#' @importFrom assertthat noNA
 #' @import dplyr
 #' @examples
 #' ex_data <- retrieve_example_data()
@@ -23,7 +24,6 @@
 aggregate_cube <- function(mcube, timegroup = NULL) {
 
   # Check that mcube is a dataframe or tibble
-
   stopifnot("Error: 'mcube' must be a dataframe or tibble." =
               inherits(mcube, "data.frame"))
 
@@ -43,12 +43,9 @@ aggregate_cube <- function(mcube, timegroup = NULL) {
   }
 
   # Check that the 'eeacellcode' column exists and does not contain NA
-  if (any(is.na(mcube$eeacellcode))) {
-    stop("Error: The 'eeacellcode' column in 'mcube' must not contain NA values.
-         ")
-  }
-
-  assertthat:noNA(mcube$eeacellcode, )
+  stopifnot(
+  "Error: The 'eeacellcode' column in 'mcube' must not contain NA values." =
+    assertthat::noNA(mcube$eeacellcode))
 
   # Check that timegroup is either NULL or a positive integer
   if (!is.null(timegroup)) {

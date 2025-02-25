@@ -5,15 +5,19 @@
 
 <!-- badges: start -->
 
-[![DOI](https://zenodo.org/badge/788483688.svg)](https://doi.org/10.5281/zenodo.14237551)
+[![repo
+status](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+[![Release](https://img.shields.io/github/release/b-cubed-eu/pdindicatoR.svg)](https://github.com/b-cubed-eu/pdindicatoR/releases)
+[![pdindicatoR status
+badge](https://b-cubed-eu.r-universe.dev/pdindicatoR/badges/version)](https://b-cubed-eu.r-universe.dev/pdindicatoR)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/pdindicatoR)](https://CRAN.R-project.org/package=pdindicatoR)
-[![Release](https://img.shields.io/github/release/b-cubed-eu/pdindicatoR.svg)](https://github.com/b-cubed-eu/pdindicatoR/releases)
 [![R-CMD-check](https://github.com/b-cubed-eu/pdindicatoR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/b-cubed-eu/pdindicatoR/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/b-cubed-eu/pdindicatoR/graph/badge.svg)](https://app.codecov.io/gh/b-cubed-eu/pdindicatoR)
-[![repo
-status](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14237551.svg)](https://doi.org/10.5281/zenodo.14237551)
+[![name status
+badge](https://b-cubed-eu.r-universe.dev/badges/:name?color=6CDDB4)](https://b-cubed-eu.r-universe.dev/)
 
 <!-- badges: end -->
 
@@ -34,6 +38,12 @@ which can be used to identify potential directions for future expansion
 of protected areas.
 
 ## Installation
+
+Install **pdindicatoR** in R:
+
+``` r
+install.packages("pdindicatoR", repos = "https://b-cubed-eu.r-universe.dev")
+```
 
 You can install the development version from
 [GitHub](https://github.com/) with:

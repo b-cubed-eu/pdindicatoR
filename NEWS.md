@@ -1,8 +1,8 @@
-
 # pdindicatoR 0.0.3
 
 * Fixed remaining coding style issues
 * Added input checks to functions
+* Join the [R-universe](https://b-cubed-eu.r-universe.dev/)!
 
 # pdindicatoR 0.0.2
 
