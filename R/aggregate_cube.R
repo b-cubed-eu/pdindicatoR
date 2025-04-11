@@ -104,6 +104,5 @@ aggregate_cube <- function(mcube, timegroup = NULL) {
        orig_tiplabels = list(unique(.data$orig_tiplabel))
      )
   }
-  return(aggr_cube)
+  return(aggr_cube)}
 
-  }
