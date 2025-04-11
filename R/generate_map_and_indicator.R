@@ -41,43 +41,33 @@ generate_map_and_indicator <- function(
     bbox_custom = NULL,
     cutoff = NULL) {
 
-  # Check that mcube is a dataframe or tibble
-  if (!is.data.frame(pd_cube)) {
-    stop("Error: 'pd_cube' must be a dataframe or tibble.")
-  }
+  # pd_cube checks
+  stopifnot(
+    "'pd_cube' must be a dataframe or tibble." = is.data.frame(pd_cube),
+    "'pd_cube' must contain a column named 'pd' representing Phylogenetic Diversity." = assertthat::has_name(pd_cube, "pd")
+  )
 
-  if (!"pd" %in% colnames(pd_cube)) {
-    stop("`pd_cube` must contain a column named 'pd' representing Phylogenetic
-         Diversity.")
-  }
+  # grid checks
+  stopifnot(
+    "'grid' must be provided." = !missing(grid),
+    "'grid' must be an 'sf' object." = inherits(grid, "sf"),
+    "Some geometries in 'grid' are invalid. Please fix them before proceeding." = all(sf::st_is_valid(grid)),
+    "'grid' must contain a column named 'CELLCODE' for grid cell codes." = assertthat::has_name(grid, "CELLCODE"),
+    "'grid' must contain a 'geometry' column." = assertthat::has_name(grid, "geometry")
+  )
 
-  if (missing(grid) || !inherits(grid, "sf")) {
-    stop("`grid` must be provided and should be an `sf` object.")
-  }
+  # taxon check
+  stopifnot(
+    "'taxon' must be a character string or NULL." = is.null(taxon) || is.character(taxon)
+  )
 
-  if (!all(sf::st_is_valid(grid))) {
-    stop("Some geometries in `grid` are invalid. Please fix them before
-         proceeding.")
-  }
-
-  if (!"CELLCODE" %in% colnames(grid)) {
-    stop("`grid` must contain a column named 'CELLCODE' for grid cell codes.")
-  }
-
-  if (!"geometry" %in% colnames(grid)) {
-    stop("`grid` must contain a 'geometry' column.")
-  }
-
-  # Check if `taxon` is a character string or NULL
-  if (!is.null(taxon) && !is.character(taxon)) {
-    stop("`taxon` must be a character string or NULL.")
-  }
-
-  # Check if `cutoff` is a single numeric value greater than 0, if provided
+  # cutoff check
   if (!is.null(cutoff)) {
-    if (!is.numeric(cutoff) || length(cutoff) != 1 || cutoff <= 0) {
-      stop("`cutoff` must be a single numeric value greater than zero.")
-    }
+    stopifnot(
+      "'cutoff' must be numeric." = is.numeric(cutoff),
+      "'cutoff' must be a single value." = length(cutoff) == 1,
+      "'cutoff' must be greater than zero." = cutoff > 0
+    )
   }
 
   # Function logic starts here
