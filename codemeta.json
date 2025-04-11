@@ -13,7 +13,7 @@
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.4.2 (2024-10-31 ucrt)",
+  "runtimePlatform": "R version 4.3.3 (2024-02-29 ucrt)",
   "author": [
     {
       "@type": "Person",
@@ -242,7 +242,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "3898.038KB",
+  "fileSize": "440892.215KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
