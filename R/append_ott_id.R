@@ -65,5 +65,6 @@ append_ott_id <- function(tree, cube, matched) {
       mtable[, c("specieskey", "ott_id", "unique_name", "orig_tiplabel")],
       by = join_by("specieskey" == "specieskey")
     )
+
   return(mcube)
-  }
+}

@@ -49,7 +49,8 @@ taxonmatch <- function(tree) {
 
   original_df <- data.frame(
     orig_tiplabel = unique(tree_labels),
-    search_string = tolower(unique(tree_labels)))
+    search_string = tolower(unique(tree_labels))
+  )
 
   matched_result <- merge(taxa, original_df, by = "search_string", all.x = TRUE)
   return(matched_result)
