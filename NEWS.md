@@ -1,4 +1,4 @@
-# pdindicatoR 0.0.3
+# pdindicatoR 0.1.0
 
 * Fixed remaining coding style issues
 * Added input checks to functions
