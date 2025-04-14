@@ -17,6 +17,7 @@ authors:
   orcid: 0000-0002-9317-7862
 keywords:
 - phylogenetic diversity
+- data cubes
 - B-Cubed
 - biodiversity
 contact:
@@ -38,4 +39,4 @@ identifiers:
   value: 10.5281/zenodo.14237551
 - type: url
   value: https://b-cubed-eu.github.io/pdindicatoR/
-version: 0.0.3
+version: 0.1.0
