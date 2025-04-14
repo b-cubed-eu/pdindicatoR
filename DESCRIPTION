@@ -10,7 +10,7 @@ Authors@R: c(
     person("Louise", "Hendrickx", , "louise.hendrickx@plantentuinmeise.be", role = "aut",
            comment = c(ORCID = "0000-0002-9317-7862", affiliation = "Meise Botanic Garden")),
     person("Ward", "Langeraert", , "ward.langeraert@inbo.be", role = "ctb",
-       comment = c(ORCID = "0000-0002-5900-8109", affiliation = "Research Institute for Nature and Forest (INBO)")),
+           comment = c(ORCID = "0000-0002-5900-8109", affiliation = "Research Institute for Nature and Forest (INBO)")),
     person("Meise Botanic Garden", , , "b-cubedsupport@meisebotanicgarden.be", role = "cph"),
     person("European Union's Horizon Europe Research and Innovation Programme (ID No 101059592)", role = "fnd")
   )
