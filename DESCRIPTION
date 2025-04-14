@@ -24,6 +24,7 @@ License: MIT + file LICENSE
 URL: https://github.com/b-cubed-eu/pdindicatoR,
     https://b-cubed-eu.github.io/pdindicatoR/,
     https://doi.org/10.5281/zenodo.14237551
+BugReports: https://github.com/b-cubed-eu/pdindicatoR/issues
 Imports:
     ape,
     assertthat,
