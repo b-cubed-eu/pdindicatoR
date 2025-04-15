@@ -1,7 +1,7 @@
 Package: pdindicatoR
 Title: Calculate and visualize a phylogenetic diversity indicators based
-    on species occurence data cubes
-Version: 0.0.2
+    on species occurrence data cubes
+Version: 0.1.0
 Authors@R: c(
     person("Lissa", "Breugelmans", , "lissa.breugelmans@plantentuinmeise.be", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-8472-3577", affiliation = "Meise Botanic Garden")),
@@ -10,21 +10,24 @@ Authors@R: c(
     person("Louise", "Hendrickx", , "louise.hendrickx@plantentuinmeise.be", role = "aut",
            comment = c(ORCID = "0000-0002-9317-7862", affiliation = "Meise Botanic Garden")),
     person("Ward", "Langeraert", , "ward.langeraert@inbo.be", role = "ctb",
-       comment = c(ORCID = "0000-0002-5900-8109", affiliation = "Research Institute for Nature and Forest (INBO)")),
+           comment = c(ORCID = "0000-0002-5900-8109", affiliation = "Research Institute for Nature and Forest (INBO)")),
     person("Meise Botanic Garden", , , "b-cubedsupport@meisebotanicgarden.be", role = "cph"),
     person("European Union's Horizon Europe Research and Innovation Programme (ID No 101059592)", role = "fnd")
   )
 Description: A package to calculate and produce a map of phylogenetic
-    diversity scores for each grid cell in the input species occurences
+    diversity scores for each grid cell in the input species occurrences
     data cube, and calculate the percentage of high PD cells within
     currently protected areas.  You provide a phylogenetic tree, the
     datacube for the corresponding species is downloaded from GBIF (or
     user-uploaded), and the package does the rest.
 License: MIT + file LICENSE
 URL: https://github.com/b-cubed-eu/pdindicatoR,
-    https://b-cubed-eu.github.io/pdindicatoR/
+    https://b-cubed-eu.github.io/pdindicatoR/,
+    https://doi.org/10.5281/zenodo.14237551
+BugReports: https://github.com/b-cubed-eu/pdindicatoR/issues
 Imports:
     ape,
+    assertthat,
     dplyr,
     gdalUtilities,
     ggplot2,
@@ -38,6 +41,9 @@ Imports:
 Suggests: 
     purrr,
     testthat (>= 3.0.0)
+Config/checklist/communities: b3
+Config/checklist/keywords: phylogenetic diversity; data cubes; B-Cubed;
+    biodiversity
 Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-GB

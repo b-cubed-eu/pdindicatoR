@@ -25,78 +25,54 @@
 
 retrieve_example_data <- function(data = "all") {
   # Initialize paths for each data type
-  tree_path <- system.file("extdata", "Fagales_species.nwk",
-                           package = "pdindicatoR")
-  cube_path <-  system.file("extdata", "0004018-241107131044228_Fagales1km.csv",
-                            package = "pdindicatoR")
-  grid_path <- system.file("extdata", "EEA_1km_NPHogeKempen", "EEA_1km_HK.shp",
-                           package = "pdindicatoR")
-  pa_path <- system.file("extdata", "PA_NPHogeKempen",
+  paths <- list(
+  tree = system.file("extdata", "Fagales_species.nwk",
+                           package = "pdindicatoR"),
+  cube =  system.file("extdata", "0004018-241107131044228_Fagales1km.csv",
+                            package = "pdindicatoR"),
+  grid = system.file("extdata", "EEA_1km_NPHogeKempen", "EEA_1km_HK.shp",
+                           package = "pdindicatoR"),
+  pa = system.file("extdata", "PA_NPHogeKempen",
                          "protected_areas_NPHogeKempen.shp",
-                         package = "pdindicatoR")
-  matched_nona_path <- system.file("extdata", "matched_nona.csv",
+                         package = "pdindicatoR"),
+  matched_nona = system.file("extdata", "matched_nona.csv",
                                    package = "pdindicatoR")
+  )
 
-  # Check if example data are present
-  get_error_message <- function(file_name, folder_name = "inst/extdata/") {
-    paste0("File not found. Please check that '", file_name,
-           "' is in ", folder_name)
+  # Verify all files exist
+  missing_files <- sapply(paths, function(path) path == "")
+  if (any(missing_files)) {
+    missing_names <- names(missing_files[missing_files])
+    stop("File(s) not found: ", paste(missing_names, collapse = ", "))
   }
 
-  do.call(stopifnot,
-          stats::setNames(
-            list(
-              tree_path != "",
-              cube_path != "",
-              grid_path != "",
-              pa_path != "",
-              matched_nona_path != ""
-              ),
-            c(get_error_message(
-                "Fagales_species.nwk"),
-              get_error_message(
-                "0004018-241107131044228_Fagales1km.csv"),
-              get_error_message(
-                "EEA_1km_HK.shp", "inst/extdata/EEA_1km_NPHogeKempen"),
-              get_error_message(
-                "PA_NPHogeKempen/protected_areas_NPHogeKempen.shp"),
-              get_error_message(
-                "matched_nona.shp")
-              )
-            )
-          )
+  # Define loader functions for each data type
+  loaders <- list(
+    tree = function(path) {
+      tree <- ape::read.tree(path)
+      tree$tip.label <- gsub("_", " ", tree$tip.label)
+      tree
+    },
+    cube = function(path) {
+      utils::read.csv(path, stringsAsFactors = FALSE, sep = "\t")
+    },
+    grid = sf::st_read,
+    pa = sf::st_read,
+    matched_nona = function(path) {
+      read.csv(path, stringsAsFactors = FALSE, sep = ",")
+    }
+  )
 
-  # Define a list to store the loaded data
+  # Initialize result list
   result <- list()
 
-  # Load data based on the specified 'data' argument
-  if ("all" %in% data || "tree" %in% data) {
-    tree <- ape::read.tree(tree_path)
-    tree$tip.label <- gsub("_", " ", tree$tip.label)
-    result$tree <- tree
+  for (type in names(paths)) {
+    if ("all" %in% data || type %in% data) {
+      result[[type]] <- loaders[[type]](paths[[type]])
+    }
   }
 
-  if ("all" %in% data || "cube" %in% data) {
-    cube <- utils::read.csv(cube_path, stringsAsFactors = FALSE, sep = "\t")
-    result$cube <- cube
-  }
 
-  if ("all" %in% data || "grid" %in% data) {
-    grid <- sf::st_read(grid_path)
-    result$grid <- grid
-  }
-
-  if ("all" %in% data || "pa" %in% data) {
-    pa <- sf::st_read(pa_path)
-    result$pa <- pa
-  }
-
-  if ("all" %in% data || "matched_nona" %in% data) {
-    matched_nona <- read.csv(matched_nona_path, stringsAsFactors = FALSE,
-                             sep = ",")
-    result$matched_nona <- matched_nona
-  }
-
-# Return only the specified variables
-return(result)
+  # Return only the specified variables
+  return(result)
 }

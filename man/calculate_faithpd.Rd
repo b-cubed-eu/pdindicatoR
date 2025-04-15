@@ -4,7 +4,7 @@
 \alias{calculate_faithpd}
 \title{Calculation of Faith's PD}
 \usage{
-calculate_faithpd(tree, species, MRCA)
+calculate_faithpd(tree, species, mrca_node_id)
 }
 \arguments{
 \item{tree}{An object of class \code{'phylo'}, a phylogenetic tree in Newick
@@ -13,8 +13,8 @@ format that was parsed by \code{ape::read_tree()}}
 \item{species}{A character vector where each element is a species, and more
 specifically, matches a tip label of the phylogenetic tree exactly}
 
-\item{MRCA}{Node id of the taxon that represents the most recent common
-ancestor of the set of species under study}
+\item{mrca_node_id}{Node id of the taxon that represents the most recent
+common ancestor of the set of species under study (integer)}
 }
 \value{
 A string that combines "Phylogenetic diversity:" and the calculated
@@ -28,7 +28,7 @@ and a phylogenetic tree.
 ex_data <- retrieve_example_data()
 # determine the most recent common ancestor of all species under study
 # (not necessarily all species in the tree!)
-MRCA <- ape::getMRCA(ex_data$tree, ex_data$tree$tip.label)
+mrca_node_id <- ape::getMRCA(ex_data$tree, ex_data$tree$tip.label)
 species <- c("Fagus lucida", "Castanopsis fabri", "Quercus_robur")
-calculate_faithpd(ex_data$tree, species, MRCA)
+calculate_faithpd(ex_data$tree, species, mrca_node_id)
 }

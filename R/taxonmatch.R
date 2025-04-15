@@ -4,7 +4,8 @@
 #' OTT id's) with corresponding GBIF id's.
 #' @param tree An object of class `'phylo'`, a phylogenetic tree in Newick
 #' format that was parsed by `ape::read_tree()`
-#' @returns A dataframe with columns `ott_id` and `gbif_id`
+#' @returns A dataframe with as variables (among others) the search strings,
+#' matched OTT names and id's, gbif id's and original tiplabels
 #' @import dplyr
 #' @examples
 #' \dontrun{ex_data <- retrieve_example_data()
@@ -15,6 +16,11 @@
 
 
 taxonmatch <- function(tree) {
+
+  if (!inherits(tree, "phylo")) {
+    stop("Error: 'tree' must be an object of type 'Phylo'")
+  }
+
   tree_labels <- tree$tip.label
 
   if (any(stringr::str_detect(tree_labels, "ott\\d+")) == FALSE) {
@@ -43,7 +49,8 @@ taxonmatch <- function(tree) {
 
   original_df <- data.frame(
     orig_tiplabel = unique(tree_labels),
-    search_string = tolower(unique(tree_labels)))
+    search_string = tolower(unique(tree_labels))
+  )
 
   matched_result <- merge(taxa, original_df, by = "search_string", all.x = TRUE)
   return(matched_result)

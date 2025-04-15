@@ -2,12 +2,13 @@ citHeader("To cite `pdindicatoR` in publications please use:")
 # begin checklist entry
 bibentry(
   bibtype = "Manual",
-  title = "pdindicatoR: Calculate and visualize a phylogenetic diversity indicators based on species occurence data cubes. Version 0.0.2",
+  title = "pdindicatoR: Calculate and visualize a phylogenetic diversity indicators based on species occurrence data cubes. Version 0.1.0",
   author = c( author = c(person(given = "Lissa", family = "Breugelmans"), person(given = "Maarten", family = "Trekels"), person(given = "Louise", family = "Hendrickx"))),
-  year = 2024,
-  url = "https://github.com/b-cubed-eu/pdindicatoR/",
-  abstract = "A package to calculate and produce a map of phylogenetic diversity scores for each grid cell in the input species occurences data cube, and calculate the percentage of high PD cells within currently protected areas. You provide a phylogenetic tree, the datacube for the corresponding species is downloaded from GBIF (or user-uploaded), and the package does the rest.",
-  textVersion = "Breugelmans, Lissa; Trekels, Maarten; Hendrickx, Louise (2024) pdindicatoR: Calculate and visualize a phylogenetic diversity indicators based on species occurence data cubes. Version 0.0.2. https://github.com/b-cubed-eu/pdindicatoR/",
-  keywords = "phylogenetic diversity; B-Cubed; biodiversity",
+  year = 2025,
+  url = "https://b-cubed-eu.github.io/pdindicatoR/",
+  abstract = "A package to calculate and produce a map of phylogenetic diversity scores for each grid cell in the input species occurrences data cube, and calculate the percentage of high PD cells within currently protected areas. You provide a phylogenetic tree, the datacube for the corresponding species is downloaded from GBIF (or user-uploaded), and the package does the rest.",
+  textVersion = "Breugelmans, Lissa; Trekels, Maarten; Hendrickx, Louise (2025) pdindicatoR: Calculate and visualize a phylogenetic diversity indicators based on species occurrence data cubes. Version 0.1.0. https://b-cubed-eu.github.io/pdindicatoR/",
+  keywords = "phylogenetic diversity; data cubes; B-Cubed; biodiversity",
+  doi = "10.5281/zenodo.14237551",
 )
 # end checklist entry

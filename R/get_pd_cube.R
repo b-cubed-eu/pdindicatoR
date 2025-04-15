@@ -17,11 +17,35 @@
 #' ex_data <- retrieve_example_data()
 #' mcube <- append_ott_id(ex_data$tree, ex_data$cube, ex_data$matched_nona)
 #' mcube <- dplyr::filter(mcube, !is.na(ott_id))
-#' PD_cube <- get_pd_cube(mcube, ex_data$tree, metric="faith")
+#' pd_cube <- get_pd_cube(mcube, ex_data$tree, metric="faith")
 #' @export
 
 get_pd_cube <- function(mcube, tree, timegroup = NULL, metric = "faith") {
 
+  # Check that mcube is a dataframe or tibble
+  if (!is.data.frame(mcube)) {
+    stop("Error: 'mcube' must be a dataframe or tibble.")
+  }
+
+  # Check if 'tree' is of class phylo
+  if (!inherits(tree, "phylo")) {
+    stop("Error: 'tree' must be an object of type 'Phylo'")
+  }
+
+  # Check that timegroup is either NULL or a positive integer
+  if (!is.null(timegroup)) {
+    if (!is.numeric(timegroup) || timegroup <= 0 || length(timegroup) != 1 ||
+          timegroup != as.integer(timegroup)) {
+      stop("Error: 'timegroup' must be a single positive integer or NULL.")
+    }
+  }
+
+  # Check that selected metric(s) are correctly specified
+  available_metrics <- list("faith")
+  stopifnot("The selected PD metric is not available." =
+              metric %in% available_metrics)
+
+  # Function logic begins here
   # Aggregate cube
   aggr_cube <- aggregate_cube(mcube, timegroup)
 
@@ -29,14 +53,21 @@ get_pd_cube <- function(mcube, tree, timegroup = NULL, metric = "faith") {
   all_matched_sp <- unique(mcube[["orig_tiplabel"]])
 
   # Find most recent common ancestor
-  MRCA <- ape::getMRCA(tree, all_matched_sp)
+  mrca_node_id <- ape::getMRCA(tree, all_matched_sp)
 
   # Calculate PD metric
   if (metric == "faith") {
-    PD_cube <- aggr_cube %>%
-      mutate(PD = unlist(purrr::map(aggr_cube$orig_tiplabels,
-                                    ~ calculate_faithpd(tree, unlist(.x), MRCA))
-                         )
-             )
+    pd_cube <- aggr_cube %>%
+      mutate(
+        pd = unlist(
+          purrr::map(aggr_cube$orig_tiplabels,
+                     ~ calculate_faithpd(tree, unlist(.x), mrca_node_id))
+        )
+      )
+
+  } else {
+    stop("Currently, only 'faith' PD metric supported.", call. = FALSE)
   }
+
+  return(pd_cube)
 }

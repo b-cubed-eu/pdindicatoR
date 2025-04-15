@@ -4,9 +4,8 @@
 #' the calculated PD metric for each grid cell and the location of protected
 #' nature areas.
 #'
-#' @param PD_cube An sf dataframe containing the calculated PD metrics (column
-#' name 'PD') for each grid cell with occurrences of a selected higher taxon,
-#' and the geometries of those grid cells.
+#' @param pd_cube A dataframe with a variable containing grid cell codes and
+#' a variable with calculated pd values (output of the function get_pd_cube())
 #' @param grid An sf object with variable detailing grid cell codes and a
 #' geometry column
 #' @param taxon A selected higher taxon, for which the occurrence cube was
@@ -25,9 +24,9 @@
 #' ex_data <- retrieve_example_data()
 #' mcube <- append_ott_id(ex_data$tree, ex_data$cube, ex_data$matched_nona)
 #' mcube <- dplyr::filter(mcube, !is.na(ott_id))
-#' PD_cube <- get_pd_cube(mcube, ex_data$tree)
+#' pd_cube <- get_pd_cube(mcube, ex_data$tree)
 #' PDindicator <- generate_map_and_indicator(
-#'   PD_cube,
+#'   pd_cube,
 #'   ex_data$grid,
 #'   taxon="Fagales",
 #'   cutoff=150)
@@ -36,22 +35,52 @@
 #' @export
 
 generate_map_and_indicator <- function(
-    PD_cube,
+    pd_cube,
     grid,
     taxon = NULL,
     bbox_custom = NULL,
     cutoff = NULL) {
 
+  # pd_cube checks
+  stopifnot(
+    "'pd_cube' must be a dataframe or tibble." = is.data.frame(pd_cube),
+    "'pd_cube' must contain a column named 'pd' representing Phylogenetic Diversity." = assertthat::has_name(pd_cube, "pd")
+  )
+
+  # grid checks
+  stopifnot(
+    "'grid' must be provided." = !missing(grid),
+    "'grid' must be an 'sf' object." = inherits(grid, "sf"),
+    "Some geometries in 'grid' are invalid. Please fix them before proceeding." = all(sf::st_is_valid(grid)),
+    "'grid' must contain a column named 'CELLCODE' for grid cell codes." = assertthat::has_name(grid, "CELLCODE"),
+    "'grid' must contain a 'geometry' column." = assertthat::has_name(grid, "geometry")
+  )
+
+  # taxon check
+  stopifnot(
+    "'taxon' must be a character string or NULL." = is.null(taxon) || is.character(taxon)
+  )
+
+  # cutoff check
+  if (!is.null(cutoff)) {
+    stopifnot(
+      "'cutoff' must be numeric." = is.numeric(cutoff),
+      "'cutoff' must be a single value." = length(cutoff) == 1,
+      "'cutoff' must be greater than zero." = cutoff > 0
+    )
+  }
+
+  # Function logic starts here
   ex_data <- retrieve_example_data(data = "pa")
   pa <- ex_data$pa
 
   # Merge grid with cube
-  PD_cube_geo <- right_join(grid, PD_cube,
+  pd_cube_geo <- right_join(grid, pd_cube,
                             by = join_by("CELLCODE" == "eeacellcode"))
 
   # Set bounding box
   if (is.null(bbox_custom)) {
-    bbox <- sf::st_bbox(PD_cube_geo)
+    bbox <- sf::st_bbox(pd_cube_geo)
   } else {
     if (length(bbox_custom) != 4) {
       stop(paste("bbox_custom must be a numeric vector of length 4:",
@@ -83,22 +112,22 @@ generate_map_and_indicator <- function(
   indicators <- list()
 
   # Calculate global min and max PD values for consistent color scale
-  pd_min <- min(PD_cube_geo$PD, na.rm = TRUE)
-  pd_max <- max(PD_cube_geo$PD, na.rm = TRUE)
+  pd_min <- min(pd_cube_geo$pd, na.rm = TRUE)
+  pd_max <- max(pd_cube_geo$pd, na.rm = TRUE)
 
-  # Check for 'period' column in PD_cube
-  if ("period" %in% colnames(PD_cube_geo)) {
-    unique_periods <- unique(PD_cube_geo$period)
+  # Check for 'period' column in pd_cube
+  if ("period" %in% colnames(pd_cube_geo)) {
+    unique_periods <- unique(pd_cube_geo$period)
 
     for (p in unique_periods) {
       # Subset data for the current period
-      current_period_data <- PD_cube_geo %>% filter(.data$period == p)
+      current_period_data <- pd_cube_geo %>% filter(.data$period == p)
 
       # Create the map for the current period
       map <- ggplot2::ggplot() +
         ggplot2::geom_sf(data = world_3035, fill = "antiquewhite") +
         ggplot2::geom_sf(data = current_period_data,
-                         mapping = ggplot2::aes(fill = .data$PD)) +
+                         mapping = ggplot2::aes(fill = .data$pd)) +
         ggplot2::scale_fill_viridis_c(option = "B",
                                       limits = c(pd_min, pd_max)) +
         ggplot2::geom_sf(data = pa, fill = NA, color = "darkgreen",
@@ -120,15 +149,15 @@ generate_map_and_indicator <- function(
 
       # Calculate indicator for the current period if cutoff is provided
       if (!is.null(cutoff)) {
-        current_period_data$PD_high <- as.numeric(
-          current_period_data$PD > cutoff)
-        cube_highPD <- current_period_data[
-          current_period_data$PD_high == 1,
-          c("OBJECTID", "CELLCODE", "PD", "geom", "PD_high")
+        current_period_data$pd_high <- as.numeric(
+          current_period_data$pd > cutoff)
+        cube_highpd <- current_period_data[
+          current_period_data$pd_high == 1,
+          c("OBJECTID", "CELLCODE", "pd", "geom", "pd_high")
           ]
 
         # Convert to multipolygon object
-        cube_mp <- convert_multipolygons(cube_highPD)
+        cube_mp <- convert_multipolygons(cube_highpd)
 
         # Determine centerpoints of high PD grid cells
         centroids <- sf::st_centroid(cube_mp)
@@ -138,20 +167,20 @@ generate_map_and_indicator <- function(
         intersecting <- sf::st_intersects(pa, centroids)
         n_intersecting <- sum(lengths(intersecting))
         n_total <- nrow(centroids)
-        PD_indicator <- (n_intersecting / n_total) * 100
-        indicators[[as.character(p)]] <- PD_indicator
+        pd_indicator <- (n_intersecting / n_total) * 100
+        indicators[[as.character(p)]] <- pd_indicator
 
         print(paste("The percentage of high PD grid cells within protected",
-                    "areas for period", p, "is", PD_indicator, "%"))
+                    "areas for period", p, "is", pd_indicator, "%"))
       }
     }
   } else {
     # If 'period' column is not present, create a single map and calculate the
     # indicator for all data
-    map_PD <- ggplot2::ggplot() +
+    map_pd <- ggplot2::ggplot() +
       ggplot2::geom_sf(data = world_3035, fill = "antiquewhite") +
-      ggplot2::geom_sf(data = PD_cube_geo,
-                       mapping = ggplot2::aes(fill = .data$PD)) +
+      ggplot2::geom_sf(data = pd_cube_geo,
+                       mapping = ggplot2::aes(fill = .data$pd)) +
       ggplot2::scale_fill_viridis_c(option = "B") +
       ggplot2::geom_sf(data = pa, fill = NA, color = "lightblue",
                        linewidth = 0.03) +
@@ -167,14 +196,14 @@ generate_map_and_indicator <- function(
 
     # Calculate indicator if cutoff is provided and produce a high/low PD map
     if (!is.null(cutoff)) {
-      PD_cube_geo$PD_high <- as.factor(ifelse((PD_cube_geo$PD > cutoff), 1, 0))
-      cube_highPD <- PD_cube_geo[
-        PD_cube_geo$PD_high == 1,
-        c("OBJECTID", "CELLCODE", "PD", "geometry", "PD_high")
+      pd_cube_geo$pd_high <- as.factor(ifelse((pd_cube_geo$pd > cutoff), 1, 0))
+      cube_highpd <- pd_cube_geo[
+        pd_cube_geo$pd_high == 1,
+        c("OBJECTID", "CELLCODE", "pd", "geometry", "pd_high")
         ]
 
       # Convert to multipolygon object
-      cube_mp <- convert_multipolygons(cube_highPD)
+      cube_mp <- convert_multipolygons(cube_highpd)
 
       # Determine centerpoints of high PD grid cells
       centroids <- sf::st_centroid(cube_mp)
@@ -184,17 +213,17 @@ generate_map_and_indicator <- function(
       intersecting <- sf::st_intersects(pa, centroids)
       n_intersecting <- sum(lengths(intersecting))
       n_total <- nrow(centroids)
-      PD_indicator <- (n_intersecting / n_total) * 100
-      indicators[["Overall"]] <- PD_indicator
+      pd_indicator <- (n_intersecting / n_total) * 100
+      indicators[["Overall"]] <- pd_indicator
 
       print(paste("The percentage of high PD grid cells that fall within",
-                  "protected areas is", PD_indicator, "%"))
+                  "protected areas is", round(indicators$Overall, digits = 2),
+                  "%"))
 
-
-      map_hiloPD <- ggplot2::ggplot() +
+      map_hilo_pd <- ggplot2::ggplot() +
         ggplot2::geom_sf(data = world_3035, fill = "antiquewhite") +
-        ggplot2::geom_sf(data = PD_cube_geo,
-                         mapping = ggplot2::aes(fill = .data$PD_high)) +
+        ggplot2::geom_sf(data = pd_cube_geo,
+                         mapping = ggplot2::aes(fill = .data$pd_high)) +
         #scale_fill_viridis_c(option = "B") +
         ggplot2::geom_sf(data = pa, fill = NA, color = "lightblue",
                          linewidth = 0.03) +
@@ -209,9 +238,9 @@ generate_map_and_indicator <- function(
                                                    linewidth = 0.5),
           panel.background = ggplot2::element_rect(fill = "aliceblue"))
 
-      plots <- list(map_PD, map_hiloPD)
+      plots <- list(map_pd, map_hilo_pd)
     } else if (is.null(cutoff)) {
-      plots <- map_PD
+      plots <- map_pd
     }
 
     # Return the list of maps and indicators

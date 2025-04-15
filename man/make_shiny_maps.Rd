@@ -4,10 +4,10 @@
 \alias{make_shiny_maps}
 \title{Visualizing PD maps for time periods in tabs}
 \usage{
-make_shiny_maps(PDindicator, plots)
+make_shiny_maps(pd_indicator, plots)
 }
 \arguments{
-\item{PDindicator}{List containing PD plots and indicators, produced by
+\item{pd_indicator}{List containing PD plots and indicators, produced by
 function generate_map_and_indicator.R}
 
 \item{plots}{A list of PD maps produced by the function
@@ -25,12 +25,12 @@ library(dplyr)
 ex_data <- retrieve_example_data()
 mcube <- append_ott_id(ex_data$tree, ex_data$cube, ex_data$matched_nona)
 mcube <- dplyr::filter(mcube, !is.na(ott_id))
-PD_cube <- get_pd_cube(mcube, ex_data$tree)
-PDindicator<- generate_map_and_indicator(
-  PD_cube,
+pd_cube <- get_pd_cube(mcube, ex_data$tree)
+pd_indicator<- generate_map_and_indicator(
+  pd_cube,
   ex_data$grid,
   taxon="Fagales")
-plots <- PDindicator[[1]]
-indicators <- PDindicator[[2]]
-\dontrun{make_shiny_maps(PDindicator, plots)}
+plots <- pd_indicator[[1]]
+indicators <- pd_indicator[[2]]
+\dontrun{make_shiny_maps(pd_indicator, plots)}
 }

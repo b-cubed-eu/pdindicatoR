@@ -2,18 +2,19 @@
   "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
   "identifier": "pdindicatoR",
-  "description": "A package to calculate and produce a map of phylogenetic diversity scores for each grid cell in the input species occurences data cube, and calculate the percentage of high PD cells within currently protected areas. You provide a phylogenetic tree, the datacube for the corresponding species is downloaded from GBIF (or user-uploaded), and the package does the rest.",
-  "name": "pdindicatoR: Calculate and visualize a phylogenetic diversity indicators based\n    on species occurence data cubes",
-  "relatedLink": "https://b-cubed-eu.github.io/pdindicatoR/",
+  "description": "A package to calculate and produce a map of phylogenetic diversity scores for each grid cell in the input species occurrences data cube, and calculate the percentage of high PD cells within currently protected areas. You provide a phylogenetic tree, the datacube for the corresponding species is downloaded from GBIF (or user-uploaded), and the package does the rest.",
+  "name": "pdindicatoR: Calculate and visualize a phylogenetic diversity indicators based\n    on species occurrence data cubes",
+  "relatedLink": ["https://b-cubed-eu.github.io/pdindicatoR/", "https://doi.org/10.5281/zenodo.14237551"],
   "codeRepository": "https://github.com/b-cubed-eu/pdindicatoR",
+  "issueTracker": "https://github.com/b-cubed-eu/pdindicatoR/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.3.3 (2024-02-29 ucrt)",
+  "runtimePlatform": "R version 4.4.3 (2025-02-28 ucrt)",
   "author": [
     {
       "@type": "Person",
@@ -110,6 +111,18 @@
     },
     "2": {
       "@type": "SoftwareApplication",
+      "identifier": "assertthat",
+      "name": "assertthat",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=assertthat"
+    },
+    "3": {
+      "@type": "SoftwareApplication",
       "identifier": "dplyr",
       "name": "dplyr",
       "provider": {
@@ -120,7 +133,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=dplyr"
     },
-    "3": {
+    "4": {
       "@type": "SoftwareApplication",
       "identifier": "gdalUtilities",
       "name": "gdalUtilities",
@@ -132,7 +145,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=gdalUtilities"
     },
-    "4": {
+    "5": {
       "@type": "SoftwareApplication",
       "identifier": "ggplot2",
       "name": "ggplot2",
@@ -144,7 +157,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=ggplot2"
     },
-    "5": {
+    "6": {
       "@type": "SoftwareApplication",
       "identifier": "rlang",
       "name": "rlang",
@@ -156,7 +169,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=rlang"
     },
-    "6": {
+    "7": {
       "@type": "SoftwareApplication",
       "identifier": "rnaturalearth",
       "name": "rnaturalearth",
@@ -168,7 +181,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=rnaturalearth"
     },
-    "7": {
+    "8": {
       "@type": "SoftwareApplication",
       "identifier": "rnaturalearthdata",
       "name": "rnaturalearthdata",
@@ -180,7 +193,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=rnaturalearthdata"
     },
-    "8": {
+    "9": {
       "@type": "SoftwareApplication",
       "identifier": "rotl",
       "name": "rotl",
@@ -192,7 +205,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=rotl"
     },
-    "9": {
+    "10": {
       "@type": "SoftwareApplication",
       "identifier": "sf",
       "name": "sf",
@@ -204,7 +217,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=sf"
     },
-    "10": {
+    "11": {
       "@type": "SoftwareApplication",
       "identifier": "shiny",
       "name": "shiny",
@@ -216,7 +229,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=shiny"
     },
-    "11": {
+    "12": {
       "@type": "SoftwareApplication",
       "identifier": "stringr",
       "name": "stringr",
@@ -230,11 +243,11 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "440886.715KB",
+  "fileSize": "3898.141KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
-      "datePublished": "2024",
+      "datePublished": "2025",
       "author": {
         "author1": {
           "@type": "Person",
@@ -252,8 +265,11 @@
           "familyName": "Hendrickx"
         }
       },
-      "name": "pdindicatoR: Calculate and visualize a phylogenetic diversity indicators based on species occurence data cubes. Version 0.0.2",
-      "url": "https://github.com/b-cubed-eu/pdindicatoR/"
+      "name": "pdindicatoR: Calculate and visualize a phylogenetic diversity indicators based on species occurrence data cubes. Version 0.1.0",
+      "identifier": "10.5281/zenodo.14237551",
+      "url": "https://b-cubed-eu.github.io/pdindicatoR/",
+      "@id": "https://doi.org/10.5281/zenodo.14237551",
+      "sameAs": "https://doi.org/10.5281/zenodo.14237551"
     }
   ],
   "releaseNotes": "https://github.com/b-cubed-eu/pdindicatoR/blob/master/NEWS.md",

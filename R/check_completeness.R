@@ -18,6 +18,21 @@
 
 check_completeness <- function(mcube) {
 
+  # Check that mcube is a dataframe or tibble
+  if (!is.data.frame(mcube)) {
+    stop("Error: 'mcube' must be a dataframe or tibble.")
+  }
+
+  # Check that mcube contains the required columns
+  required_columns <- c("specieskey", "ott_id", "species")
+  missing_columns <- setdiff(required_columns, colnames(mcube))
+  if (length(missing_columns) > 0) {
+    stop(paste("Error: 'mcube' is missing the following required columns:",
+               paste(missing_columns, collapse = ", ")))
+  }
+
+  # Function logic starts here
+
   mcube_dist <- distinct(mcube, .data$specieskey, .keep_all = TRUE)
   sp_na <- mcube_dist %>%
     dplyr::filter(is.na(.data$ott_id)) %>%

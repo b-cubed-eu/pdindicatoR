@@ -16,7 +16,7 @@ want to group
 your occurrence data}
 }
 \value{
-A dataframe with for each grid cell
+A dataframe with for each grid cell a list of observed species
 }
 \description{
 This function aggregates a provided datacube over grid cell id, so that a new

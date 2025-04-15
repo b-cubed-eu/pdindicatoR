@@ -2,7 +2,7 @@
 #'
 #' This function creates produces an r-shiny app that can showcase
 #' multiple PD maps (for separate time periods) in tabs
-#' @param PDindicator List containing PD plots and indicators, produced by
+#' @param pd_indicator List containing PD plots and indicators, produced by
 #' function generate_map_and_indicator.R
 #' @param plots A list of PD maps produced by the function
 #' `generate_map_and_indicator()`, named by their time-period.
@@ -13,18 +13,18 @@
 #' ex_data <- retrieve_example_data()
 #' mcube <- append_ott_id(ex_data$tree, ex_data$cube, ex_data$matched_nona)
 #' mcube <- dplyr::filter(mcube, !is.na(ott_id))
-#' PD_cube <- get_pd_cube(mcube, ex_data$tree)
-#' PDindicator<- generate_map_and_indicator(
-#'   PD_cube,
+#' pd_cube <- get_pd_cube(mcube, ex_data$tree)
+#' pd_indicator<- generate_map_and_indicator(
+#'   pd_cube,
 #'   ex_data$grid,
 #'   taxon="Fagales")
-#' plots <- PDindicator[[1]]
-#' indicators <- PDindicator[[2]]
-#' \dontrun{make_shiny_maps(PDindicator, plots)}
+#' plots <- pd_indicator[[1]]
+#' indicators <- pd_indicator[[2]]
+#' \dontrun{make_shiny_maps(pd_indicator, plots)}
 #' @export
 #'
 
-make_shiny_maps <- function(PDindicator, plots) {
+make_shiny_maps <- function(pd_indicator, plots) {
   # Create Shiny app to display the plots in tabs
   ui <- shiny::fluidPage(
     shiny::titlePanel("Phylogenetic Diversity (PD) Maps by Time Period"),
@@ -40,7 +40,7 @@ make_shiny_maps <- function(PDindicator, plots) {
         # Use do.call to pass the list of tabs as separate arguments
         do.call(shiny::tabsetPanel,
                 # Dynamically create a tab for each period
-                lapply(names(PDindicator[[1]]), function(period) {
+                lapply(names(pd_indicator[[1]]), function(period) {
                   shiny::tabPanel(
                     title = paste("Period", period),
                     shiny::plotOutput(outputId = paste0("plot_", period),
