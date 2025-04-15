@@ -44,8 +44,9 @@ aggregate_cube <- function(mcube, timegroup = NULL) {
 
   # Check that the 'eeacellcode' column exists and does not contain NA
   stopifnot(
-  "Error: The 'eeacellcode' column in 'mcube' must not contain NA values." =
-    assertthat::noNA(mcube$eeacellcode))
+    "Error: The 'eeacellcode' column in 'mcube' must not contain NA values." =
+      assertthat::noNA(mcube$eeacellcode)
+  )
 
   # Check that timegroup is either NULL or a positive integer
   if (!is.null(timegroup)) {
@@ -91,18 +92,19 @@ aggregate_cube <- function(mcube, timegroup = NULL) {
   } else {
 
   # Calculate the 5-year period for each row
-   period <- NULL
-   aggr_cube <- simpl_cube %>%
-     arrange(.data$year) %>%
-    mutate(period = min_year + 5 * ((.data$year - min_year) %/% 5)) %>%
-     mutate(period = paste(period, period + 4, sep = "-")) %>%
-    group_by(.data$period, .data$eeacellcode) %>%
-     reframe(
-       specieskeys = list(unique(.data$specieskey)),
-       ott_ids = list(unique(.data$ott_id)),
-       unique_names = list(unique(.data$unique_name)),
-       orig_tiplabels = list(unique(.data$orig_tiplabel))
-     )
+    period <- NULL
+    aggr_cube <- simpl_cube %>%
+      arrange(.data$year) %>%
+      mutate(period = min_year + 5 * ((.data$year - min_year) %/% 5)) %>%
+      mutate(period = paste(period, period + 4, sep = "-")) %>%
+      group_by(.data$period, .data$eeacellcode) %>%
+      reframe(
+        specieskeys = list(unique(.data$specieskey)),
+        ott_ids = list(unique(.data$ott_id)),
+        unique_names = list(unique(.data$unique_name)),
+        orig_tiplabels = list(unique(.data$orig_tiplabel))
+      )
   }
-  return(aggr_cube)}
 
+  return(aggr_cube)
+}

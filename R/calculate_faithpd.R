@@ -30,7 +30,7 @@ calculate_faithpd <- function(tree, species, mrca_node_id) {
 
   # Check if `tree` has required components
   if (is.null(tree$tip.label) || is.null(tree$edge) ||
-      is.null(tree$edge.length)) {
+        is.null(tree$edge.length)) {
     stop("`tree` must have `tip.label`, `edge`, and `edge.length` components.")
   }
 
@@ -41,8 +41,8 @@ calculate_faithpd <- function(tree, species, mrca_node_id) {
 
   # Check if `mrca_node_id` is a single integer and a valid node ID in the tree
   if (missing(mrca_node_id) || !is.numeric(mrca_node_id) ||
-      length(mrca_node_id) != 1 || mrca_node_id <= length(tree$tip.label) ||
-      mrca_node_id > max(tree$edge)) {
+        length(mrca_node_id) != 1 || mrca_node_id <= length(tree$tip.label) ||
+        mrca_node_id > max(tree$edge)) {
     stop("`mrca_node_id` must be a single numeric value representing a valid
          node ID in the tree.")
   }
@@ -53,17 +53,17 @@ calculate_faithpd <- function(tree, species, mrca_node_id) {
   for (i in seq_along(species)) {
     x <- which(tree$tip.label == species[i])
     if (length(x) > 0) {
-     tip_ids[i] <- x
+      tip_ids[i] <- x
     } else {
-     # Optionally, print a warning or assign a default value for missing matches
-     warning(paste("Species", species[i], "not found in tree$tip.label"))
-     tip_ids[i] <- NA  # Assign NA if the species is not found
+      # Optionally, print a warning or assign a default value for missing
+      # matches
+      warning(paste("Species", species[i], "not found in tree$tip.label"))
+      tip_ids[i] <- NA  # Assign NA if the species is not found
     }
   }
-   tip_ids <- tip_ids[!is.na(tip_ids)]
+  tip_ids <- tip_ids[!is.na(tip_ids)]
 
   # determine spanning paths (nodes) from species to mrca_node_id
-
   nodepath <- vector(mode = "list", length(tip_ids))
   for (i in seq_along(tip_ids)) {
     x <- ape::nodepath(tree, mrca_node_id, tip_ids[i])
@@ -71,7 +71,6 @@ calculate_faithpd <- function(tree, species, mrca_node_id) {
   }
 
   # get the branches/edges along the spanning paths
-
   edge_ids <- vector(mode = "list", length(tip_ids))
   for (i in seq_along(tip_ids)) {
     edges <- which(tree$edge[, 1] %in% nodepath[[i]][-length(nodepath[[i]])] &
@@ -80,12 +79,11 @@ calculate_faithpd <- function(tree, species, mrca_node_id) {
   }
 
   # Count shared branches only once
-
   edge_ids_unique <- unique(unlist(edge_ids))
 
   # Sum the length of the branches
-
   edge_lengths <- tree$edge.length[edge_ids_unique]
   pd <- sum(edge_lengths)
+
   return(pd)
 }
