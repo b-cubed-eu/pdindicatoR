@@ -22,48 +22,68 @@
 
 get_pd_cube <- function(mcube, tree, timegroup = NULL, metric = "faith") {
 
-  # Check that mcube is a dataframe or tibble
-  if (!is.data.frame(mcube)) {
-    stop("Error: 'mcube' must be a dataframe or tibble.")
-  }
+# Check that mcube is a dataframe or tibble
+if (!is.data.frame(mcube)) {
+  stop("Error: 'mcube' must be a dataframe or tibble.")
+}
 
-  # Check if 'tree' is of class phylo
-  if (!inherits(tree, "phylo")) {
-    stop("Error: 'tree' must be an object of type 'Phylo'")
-  }
+# Check if 'tree' is of class phylo
+if (!inherits(tree, "phylo")) {
+  stop("Error: 'tree' must be an object of type 'Phylo'")
+}
 
-  # Check that timegroup is either NULL or a positive integer
-  if (!is.null(timegroup)) {
-    if (!is.numeric(timegroup) || timegroup <= 0 || length(timegroup) != 1 ||
-        timegroup != as.integer(timegroup)) {
-      stop("Error: 'timegroup' must be a single positive integer or NULL.")
-    }
+# Check that timegroup is either NULL or a positive integer
+if (!is.null(timegroup)) {
+  if (!is.numeric(timegroup) || timegroup <= 0 || length(timegroup) != 1 ||
+      timegroup != as.integer(timegroup)) {
+    stop("Error: 'timegroup' must be a single positive integer or NULL.")
   }
+}
 
-  # Check that selected metric(s) are correctly specified
-  available_metrics <- list("faith")
-  stopifnot("The selected PD metric is not available." = metric %in%
+# Check that selected metric(s) are correctly specified
+available_metrics <- list("faith")
+stopifnot("The selected PD metric is not available." = metric %in%
             available_metrics)
 
-  # Function logic begins here
-  # Aggregate cube
-  aggr_cube <- aggregate_cube(mcube, timegroup)
+# Function logic begins here
 
-  # Get all species in matched cube
-  all_matched_sp <- unique(mcube[["orig_tiplabel"]])
+# Aggregate cube
+aggr_cube <- aggregate_cube(mcube, timegroup)
 
-  # Find most recent common ancestor
-  mrca_node_id <- ape::getMRCA(tree, all_matched_sp)
+# Get all species in matched cube
+all_matched_sp <- unique(mcube[["verbatim_name"]])
 
-  # Calculate PD metric
-  if (metric == "faith") {
-    pd_cube <- aggr_cube %>%
-      mutate(pd = unlist(purrr::map(aggr_cube$orig_tiplabels,
-                                    ~ calculate_faithpd(tree, unlist(.x),
-                                                        mrca_node_id))
-                         )
-             )
-    return(pd_cube)
-  }
+# Find most recent common ancestor
+mrca_node_id <- ape::getMRCA(tree, all_matched_sp)
 
-}
+start_time <- Sys.time()
+
+# Calculate PD metric
+#--------------------------
+
+
+if (metric == "faith") {
+  pd_cube <- with_progress({
+    p <- progressor(along = aggr_cube$verbatim_names)
+    aggr_cube %>%
+      mutate(
+        pd = unlist(
+          future_map(
+            aggr_cube$verbatim_names,
+            ~ {
+              p()
+              calculate_faithpd(tree, .x, mrca_node_id)
+            },
+            .options = furrr_options(seed = TRUE)
+          )
+        )
+      )
+  })
+
+  end_time <- Sys.time()
+  message("Total runtime: ", round(difftime(end_time, start_time, units = "mins"), 2), " minutes")
+  return(pd_cube)
+}}
+
+
+
