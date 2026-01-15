@@ -14,6 +14,7 @@
 #' @export
 #'
 
+#add option when tree tip labels are of format ott_id
 
 taxonmatch <- function(tree) {
 
@@ -22,35 +23,50 @@ taxonmatch <- function(tree) {
   }
 
   tree_labels <- tree$tip.label
-
-  if (any(stringr::str_detect(tree_labels, "ott\\d+")) == FALSE) {
-    taxa <- rotl::tnrs_match_names(tree_labels)
-  } else {
-    taxa <- data.frame(tree_labels)
-    colnames(taxa)[1] <- "ott_id"
-  }
-
-
-  taxa[, "gbif_id"] <- NA
-  i <- 1
-  for (id in taxa$ott_id) {
-    if (is.na(id) == FALSE) {
-      tax_info <- rotl::taxonomy_taxon_info(id)
-      for (source in tax_info[[1]]$tax_sources) {
-        if (grepl("gbif", source, fixed = TRUE)) {
-          gbif <- stringr::str_split(source, ":")[[1]][2]
-          taxa[i, ]$gbif_id <- gbif
-        }
-      }
-    }
-    i <- i + 1
-  }
-  taxa$gbif_id <- as.integer(taxa$gbif_id)
-
-  original_df <- data.frame(
-    orig_tiplabel = unique(tree_labels),
-    search_string = tolower(unique(tree_labels)))
-
-  matched_result <- merge(taxa, original_df, by = "search_string", all.x = TRUE)
-  return(matched_result)
+  tree_labels <- unlist(tree_labels)
+  matched <- name_backbone_checklist(name = tree_labels)
+  return(matched)
 }
+
+
+# TO DO: UPDATE WITH NEWLY DEFINED FUNCTION USING GBIF API - SEE Flanders_usecase.R
+
+# taxonmatch <- function(tree) {
+#
+#   if (!inherits(tree, "phylo")) {
+#     stop("Error: 'tree' must be an object of type 'Phylo'")
+#   }
+#
+#   tree_labels <- tree$tip.label
+#
+#   if (any(stringr::str_detect(tree_labels, "ott\\d+")) == FALSE) {
+#     taxa <- rotl::tnrs_match_names(tree_labels)
+#   } else {
+#     taxa <- data.frame(tree_labels)
+#     colnames(taxa)[1] <- "ott_id"
+#   }
+#
+#
+#   taxa[, "gbif_id"] <- NA
+#   i <- 1
+#   for (id in taxa$ott_id) {
+#     if (is.na(id) == FALSE) {
+#       tax_info <- rotl::taxonomy_taxon_info(id)
+#       for (source in tax_info[[1]]$tax_sources) {
+#         if (grepl("gbif", source, fixed = TRUE)) {
+#           gbif <- stringr::str_split(source, ":")[[1]][2]
+#           taxa[i, ]$gbif_id <- gbif
+#         }
+#       }
+#     }
+#     i <- i + 1
+#   }
+#   taxa$gbif_id <- as.integer(taxa$gbif_id)
+#
+#   original_df <- data.frame(
+#     orig_tiplabel = unique(tree_labels),
+#     search_string = tolower(unique(tree_labels)))
+#
+#   matched_result <- merge(taxa, original_df, by = "search_string", all.x = TRUE)
+#   return(matched_result)
+# }
