@@ -28,24 +28,24 @@ aggregate_cube <- function(mcube, timegroup = NULL) {
               inherits(mcube, "data.frame"))
 
   # Check that mcube contains the required columns
-  required_columns <- c("year", "eeacellcode", "specieskey", "ott_id",
-                        "unique_name", "orig_tiplabel")
+  required_columns <- c("eeacellcode", "specieskey",
+                       "verbatim_name")
   missing_columns <- setdiff(required_columns, colnames(mcube))
   if (length(missing_columns) > 0) {
     stop(paste("Error: 'mcube' is missing the following required columns:",
                paste(missing_columns, collapse = ", ")))
   }
 
-  # Check that the 'year' column is numeric and does not contain NA
-  if (!is.numeric(mcube$year) || any(is.na(mcube$year))) {
-    stop("Error: The 'year' column in 'mcube' must be numeric and free of NA
-         values.")
-  }
+ # # Check that the 'year' column is numeric and does not contain NA
+ # if (!is.numeric(mcube$year) || any(is.na(mcube$year))) {
+ #   stop("Error: The 'year' column in 'mcube' must be numeric and free of NA
+ #       values.")
+ # }
 
   # Check that the 'eeacellcode' column exists and does not contain NA
   stopifnot(
-  "Error: The 'eeacellcode' column in 'mcube' must not contain NA values." =
-    assertthat::noNA(mcube$eeacellcode))
+    "Error: The 'eeacellcode' column in 'mcube' must not contain NA values." =
+      assertthat::noNA(mcube$eeacellcode))
 
   # Check that timegroup is either NULL or a positive integer
   if (!is.null(timegroup)) {
@@ -56,8 +56,8 @@ aggregate_cube <- function(mcube, timegroup = NULL) {
   }
 
   # Function logic starts here
-  columns_to_select <- c("year", "eeacellcode", "specieskey", "ott_id",
-                         "unique_name", "orig_tiplabel")
+  columns_to_select <- c("year", "eeacellcode", "specieskey", "species",
+                         "verbatim_name")
   simpl_cube <- mcube[, intersect(columns_to_select, colnames(mcube))]
   min_year <- min(simpl_cube$year)
 
@@ -66,20 +66,18 @@ aggregate_cube <- function(mcube, timegroup = NULL) {
   if (!("year" %in% colnames(simpl_cube)) ||
       is.null(timegroup) ||
       missing(timegroup)
-      ) {
+  ) {
     aggr_cube <- simpl_cube %>%
       group_by(.data$eeacellcode) %>%
       reframe(
         specieskeys = list(unique(.data$specieskey)),
-        ott_ids = list(unique(.data$ott_id)),
-        unique_names = list(unique(.data$unique_name)),
-        orig_tiplabels = list(unique(.data$orig_tiplabel))
+        speciesnames = list(unique(.data$species)),
+        verbatim_names = list(unique(.data$verbatim_name))
       )
-
-  # When timegroup ==1
+    # When timegroup ==1
   } else if (timegroup == 1) {
-      aggr_cube <- simpl_cube %>%
-        arrange(.data$year) %>%
+    aggr_cube <- simpl_cube %>%
+      arrange(.data$year) %>%
       group_by(.data$eeacellcode, .data$year) %>%
       reframe(
         specieskeys = list(unique(.data$specieskey)),
@@ -90,19 +88,22 @@ aggregate_cube <- function(mcube, timegroup = NULL) {
       rename(period = .data$year)
   } else {
 
-  # Calculate the 5-year period for each row
-   period <- NULL
-   aggr_cube <- simpl_cube %>%
-     arrange(.data$year) %>%
-    mutate(period = min_year + 5 * ((.data$year - min_year) %/% 5)) %>%
-     mutate(period = paste(period, period + 4, sep = "-")) %>%
-    group_by(.data$period, .data$eeacellcode) %>%
-     reframe(
-       specieskeys = list(unique(.data$specieskey)),
-       ott_ids = list(unique(.data$ott_id)),
-       unique_names = list(unique(.data$unique_name)),
-       orig_tiplabels = list(unique(.data$orig_tiplabel))
-     )
+    # Calculate the 5-year period for each row
+    period <- NULL
+    aggr_cube <- simpl_cube %>%
+      arrange(.data$year) %>%
+      mutate(period = min_year + 5 * ((.data$year - min_year) %/% 5)) %>%
+      mutate(period = paste(period, period + 4, sep = "-")) %>%
+      group_by(.data$period, .data$eeacellcode) %>%
+      reframe(
+        specieskeys = list(unique(.data$specieskey)),
+        ott_ids = list(unique(.data$ott_id)),
+        unique_names = list(unique(.data$unique_name)),
+        orig_tiplabels = list(unique(.data$orig_tiplabel))
+      )
   }
+
+
   return(aggr_cube)}
+}
 
