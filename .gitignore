@@ -18,11 +18,12 @@
 .Rproj.user
 .Ruserdata
 .httr-oauth
-demo/*
+demo/
 docs
 libs
-output
-output/*
+output/
 renv/library
-reports/*
-shpfiles/*
+reports/
+data/
+
+
