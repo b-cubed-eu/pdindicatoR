@@ -45,7 +45,7 @@ append_ott_id <- function(tree, cube, matched) {
   }
 
   # Check that matched contains the required columns
-  required_columns <- c("ott_id", "gbif_id", "unique_name", "orig_tiplabel")
+  required_columns <- c("usageKey", "verbatim_name")
   missing_columns <- setdiff(required_columns, colnames(matched))
   if (length(missing_columns) > 0) {
     stop(paste("Error: 'matched' is missing the following required columns:",
@@ -56,14 +56,20 @@ append_ott_id <- function(tree, cube, matched) {
   # Append OTT id's to occurrence cube
   species_keys <- cube %>% distinct(.data$specieskey)
 
+## TEMPORSRILY ONLY KEEPS FIRST MATCH, RESOLVE PROPERLY WHAT HAPPENS IF MULTIPLE SYNONYMS
+##  ARE IN THE TREE AND THUS MULTIPLE MATCHES FOR ONE speciesKey (always accepted taxon in cube)
+  matched_unique <- matched %>%
+    distinct(acceptedUsageKey, .keep_all = TRUE)
+
   mtable <- species_keys %>%
-    left_join(matched[, c("ott_id", "gbif_id", "unique_name", "orig_tiplabel")],
-              by = join_by("specieskey" == "gbif_id"))
+    left_join(matched_unique[, c("acceptedUsageKey", "verbatim_name")],
+              by = join_by("specieskey" == "acceptedUsageKey"))
 
   mcube <- cube %>%
     left_join(
-      mtable[, c("specieskey", "ott_id", "unique_name", "orig_tiplabel")],
+      mtable[, c("specieskey", "verbatim_name")],
       by = join_by("specieskey" == "specieskey")
     )
   return(mcube)
-  }
+}
+
