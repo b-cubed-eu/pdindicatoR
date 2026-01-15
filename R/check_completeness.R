@@ -15,7 +15,6 @@
 #' mcube<- append_ott_id(ex_data$tree, ex_data$cube, ex_data$matched_nona)
 #' check_completeness(mcube)
 #' @export
-
 check_completeness <- function(mcube) {
 
   # Check that mcube is a dataframe or tibble
@@ -24,7 +23,7 @@ check_completeness <- function(mcube) {
   }
 
   # Check that mcube contains the required columns
-  required_columns <- c("specieskey", "ott_id", "species")
+  required_columns <- c("specieskey", "species")
   missing_columns <- setdiff(required_columns, colnames(mcube))
   if (length(missing_columns) > 0) {
     stop(paste("Error: 'mcube' is missing the following required columns:",
@@ -35,7 +34,7 @@ check_completeness <- function(mcube) {
 
   mcube_dist <- distinct(mcube, .data$specieskey, .keep_all = TRUE)
   sp_na <- mcube_dist %>%
-    dplyr::filter(is.na(.data$ott_id)) %>%
+    dplyr::filter(is.na(.data$verbatim_name)) %>%
     dplyr::select(.data$specieskey, .data$species)
 
   cat("The following species are not part of the provided phylogenetic tree:\n")
