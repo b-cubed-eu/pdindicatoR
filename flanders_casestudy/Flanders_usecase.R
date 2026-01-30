@@ -3,6 +3,8 @@
 files <- list.files(path = "R", pattern = "\\.R$", full.names = TRUE)
 source("R/get_pd_cube.R")
 source("R/aggregate_cube.R")
+source("R/generate_map_and_indicator.R")
+source("R/retrieve_example_data.R")
 lapply(files, source)
 
 # sapply(files, source)
@@ -28,7 +30,7 @@ future::plan(multisession, workers = workers)
 # Data
 tree_path <- "data/oo_330891.tre"
 cube_path <- "data/cube_flanders_Angiosperms_1km.csv"
-grid_path <- "shpfiles/EEA_BE_1km/EEA_BE_1km.shp"
+grid_path <- "data/shpfiles/EEA_BE_1km/EEA_BE_1km.shp"
 
 tree <- read.nexus(tree_path)
 tree$tip.label <- lapply(tree$tip.label, function(label) {gsub("_", " ", label)})
@@ -155,8 +157,7 @@ be_plants_native <- be_plants_native[be_plants_native$matchType %in% c("EXACT", 
 # read in from file
 # be_plants_native <- read.csv('data/intermediate/be_plants_native.csv', stringsAsFactors = FALSE, sep = "\t")
 
-# alternative cube waarbij enkel native soorten op observed plantlijst Natuurpunt
-# worden behouden
+# alternative cube (only species on observed plant list Natuurpunt)
 cube_native2 <- cube_native[cube_native$specieskey %in% be_plants_native$acceptedUsageKey,]
 cube <- cube_native2
 length(unique(cube_native$specieskey)) # 2606 angiosperm species in cube incl +- 1000 not in tree (most invasive but not on GRIIS)
@@ -273,6 +274,5 @@ cube_year <- mcube %>%
   )
 
 mcube <- cube_year
-mcube <- head(mcube, 500)
-pd_cube <-get_pd_cube(mcube, tree, metric="faith")
-cube <- read.csv(cube_path, stringsAsFactors = FALSE, sep = "\t"
+pdindicator <- generate_map_and_indicator(pd_cube, grid, "Angiosperms for Flanders")
+pdindicator

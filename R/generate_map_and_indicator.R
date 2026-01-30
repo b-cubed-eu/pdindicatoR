@@ -182,8 +182,8 @@ generate_map_and_indicator <- function(
       ggplot2::geom_sf(data = pd_cube_geo,
                        mapping = ggplot2::aes(fill = .data$pd)) +
       ggplot2::scale_fill_viridis_c(option = "B") +
-      ggplot2::geom_sf(data = pa, fill = NA, color = "lightblue",
-                       linewidth = 0.03) +
+      # ggplot2::geom_sf(data = pa, fill = NA, color = "lightblue",
+                       # linewidth = 0.03) +
       ggplot2::coord_sf(xlim = c(bbox_expanded["xmin"], bbox_expanded["xmax"]),
                ylim = c(bbox_expanded["ymin"], bbox_expanded["ymax"]),
                expand = FALSE) +
