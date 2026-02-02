@@ -22,6 +22,7 @@ knitr::opts_chunk$set(fig.path = "man/figures/", echo = TRUE)
 [![Codecov test coverage](https://codecov.io/gh/b-cubed-eu/pdindicatoR/graph/badge.svg)](https://app.codecov.io/gh/b-cubed-eu/pdindicatoR)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14237551.svg)](https://doi.org/10.5281/zenodo.14237551)
 [![name status badge](https://b-cubed-eu.r-universe.dev/badges/:name?color=6CDDB4)](https://b-cubed-eu.r-universe.dev/)
+[![funder](https://badgen.net/static/funder/European%20Union/f2a)](https://doi.org/10.3030/101059592)
 
 <!-- badges: end -->
 
