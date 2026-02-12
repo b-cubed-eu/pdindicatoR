@@ -274,5 +274,6 @@ cube_year <- mcube %>%
   )
 
 mcube <- cube_year
+pd_cube <-get_pd_cube(mcube, tree, metric="faith")
 pdindicator <- generate_map_and_indicator(pd_cube, grid, "Angiosperms for Flanders")
 pdindicator
