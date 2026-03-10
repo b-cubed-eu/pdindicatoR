@@ -20,22 +20,26 @@ head(redlist_taxon)
 ## and red list status in one dataframe
 redlist_dist_sel <- redlist_dist %>% select(id, threatStatus)
 nrow(redlist_dist_sel)
-redlist_taxon_sel <- redlist_taxon %>% select(id, scientificName, kingdom)
+redlist_taxon_sel <- redlist_taxon %>% select(id, scientificName, kingdom, phylum)
 nrow(redlist_taxon_sel)
 redlist_join <- redlist_dist_sel %>% left_join(redlist_taxon_sel, by = "id")
 redlist_plantae <- redlist_join %>%
   filter(kingdom == "Plantae")
 head(redlist_plantae)
+nrow(redlist_plantae)
+redlist_tracheophyta <- redlist_plantae[redlist_plantae$phylum=="Tracheophyta",]
+nrow(redlist_tracheophyta)
 
 ## Characterize  threatStatus categories
 
-unique(redlist_plantae$threatStatus)
-redlist_plantae_bin <- redlist_plantae %>%
+unique(redlist_tracheophyta$threatStatus)
+rl_tracheophyta_bin <- redlist_tracheophyta %>%
   add_column(threatened = NA_integer_, .after = "threatStatus")
 threatened_cat <- c("EN", "VU", "CR")
-redlist_plantae_bin <- redlist_plantae_bin %>%
+rl_tracheophyta_bin <- rl_tracheophyta_bin %>%
   mutate(threatened = if_else(threatStatus %in% threatened_cat, 1L, 0L))
-redlist_plantae_bin
+tracheophyta_threatened <- rl_tracheophyta_bin[rl_tracheophyta_bin$threatened==1,]
+length(unique(tracheophyta_threatened$scientificName))
 
 ## Find and add gbif id's to df by matching with GBIF taxonomic backbone
 
@@ -53,33 +57,20 @@ redlist
 
 ## Load input occurrence cube
 
-cube_flanders <- read.csv("data/cube_flanders_Angiosperms_1km.csv", sep="\t")
+cube_flanders <- read.csv("data/Angiosperm_data_Flanders.csv", sep=",")
 head(cube_flanders)
 nrow(cube_flanders)
 length(unique(cube_flanders$specieskey))
 
-## Filter cube to include only red list species
+## Filter cube to include only non-threatened species
+redlist_threatened <- redlist[redlist$threatened==1,]
+cube_flanders_nonthreatened <- cube_flanders %>% filter(!(specieskey %in% redlist_threatened$threatened))
+length(unique(cube_flanders_nonthreatened$specieskey))
+length(unique(redlist$gbif_taxonID))
 
-cube_flanders_threatened <- cube_flanders %>% filter(specieskey %in% redlist$gbif_taxonID)
-length(unique(cube_flanders_threatened$specieskey))
-
-## Generate once with and once without red listed species
-
-## Make difference between the two so you have a map of 'likely PD loss'
-
-###########################
-##### Invasive species ####
-###########################
-
-invasives_belgium <- read.csv("data/dwca-alien-plants-belgium-v1.10/taxon.txt", sep="\t")
-invasives_Belgium_bb <- name_backbone_checklist(invasives_belgium$scientificName)
-invasives_taxonkeys <- invasives_Belgium_bb$usageKey
-length(invasives_taxonkeys)
+write.csv(cube_flanders_nonthreatened,"data/Angiosperm_Flanders_nonthreatened.csv")
 
 
-nativeSpecies <- speciesNames[!(invasiveNames %in% speciesNames)]
 
-nativeTaxonBackbone <- lapply(nativeSpecies, name_backbone)
-nativeTaxonKeys <- lapply(nativeTaxonBackbone, function(df){df$usageKey})
 
 
