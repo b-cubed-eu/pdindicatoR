@@ -43,17 +43,15 @@ length(unique(tracheophyta_threatened$scientificName))
 
 ## Find and add gbif id's to df by matching with GBIF taxonomic backbone
 
-results_strict <- name_backbone_checklist(redlist_plantae_bin$scientificName)
-results_strict[results_strict$matchType %in% c("HIGHERRANK", "NONE", "VARIANT"),]
+matched <- name_backbone_checklist(tracheophyta_threatened$scientificName)
+table(matched$matchType)
+results_strict <- matched[!matched$matchType %in% c("HIGHERRANK", "NONE", "VARIANT"),]
 nrow(results_strict)
-table(results_strict$matchType)
 
 ## Join the results back to  original dataframe
 
-redlist <- redlist_plantae_bin %>% tibble::add_column(results_strict %>%
-  select(usageKey)) %>% rename(gbif_taxonID = usageKey)
-
-redlist
+tracheophyta_threatened <- tracheophyta_threatened %>% tibble::add_column(matched %>%
+  select(usageKey, matchType)) %>% rename(gbif_taxonID = usageKey) %>% filter(matchType == "EXACT")
 
 ## Load input occurrence cube
 
@@ -63,13 +61,13 @@ nrow(cube_flanders)
 length(unique(cube_flanders$specieskey))
 
 ## Filter cube to include only non-threatened species
-redlist_threatened <- redlist[redlist$threatened==1,]
-cube_flanders_nonthreatened <- cube_flanders %>% filter(!(specieskey %in% redlist_threatened$threatened))
+cube_flanders_nonthreatened <- cube_flanders %>% filter(!(specieskey %in% tracheophyta_threatened$gbif_taxonID))
+cube_flanders_threatened <- cube_flanders %>% filter((specieskey %in% tracheophyta_threatened$gbif_taxonID))
 length(unique(cube_flanders_nonthreatened$specieskey))
-length(unique(redlist$gbif_taxonID))
+length(unique(cube_flanders_threatened$specieskey))
 
 write.csv(cube_flanders_nonthreatened,"data/Angiosperm_Flanders_nonthreatened.csv")
-
+write.csv(cube_flanders_threatened,"data/Angiosperm_Flanders_threatened.csv")
 
 
 
