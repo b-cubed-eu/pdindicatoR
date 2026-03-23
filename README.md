@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# pdindicatoR <img src="man/figures/logo.png" align="right" height="139" alt="" />
+# pdindicatoR <a href="https://b-cubed-eu.github.io/pdindicatoR/"><img src="man/figures/logo.png" align="right" height="139" alt="pdindicatoR website" /></a>
 
 <!-- badges: start -->
 
